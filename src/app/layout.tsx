@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import './globals.css'
+import { Noto_Sans_SC, Noto_Serif_SC, Fira_Code } from 'next/font/google'
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +13,12 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const notoSerif = Noto_Serif_SC({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-noto-serif',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,10 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} antialiased`}
       >
         {children}
       </body>
     </html>
   );
 }
+
+

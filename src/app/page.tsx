@@ -25,7 +25,7 @@ export default function Home() {
       {/* 渐变遮罩 */}
       <div 
         className="fixed inset-0 z-0 bg-gradient-to-b from-black/30 to-black/90 "
-        // 添加 via 来创建三段式渐变
+
       />
 
       <main className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
