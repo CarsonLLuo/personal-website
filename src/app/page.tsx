@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
 import Navbar from '@/components/layout/Navbar'
 import Link from 'next/link'
-import { FaGithub, FaTwitter } from 'react-icons/fa'
+import { FaGithub, FaTwitter, FaEnvelope } from 'react-icons/fa'
 import { SiBilibili } from 'react-icons/si'
 
 export default function Home() {
@@ -141,6 +141,14 @@ export default function Home() {
             className="text-gray-400 hover:text-white transition-colors text-2xl transform hover:scale-110 duration-200"
           >
             <SiBilibili />
+          </a>
+          <a 
+            href="mailto:carsonluo2233@outlook.com" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-gray-400 hover:text-white transition-colors text-2xl transform hover:scale-110 duration-200"
+          >
+            <FaEnvelope />
           </a>
         </motion.div>
       </main>

@@ -21,3 +21,9 @@ body {
   background-color: black;
   color: white;
 }
+
+@layer base {
+  .font-song {
+    font-family: SimSun, "宋体", STSong, "华文宋体", serif;
+  }
+}
