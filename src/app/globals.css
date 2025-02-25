@@ -14,12 +14,21 @@
   }
 }
 
+.han-serif {
+  font-family: var(--font-source-han-serif);
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   background-color: black;
   color: white;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 
+    var(--font-geist-sans), sans-serif;
 }
 
 @layer base {

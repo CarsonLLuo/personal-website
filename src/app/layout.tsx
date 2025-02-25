@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from 'next/font/local'
 import './globals.css'
-import { Noto_Sans_SC, Noto_Serif_SC, Fira_Code } from 'next/font/google'
-import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,10 +13,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const notoSerif = Noto_Serif_SC({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-noto-serif',
+// 添加思源宋体
+const sourceHanSerif = localFont({
+  src: '../../public/fonts/SourceHanSerifCN-Regular.ttf',
+  variable: '--font-source-han-serif',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -33,12 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSerif.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sourceHanSerif.variable} antialiased`}
       >
         {children}
       </body>
     </html>
   );
 }
-
-

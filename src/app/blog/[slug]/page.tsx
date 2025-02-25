@@ -7,6 +7,8 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+// ... 其他 imports 保持不变 ...
+
 export default async function PostPage({ params }: PageProps) {
   const resolvedParams = await params
   const { meta, content } = await getPostBySlug(resolvedParams.slug)
@@ -14,7 +16,7 @@ export default async function PostPage({ params }: PageProps) {
   return (
     <>
       <Navbar />
-      {/* 背景图层 */}
+      {/* 背景图层保持不变 */}
       <div 
         className="fixed inset-0 z-0"
         style={{
@@ -26,7 +28,7 @@ export default async function PostPage({ params }: PageProps) {
         }}
       />
       
-      {/* 渐变遮罩 */}
+      {/* 渐变遮罩保持不变 */}
       <div 
         className="fixed inset-0 z-0 bg-gradient-to-b from-black/20 to-black/500"
       />
@@ -34,7 +36,7 @@ export default async function PostPage({ params }: PageProps) {
       {/* 文章内容 */}
       <article className="relative z-10 min-h-screen">
         <div className="max-w-7xl mx-auto py-20 px-6">
-          {/* 文章头部 */}
+          {/* 文章头部使用默认字体 */}
           <header className="mb-16 text-center">
             <h1 className="text-6xl font-bold mb-8 font-serif tracking-tight leading-tight">
               {meta.title}
@@ -51,9 +53,10 @@ export default async function PostPage({ params }: PageProps) {
           
           <div className="bg-black/40 backdrop-blur-md rounded-3xl p-12 border border-white/10 shadow-2xl">
           
-            <div className="prose prose-invert prose-lg prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl max-w-none font-serif">
-              <MDXRemote source={content} components={MDXComponents} />
-            </div>
+            {/* 这里使用思源宋体 */}
+            <div className="prose prose-invert prose-lg max-w-none han-serif">
+  <MDXRemote source={content} components={MDXComponents} />
+</div>
 
             
             <footer className="mt-16 pt-8 border-t border-white/10">
