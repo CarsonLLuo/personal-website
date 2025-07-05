@@ -1,9 +1,9 @@
 import CopyButton from './CopyButton'
-import { ReactNode } from 'react'
+import { ReactNode, isValidElement } from 'react'
 
 export const MDXComponents = {
   pre: ({ children }: { children: ReactNode }) => {
-    const code = children?.props?.children
+    const code = isValidElement(children) ? children.props?.children : ''
     return (
       <pre className="relative">
         {children}
