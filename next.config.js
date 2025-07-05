@@ -7,7 +7,6 @@ const nextConfig = {
       'pbs.twimg.com' // 添加Twitter图片域名
     ], // 允许网易云音乐和Twitter的图片域名
   },
-  optimizeFonts: true,
   async headers() {
     return [
       {
