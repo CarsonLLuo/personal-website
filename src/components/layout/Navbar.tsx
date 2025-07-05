@@ -8,7 +8,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   // 使用防抖来优化鼠标移动检测
-  const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => {
+  function debounce<T extends (...args: any[]) => void>(func: T, wait: number) {
     let timeout: NodeJS.Timeout
     return (...args: Parameters<T>) => {
       clearTimeout(timeout)
@@ -16,21 +16,25 @@ export default function Navbar() {
     }
   }
 
-  const handleMouseMove = useCallback(
-    debounce((e: MouseEvent) => {
-      if (e.clientY <= 150) {
-        setIsVisible(true)
-      } else {
-        setIsVisible(false)
-      }
-    }, 50),
-    [/* 无依赖项 */]
-  )
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (e.clientY <= 150) {
+      setIsVisible(true)
+    } else {
+      setIsVisible(false)
+    }
+  }, [])
+
+  // 使用防抖处理鼠标移动
+  const debouncedHandleMouseMove = useCallback(() => {
+    const debounced = debounce(handleMouseMove, 50)
+    return debounced
+  }, [handleMouseMove])
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [handleMouseMove])
+    const handler = debouncedHandleMouseMove()
+    window.addEventListener('mousemove', handler)
+    return () => window.removeEventListener('mousemove', handler)
+  }, [debouncedHandleMouseMove])
 
   const navLinks = [
     { href: '/blog', text: '博客文章' },
@@ -126,4 +130,4 @@ export default function Navbar() {
       )}
     </AnimatePresence>
   )
-}
+} 
