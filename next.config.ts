@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['p1.music.126.net', 'p2.music.126.net'], // 允许网易云音乐的图片域名
+    domains: [
+      'p1.music.126.net', 
+      'p2.music.126.net',
+      'pbs.twimg.com' // 添加Twitter图片域名
+    ], // 允许网易云音乐和Twitter的图片域名
   },
   optimizeFonts: true,
   async headers() {

@@ -35,8 +35,7 @@ export default function Navbar() {
   const navLinks = [
     { href: '/blog', text: '博客文章' },
     { href: '/about', text: '关于我' },
-    { href: '/music', text: '音乐推荐' },
-    { href: '/reading', text: '阅读清单' },
+    { href: '/friends', text: '友链' },
   ]
 
   return (

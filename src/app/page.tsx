@@ -68,7 +68,7 @@ export default function Home() {
             className="text-sm sm:text-base md:text-lg text-gray-300 space-y-1 sm:space-y-2"
           >
             <p>👋 这里是 Carson</p>
-            <p>🎓 即将毕业，计划 Gap</p>
+            <p>🎓 现在是Gap Year</p>
             <p>💻 热爱探索 AI 技术</p>
             <p>🌱 希望这个世界变得更好</p>
           </motion.div>
@@ -92,20 +92,6 @@ export default function Home() {
             <div className="p-3 sm:p-6 md:p-8 rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-white/10">
               <h2 className="text-lg sm:text-2xl font-semibold mb-1 sm:mb-3 group-hover:text-blue-400">关于我</h2>
               <p className="text-xs sm:text-base text-gray-400">了解更多我的故事</p>
-            </div>
-          </Link>
-
-          <Link href="/music" className="group transform hover:scale-105 transition-all duration-200">
-            <div className="p-3 sm:p-6 md:p-8 rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-white/10">
-              <h2 className="text-lg sm:text-2xl font-semibold mb-1 sm:mb-3 group-hover:text-blue-400">音乐推荐</h2>
-              <p className="text-xs sm:text-base text-gray-400">分享我的音乐品味</p>
-            </div>
-          </Link>
-
-          <Link href="/reading" className="group transform hover:scale-105 transition-all duration-200">
-            <div className="p-3 sm:p-6 md:p-8 rounded-lg bg-white/5 hover:bg-white/10 transition-all border border-white/10">
-              <h2 className="text-lg sm:text-2xl font-semibold mb-1 sm:mb-3 group-hover:text-blue-400">阅读清单</h2>
-              <p className="text-xs sm:text-base text-gray-400">书籍推荐与读后感</p>
             </div>
           </Link>
         </motion.div>

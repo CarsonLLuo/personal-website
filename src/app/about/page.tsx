@@ -65,9 +65,9 @@ export default function About() {
                   </span>
                 </h2>
                 <p className="text-gray-300 leading-relaxed">
-                  你好，我是 Carson！目前是一名即将毕业的学生，对 AI 技术充满热情。
-                  我相信技术能够改变世界，让生活变得更美好。在这个快速发展的时代，
-                  我希望能够通过不断学习和探索，为世界带来一些积极的改变。
+                  你好。我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。<br />
+                  所以简单点说：我是一个学计算机的，平时喜欢沉浸在Vibe Coding、摇滚乐和球赛里。<br />
+                  这个网站是我用来整理思绪的地方，有点像一个公开的草稿本。
                 </p>
               </div>
             </div>
@@ -97,10 +97,12 @@ export default function About() {
                   <p className="text-gray-300 ">BSc (Hons) Software Engineering</p>
                   <div className="bg-white/5 rounded p-4 space-y-2 mt-2">
                     <p className="text-gray-300 ">
-                      总成绩：68.631/100 - Upper Second Class Honours (2:1)
+                      总成绩：70/100 - First Class Honours (1:1)
                     </p>
                     <p className="text-gray-300">主修课程：</p>
                     <ul className="list-disc list-inside text-gray-300 pl-4 space-y-1 ">
+                      <li>The Human Computer Interaction (71)</li>
+                      <li>Machine Learning (75)</li>
                       <li>Mathematics for Computing (81)</li>
                       <li>DevOps (74)</li>
                       <li>Basic Communications and PC Networking (76)</li>
@@ -168,10 +170,9 @@ export default function About() {
               </span>
             </h2>
             <div className="text-gray-300 space-y-4">
-              <p>🎵 音乐：热爱听各种类型的音乐，尤其是...</p>
-              <p>📚 阅读：喜欢探索不同领域的知识</p>
-              <p>🌏 旅行：享受探索世界的过程</p>
-              <p>🤖 AI：对人工智能技术充满好奇</p>
+              <p>🎵 音乐：热爱听各种类型的音乐，尤其是独立摇滚，比如后摇和盯鞋</p>
+              <p>📚 阅读：喜欢探索不同领域的知识，最近在看看了很多遍的《万水千山走遍》</p>
+              <p>🤖 AI：对人工智能技术充满好奇，但是最近在研究烂大街的CV</p>
             </div>
           </motion.section>
 
