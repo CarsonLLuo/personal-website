@@ -1,5 +1,4 @@
 'use client'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FaTwitter } from 'react-icons/fa'
 import { Friend } from '@/app/api/friends/route'
@@ -22,11 +21,10 @@ export default function FriendCard({ friend }: FriendCardProps) {
       <div className="p-6 flex flex-col items-center">
         {/* 头像区域 */}
         <div className="relative w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-blue-400/30">
-          <Image 
+          <img 
             src={friend.avatar} 
             alt={`${friend.name}的头像`}
-            fill
-            className="object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </div>
         

@@ -1,7 +1,6 @@
 'use client'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
-import Image from 'next/image'
 
 export default function About() {
   return (
@@ -51,11 +50,10 @@ export default function About() {
                 transition={{ delay: 0.3 }}
                 className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-400/30 relative"
               >
-                <Image 
+                <img 
                   src="/images/avatar.jpg" 
                   alt="Carson的头像" 
-                  fill
-                  className="object-cover"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
               </motion.div>
 

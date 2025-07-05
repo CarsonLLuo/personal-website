@@ -5,29 +5,67 @@ import Navbar from '@/components/layout/Navbar'
 import FriendCard from '@/components/friends/FriendCard'
 import { Friend } from '../api/friends/route'
 
+// 静态数据，与API中的数据保持一致
+const staticFriends: Friend[] = [
+  {
+    id: '1',
+    name: 'Steven',
+    description: '长得像易烊千玺的小哥哥',
+    twitterUsername: 'Steven15911051',
+    avatar: '/images/friends/Steven.jpg',
+  },
+  {
+    id: '2',
+    name: '益达今天减肥了吗',
+    description: '推上的人好会玩又会说话，我超喜欢这里的！',
+    twitterUsername: 'yida777777',
+    avatar: '/images/friends/Yida.jpg',
+  },
+  {
+    id: '3',
+    name: '堂虫🐛',
+    description: 'INFP/ I do theory./ lowkey stressed about everything.',
+    twitterUsername: 'JACBERL',
+    avatar: '/images/friends/Tang.jpg',
+  },
+  {
+    id: '4',
+    name: 'Clarrycy (探索中)',
+    description: '喜报：如果在说话之前加上"喜报"两个字，那这段话看起来就真的像是喜报一样！',
+    twitterUsername: 'Clarrycy',
+    avatar: '/images/friends/Clarrycy.jpg',
+  },
+  {
+    id: '5',
+    name: '🪻杏明元一',
+    description: '☀️💪🍎🙏爱和神谕来自阿波罗',
+    twitterUsername: 'Shin_pryme25',
+    avatar: '/images/friends/小明.jpg',
+  },
+  {
+    id: '6',
+    name: 'whywhy歪歪',
+    description: '很闷骚的小哥哥',
+    twitterUsername: 'yxxooxo',
+    avatar: '/images/friends/YY.jpg',
+  }
+];
+
 export default function FriendsPage() {
   const [friends, setFriends] = useState<Friend[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await fetch('/api/friends')
-        if (!response.ok) {
-          throw new Error('加载友链数据失败')
-        }
-        const data = await response.json()
-        setFriends(data)
-        setIsLoading(false)
-      } catch (err) {
-        console.error('获取友链数据出错:', err)
-        setError('无法加载友链数据，请稍后再试')
-        setIsLoading(false)
-      }
+    // 在静态导出模式下直接使用静态数据
+    try {
+      setFriends(staticFriends);
+      setIsLoading(false);
+    } catch (err) {
+      console.error('获取友链数据出错:', err)
+      setError('无法加载友链数据，请稍后再试')
+      setIsLoading(false)
     }
-
-    fetchFriends()
   }, [])
 
   return (
