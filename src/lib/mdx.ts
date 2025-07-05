@@ -1,4 +1,3 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import matter from 'gray-matter'

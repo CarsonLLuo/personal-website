@@ -8,9 +8,9 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
   // 使用防抖来优化鼠标移动检测
-  const debounce = (func: Function, wait: number) => {
+  const debounce = <T extends (...args: any[]) => void>(func: T, wait: number) => {
     let timeout: NodeJS.Timeout
-    return (...args: any[]) => {
+    return (...args: Parameters<T>) => {
       clearTimeout(timeout)
       timeout = setTimeout(() => func(...args), wait)
     }
@@ -24,7 +24,7 @@ export default function Navbar() {
         setIsVisible(false)
       }
     }, 50),
-    []
+    [/* 无依赖项 */]
   )
 
   useEffect(() => {
