@@ -1,7 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import { FaTwitter } from 'react-icons/fa'
-import { Friend } from '@/app/api/friends/route'
+import { type Friend } from '@/lib/types'
 
 interface FriendCardProps {
   friend: Friend

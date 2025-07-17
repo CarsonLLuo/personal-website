@@ -1,17 +1,21 @@
-import { getPostBySlug } from '@/lib/mdx'
+import { getPostBySlug, getAllPosts } from '@/lib/mdx'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { MDXComponents } from '@/components/MDXComponents'
 import Navbar from '@/components/layout/Navbar'
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: { slug: string }
 }
 
-// ... 其他 imports 保持不变 ...
+export async function generateStaticParams() {
+  const posts = await getAllPosts()
+  return posts.map(post => ({
+    slug: post.slug,
+  }))
+}
 
 export default async function PostPage({ params }: PageProps) {
-  const resolvedParams = await params
-  const { meta, content } = await getPostBySlug(resolvedParams.slug)
+  const { meta, content } = await getPostBySlug(params.slug)
   
   return (
     <>
