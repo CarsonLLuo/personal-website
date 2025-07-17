@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npm run export",
+  "outputDirectory": "out",
+  "framework": "nextjs",
+  "ignoreCommand": "false"
+} 
