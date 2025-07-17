@@ -14,7 +14,7 @@ export default function Home() {
       <div 
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url(/images/monet-sunrise.jpg)',
+          backgroundImage: 'url(./images/monet-sunrise.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

@@ -11,12 +11,13 @@ export async function generateStaticParams() {
   }))
 }
 
-// 页面组件
+// 页面组件 - 使用 Next.js 15.1.7 的标准类型定义
 export default async function PostPage({
   params,
 }: {
   params: { slug: string }
 }) {
+  // 获取文章内容
   const { meta, content } = await getPostBySlug(params.slug)
   
   return (
@@ -26,7 +27,7 @@ export default async function PostPage({
       <div 
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url(/images/monet-sunrise.jpg)',
+          backgroundImage: 'url(../../../images/monet-sunrise.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center', 
           backgroundRepeat: 'no-repeat',
