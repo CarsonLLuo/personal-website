@@ -15,10 +15,16 @@ const nextConfig = {
   },
   // 输出配置
   output: 'export',
+  // 指定输出目录
+  distDir: 'out',
   // 禁用类型检查，以避免 [slug] 页面的类型错误
   typescript: {
     ignoreBuildErrors: true,
   },
+  // 配置基本路径
+  basePath: '',
+  // 禁用严格模式
+  reactStrictMode: false,
 }
 
 module.exports = nextConfig 
