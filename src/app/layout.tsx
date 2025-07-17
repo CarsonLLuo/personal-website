@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import localFont from 'next/font/local'
 import './globals.css'
 
-const geistSans = Geist({
+// 使用系统字体
+const systemFonts = {
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+};
 
-const geistMono = Geist_Mono({
+const monoFonts = {
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+};
 
 // 添加思源宋体
 const sourceHanSerif = localFont({
@@ -33,7 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sourceHanSerif.variable} antialiased`}
+        className={`${sourceHanSerif.variable} antialiased`}
+        style={{
+          '--font-geist-sans': '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+          '--font-geist-mono': 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+        } as React.CSSProperties}
       >
         {children}
       </body>

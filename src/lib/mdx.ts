@@ -1,6 +1,8 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import matter from 'gray-matter'
+import { remark } from 'remark'
+import html from 'remark-html'
 
 type Post = {
     slug: string;
@@ -10,6 +12,14 @@ type Post = {
     description: string;
     author: string;
   }
+
+// 将 Markdown 转换为 HTML
+async function markdownToHtml(markdown: string) {
+  const result = await remark()
+    .use(html)
+    .process(markdown)
+  return result.toString()
+}
 
 // 获取所有文章
 export async function getAllPosts() {
@@ -40,9 +50,12 @@ export async function getPostBySlug(slug: string) {
   const fileContents = readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
   
+  // 将 Markdown 转换为 HTML
+  const contentHtml = await markdownToHtml(content)
+  
   return {
     meta: data,
-    content,
+    content: contentHtml,
     slug
   }
 }

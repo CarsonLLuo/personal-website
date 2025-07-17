@@ -1,6 +1,4 @@
 import { getPostBySlug, getAllPosts } from '@/lib/mdx'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import { MDXComponents } from '@/components/MDXComponents'
 import Navbar from '@/components/layout/Navbar'
 
 // 生成静态路径
@@ -17,8 +15,11 @@ export default async function PostPage({
 }: {
   params: { slug: string }
 }) {
+  // 使用解构赋值直接获取 slug
+  const { slug } = params
+  
   // 获取文章内容
-  const { meta, content } = await getPostBySlug(params.slug)
+  const { meta, content } = await getPostBySlug(slug)
   
   return (
     <>
@@ -27,7 +28,7 @@ export default async function PostPage({
       <div 
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url(../../../images/monet-sunrise.jpg)',
+          backgroundImage: 'url(/images/monet-sunrise.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center', 
           backgroundRepeat: 'no-repeat',
@@ -58,9 +59,9 @@ export default async function PostPage({
           </header>
 
           <div className="bg-black/40 backdrop-blur-md rounded-3xl p-12 border border-white/10 shadow-2xl">
-            {/* 文章内容 */}
+            {/* 文章内容 - 使用简单的文本渲染替代 MDXRemote */}
             <div className="prose prose-invert prose-lg max-w-none han-serif">
-              <MDXRemote source={content} components={MDXComponents} />
+              <div dangerouslySetInnerHTML={{ __html: `<div class="markdown-content">${content}</div>` }} />
             </div>
             
             {/* 文章标签 */}

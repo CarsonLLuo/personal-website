@@ -11,7 +11,7 @@ export default function About() {
       <div 
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url(../images/monet-sunrise.jpg)',
+          backgroundImage: 'url(/images/monet-sunrise.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -51,7 +51,7 @@ export default function About() {
                 className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-400/30 relative"
               >
                 <img 
-                  src="../images/avatar.jpg" 
+                  src="/images/avatar.jpg" 
                   alt="Carson的头像" 
                   className="absolute inset-0 w-full h-full object-cover"
                 />
