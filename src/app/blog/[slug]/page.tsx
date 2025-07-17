@@ -3,12 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { MDXComponents } from '@/components/MDXComponents'
 import Navbar from '@/components/layout/Navbar'
 
-type Props = {
-  params: {
-    slug: string
-  }
-}
-
+// 生成静态路径
 export async function generateStaticParams() {
   const posts = await getAllPosts()
   return posts.map(post => ({
@@ -16,13 +11,14 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function PostPage({ params }: Props) {
+// 页面组件
+export default async function PostPage({ params }: { params: { slug: string } }) {
   const { meta, content } = await getPostBySlug(params.slug)
   
   return (
     <>
       <Navbar />
-      {/* 背景图层保持不变 */}
+      {/* 背景图层 */}
       <div 
         className="fixed inset-0 z-0"
         style={{
@@ -34,7 +30,7 @@ export default async function PostPage({ params }: Props) {
         }}
       />
       
-      {/* 渐变遮罩保持不变 */}
+      {/* 渐变遮罩 */}
       <div 
         className="fixed inset-0 z-0 bg-gradient-to-b from-black/20 to-black/500"
       />
@@ -42,7 +38,7 @@ export default async function PostPage({ params }: Props) {
       {/* 文章内容 */}
       <article className="relative z-10 min-h-screen">
         <div className="max-w-7xl mx-auto py-20 px-6">
-          {/* 文章头部使用默认字体 */}
+          {/* 文章头部 */}
           <header className="mb-16 text-center">
             <h1 className="text-6xl font-bold mb-8 font-serif tracking-tight leading-tight">
               {meta.title}
@@ -56,18 +52,16 @@ export default async function PostPage({ params }: Props) {
             </div>
           </header>
 
-          
           <div className="bg-black/40 backdrop-blur-md rounded-3xl p-12 border border-white/10 shadow-2xl">
-          
-            {/* 这里使用思源宋体 */}
+            {/* 文章内容 */}
             <div className="prose prose-invert prose-lg max-w-none han-serif">
-  <MDXRemote source={content} components={MDXComponents} />
-</div>
-
+              <MDXRemote source={content} components={MDXComponents} />
+            </div>
             
+            {/* 文章标签 */}
             <footer className="mt-16 pt-8 border-t border-white/10">
               <div className="flex flex-wrap gap-3">
-                {meta.tags.map((tag: string) => (
+                {meta.tags && meta.tags.map((tag: string) => (
                   <span 
                     key={tag}
                     className="px-4 py-2 bg-blue-500/15 text-blue-200 rounded-full text-sm font-mono hover:bg-blue-500/25 transition-colors duration-300"
