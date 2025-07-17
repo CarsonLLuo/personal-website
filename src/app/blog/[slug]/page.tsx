@@ -3,11 +3,10 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { MDXComponents } from '@/components/MDXComponents'
 import Navbar from '@/components/layout/Navbar'
 
-export interface PageProps {
+type Props = {
   params: {
     slug: string
   }
-  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
@@ -17,7 +16,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function PostPage({ params }: PageProps) {
+export default async function PostPage({ params }: Props) {
   const { meta, content } = await getPostBySlug(params.slug)
   
   return (
