@@ -97,7 +97,7 @@ export default function About() {
                   <p className="text-gray-300 ">BSc (Hons) Software Engineering</p>
                   <div className="bg-white/5 rounded p-4 space-y-2 mt-2">
                     <p className="text-gray-300 ">
-                      总成绩：70/100 - First Class Honours (1:1)
+                      总成绩：72.125/100 - First Class Honours (1:1)
                     </p>
                     <p className="text-gray-300">主修课程：</p>
                     <ul className="list-disc list-inside text-gray-300 pl-4 space-y-1 ">

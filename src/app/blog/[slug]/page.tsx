@@ -3,8 +3,11 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import { MDXComponents } from '@/components/MDXComponents'
 import Navbar from '@/components/layout/Navbar'
 
-interface PageProps {
-  params: { slug: string }
+export interface PageProps {
+  params: {
+    slug: string
+  }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
