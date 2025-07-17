@@ -12,7 +12,11 @@ export async function generateStaticParams() {
 }
 
 // 页面组件
-export default async function PostPage({ params }: { params: { slug: string } }) {
+export default async function PostPage({
+  params,
+}: {
+  params: { slug: string }
+}) {
   const { meta, content } = await getPostBySlug(params.slug)
   
   return (
