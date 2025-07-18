@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 禁用图片优化，因为静态导出不支持
   images: {
-    unoptimized: true,
+    unoptimized: true, // 静态导出必须设置为true
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     domains: [
       'p1.music.126.net', 
       'p2.music.126.net',
-      'pbs.twimg.com' // 添加Twitter图片域名
+      'pbs.twimg.com' // Twitter图片域名
     ],
   },
   // 在构建时忽略ESLint错误

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { TypeAnimation } from 'react-type-animation'
 import Navbar from '@/components/layout/Navbar'
 import Link from 'next/link'
+import Image from 'next/image'
 import { FaGithub, FaTwitter, FaEnvelope } from 'react-icons/fa'
 import { SiBilibili } from 'react-icons/si'
 
@@ -10,17 +11,21 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* 背景图层 */}
-      <div 
-        className="fixed inset-0 z-0"
-        style={{
-          backgroundImage: 'url(/images/monet-sunrise.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 1,
-        }}
-      />
+      {/* 背景图层 - 使用Next.js Image组件优化 */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/images/monet-sunrise.webp" 
+          alt="莫奈日出印象背景"
+          fill
+          priority
+          quality={75}
+          sizes="100vw"
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        />
+      </div>
       
       {/* 渐变遮罩 */}
       <div 
