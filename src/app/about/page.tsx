@@ -132,27 +132,151 @@ export default function About() {
             transition={{ delay: 0.3 }}
             className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
           >
-            <h2 className="text-2xl font-semibold mb-4">
-            <span className="bg-gradient-to-r from-blue-400 to-amber-400 text-transparent bg-clip-text">
+            <h2 className="text-2xl font-semibold mb-6">
+              <span className="bg-gradient-to-r from-blue-400 to-amber-400 text-transparent bg-clip-text">
                 技能专长
               </span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <h3 className="text-xl text-gray-200">编程语言</h3>
-                <ul className="text-gray-300 list-disc list-inside">
-                  <li>Python</li>
-                  <li>JavaScript / TypeScript</li>
-                  <li>HTML / CSS</li>
-                </ul>
+            
+            {/* 编程语言部分 */}
+            <div className="mb-8">
+              <h3 className="text-xl text-gray-100 mb-3 flex items-center">
+                <span className="w-8 h-8 mr-2 flex items-center justify-center rounded-full bg-blue-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                编程语言
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Python</div>
+                  <div className="text-gray-300 text-sm">精通数据科学栈(Pandas, NumPy, Matplotlib)及深度学习框架</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">JavaScript / TypeScript</div>
+                  <div className="text-gray-300 text-sm">掌握React生态系统</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">数据库技术</div>
+                  <div className="text-gray-300 text-sm">MySQL关系型数据库、Redis非关系型数据库</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Java</div>
+                  <div className="text-gray-300 text-sm">基础语法及面向对象编程</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">C++</div>
+                  <div className="text-gray-300 text-sm">基础语法及数据结构实现</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">HTML / CSS</div>
+                  <div className="text-gray-300 text-sm">现代化Web界面构建</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Dart</div>
+                  <div className="text-gray-300 text-sm">Flutter跨平台应用开发</div>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-xl text-gray-200">技术框架</h3>
-                <ul className="text-gray-300 list-disc list-inside">
-                  <li>React / Next.js</li>
-                  <li>TailwindCSS</li>
-                  <li>机器学习相关框架</li>
-                </ul>
+            </div>
+            
+
+            
+            {/* AI技能部分 */}
+            <div className="mb-8">
+              <h3 className="text-xl text-gray-100 mb-3 flex items-center">
+                <span className="w-8 h-8 mr-2 flex items-center justify-center rounded-full bg-amber-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                AI技能
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">机器学习算法</div>
+                  <div className="text-gray-300 text-sm">线性回归、SVM、XGBoost等</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">深度学习</div>
+                  <div className="text-gray-300 text-sm">CNN、RNN、GNN、Transformer架构</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">特征工程及可解释性</div>
+                  <div className="text-gray-300 text-sm">SHAP、EDA、LDA、LASSO、PCA、Grad-CAM</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">Prompt Engineering</div>
+                  <div className="text-gray-300 text-sm">Zero-shot、Few-shot、CoT技术</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">AI应用及Agent开发</div>
+                  <div className="text-gray-300 text-sm">Dify、Coze、LangChain、AutoGen Studio</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* 技术框架部分 */}
+            <div className="mb-8">
+              <h3 className="text-xl text-gray-100 mb-3 flex items-center">
+                <span className="w-8 h-8 mr-2 flex items-center justify-center rounded-full bg-blue-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm11 1H6v8l4-2 4 2V6z" clipRule="evenodd" />
+                  </svg>
+                </span>
+                技术框架
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">React / Next.js</div>
+                  <div className="text-gray-300 text-sm">现代化前端开发</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">TensorFlow / PyTorch</div>
+                  <div className="text-gray-300 text-sm">深度学习模型构建</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">TailwindCSS</div>
+                  <div className="text-gray-300 text-sm">响应式UI设计</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Git</div>
+                  <div className="text-gray-300 text-sm">版本控制及协作开发</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Flutter</div>
+                  <div className="text-gray-300 text-sm">跨平台移动应用开发</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-blue-300">Flask / Django</div>
+                  <div className="text-gray-300 text-sm">Python Web后端开发</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* 产品技能部分 */}
+            <div>
+              <h3 className="text-xl text-gray-100 mb-3 flex items-center">
+                <span className="w-8 h-8 mr-2 flex items-center justify-center rounded-full bg-amber-500/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+                  </svg>
+                </span>
+                产品技能
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">产品分析</div>
+                  <div className="text-gray-300 text-sm">SWOT、用户体验五要素、KANO模型</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">设计工具</div>
+                  <div className="text-gray-300 text-sm">Axure、X-mind、Figma</div>
+                </div>
+                <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
+                  <div className="font-medium text-amber-300">流程设计</div>
+                  <div className="text-gray-300 text-sm">Vision、产品规划与七大定律</div>
+                </div>
               </div>
             </div>
           </motion.section>
