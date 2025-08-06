@@ -31,7 +31,7 @@ export default function FriendsPage() {
       <div 
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: 'url(/images/monet-sunrise.jpg)',
+          backgroundImage: 'url(/images/monet-sunrise.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
