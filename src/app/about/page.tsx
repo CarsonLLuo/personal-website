@@ -64,11 +64,27 @@ export default function About() {
                     个人简介
                   </span>
                 </h2>
-                <p className="text-gray-300 leading-relaxed">
-                  你好。我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。<br />
-                  所以简单点说：我是一个学计算机的，平时喜欢沉浸在Vibe Coding、摇滚乐和球赛里。<br />
-                  这个网站是我用来整理思绪的地方，有点像一个公开的草稿本。
-                </p>
+                <div className="bg-white/5 rounded-lg p-4 backdrop-blur-sm border border-white/10">
+                  <p className="text-gray-300 leading-relaxed">
+                    你好，我是Carson，你也可以叫我小罗。<br />
+                    我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。<br />
+                    之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。<br />
+                    F1车迷，喜欢Papaya。<br />
+                    是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。<br />
+                    平时会听很多很多摇滚乐，同时也乐意创造自己的声音。<br />
+                    目前正在享受Vibe Coding带来的眩晕感。<br />
+                    永远把自己困在过去和未来。<br />
+                    希望你在这里能找到一些有趣的东西。
+                  </p>
+                </div>
+                <div className="mt-4 text-center border-t border-white/10 pt-4">
+                  <p className="text-gray-400 italic text-sm font-serif">
+                    "Cogito, ergo sum."
+                  </p>
+                  <p className="text-gray-300 text-sm mt-1">
+                    我思故我在
+                  </p>
+                </div>
               </div>
             </div>
           </motion.section>
@@ -151,7 +167,7 @@ export default function About() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
                   <div className="font-medium text-blue-300">Python</div>
-                  <div className="text-gray-300 text-sm">精通数据科学栈(Pandas, NumPy, Matplotlib)及深度学习框架</div>
+                  <div className="text-gray-300 text-sm">精通数据科学栈(Pandas, NumPy, Matplotlib)及DL框架</div>
                 </div>
                 <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
                   <div className="font-medium text-blue-300">JavaScript / TypeScript</div>
@@ -198,12 +214,12 @@ export default function About() {
                   <div className="text-gray-300 text-sm">线性回归、SVM、XGBoost等</div>
                 </div>
                 <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
-                  <div className="font-medium text-amber-300">深度学习</div>
+                  <div className="font-medium text-amber-300">深度学习模型</div>
                   <div className="text-gray-300 text-sm">CNN、RNN、GNN、Transformer架构</div>
                 </div>
                 <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
                   <div className="font-medium text-amber-300">特征工程及可解释性</div>
-                  <div className="text-gray-300 text-sm">SHAP、EDA、LDA、LASSO、PCA、Grad-CAM</div>
+                  <div className="text-gray-300 text-sm">EDA、LDA、LASSO、PCA、SHAP、Grad-CAM、LIME</div>
                 </div>
                 <div className="bg-white/5 p-3 rounded-lg border border-white/10 hover:bg-white/10 transition-all">
                   <div className="font-medium text-amber-300">Prompt Engineering</div>
@@ -296,7 +312,7 @@ export default function About() {
             <div className="text-gray-300 space-y-4">
               <p>🎵 音乐：热爱听各种类型的音乐，尤其是独立摇滚，比如后摇和盯鞋</p>
               <p>📚 阅读：喜欢探索不同领域的知识，最近在看看了很多遍的《万水千山走遍》</p>
-              <p>🤖 AI：对人工智能技术充满好奇，但是最近在研究烂大街的CV</p>
+              <p>🤖 AI：对人工智能技术充满好奇（其实只是喜欢让这个技术让世界变得更好样子），但是最近在研究烂大街的CV</p>
             </div>
           </motion.section>
 
