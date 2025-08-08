@@ -11,10 +11,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/academic/page": [
+    "/friends/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/academic/page.js"
+      "static/chunks/app/friends/page.js"
     ]
   }
 }
