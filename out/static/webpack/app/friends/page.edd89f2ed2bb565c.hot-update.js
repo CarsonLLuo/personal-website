@@ -1,0 +1,22 @@
+"use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+self["webpackHotUpdate_N_E"]("app/friends/page",{
+
+/***/ "(app-pages-browser)/./src/content/friends.json":
+/*!**********************************!*\
+  !*** ./src/content/friends.json ***!
+  \**********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = /*#__PURE__*/JSON.parse('[{"id":"1","name":"Steven","description":"长得像易烊千玺的小哥哥","twitterUsername":"Steven15911051","avatar":"../images/friends/Steven.jpg"},{"id":"2","name":"益达今天减肥了吗","description":"推上的人好会玩又会说话，我超喜欢这里的！","twitterUsername":"yida777777","avatar":"../images/friends/Yida.jpg"},{"id":"3","name":"堂虫🐛","description":"INFP/ I do theory./ lowkey stressed about everything.","twitterUsername":"JACBERL","avatar":"../images/friends/Tang.jpg"},{"id":"4","name":"Clarrycy (探索中)","description":"喜报：如果在说话之前加上\\"喜报\\"两个字，那这段话看起来就真的像是喜报一样！","twitterUsername":"Clarrycy","avatar":"../images/friends/Clarrycy.jpg"},{"id":"5","name":"🪻杏明元一","description":"☀️💪🍎🙏爱和神谕来自阿波罗","twitterUsername":"Shin_pryme7822","avatar":"../images/friends/小明.jpg"},{"id":"6","name":"ZILCH","description":"//Tu materia es el tiempo, el incesante Tiempo. Eres cada solitario instante.//","twitterUsername":"ZilchNOTHINGxxx","avatar":"../images/friends/Zilch.jpg"},{"id":"7","name":"香菜洗衣机","description":"祝你天天开心","twitterUsername":"xcxyjszyd","avatar":"../images/friends/Xiangcai.jpg"},{"id":"8","name":"Frankie","description":"遠離顛倒夢想 究竟涅槃（涅槃核🫨","twitterUsername":"Shin_pryme7822","website":"https://frankie-blog.vercel.app","avatar":"../images/friends/Frank.jpg"}]');
+
+/***/ })
+
+});

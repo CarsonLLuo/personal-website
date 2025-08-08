@@ -59,7 +59,7 @@ export default function FriendsPage() {
           transition={{ delay: 0.1 }}
           className="text-center text-gray-300 mb-12 max-w-2xl mx-auto"
         >
-          这里是我的好友们，他们都是有趣且充满才华的人。点击链接可以前往他们的Twitter主页。
+          这里是我的好友们，他们都是有趣且充满才华的人。点击链接可以前往他们的Twitter或个人网站。
         </motion.p>
 
         {/* 友链展示区域 */}
