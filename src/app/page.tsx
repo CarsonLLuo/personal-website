@@ -43,6 +43,21 @@ export default function Home() {
           <div className="mb-3 sm:mb-6 text-gray-300 text-sm sm:text-base md:text-lg">
           <TypeAnimation
               sequence={[
+                'print ("Hello, I\'m Carson")',
+                1000,
+                '',
+                1000,
+              ]}
+              wrapper="span"
+              speed={50}
+              style={{ display: 'inline-block', fontFamily: 'monospace' }}
+              repeat={Infinity}
+              deletionSpeed={50}
+            />
+          </div>
+          <div className="mb-3 sm:mb-6 text-gray-300 text-sm sm:text-base md:text-lg">
+          <TypeAnimation
+              sequence={[
                 '为明天到来的事',
                 1000,
                 '',
