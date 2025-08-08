@@ -69,7 +69,7 @@ export default function Navbar() {
                 </Link>
 
                 {/* 大屏幕导航 */}
-                <ul className="hidden md:flex space-x-8">
+                <ul className="hidden md:flex space-x-8 items-center">
                   {navLinks.map((link) => (
                     <li key={link.href}>
                       <Link 
@@ -80,6 +80,14 @@ export default function Navbar() {
                       </Link>
                     </li>
                   ))}
+                  <li>
+                    <Link
+                      href="/academic"
+                      className="px-3 py-1 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 rounded-md border border-blue-500/30 transition-colors"
+                    >
+                      EN
+                    </Link>
+                  </li>
                 </ul>
 
                 {/* 移动端菜单按钮 */}
@@ -120,6 +128,15 @@ export default function Navbar() {
                           </Link>
                         </li>
                       ))}
+                      <li>
+                        <Link
+                          href="/academic"
+                          className="block px-3 py-1 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 rounded-md border border-blue-500/30 transition-colors w-fit"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          EN
+                        </Link>
+                      </li>
                     </ul>
                   </motion.div>
                 )}
