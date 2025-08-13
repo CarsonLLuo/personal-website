@@ -15,7 +15,7 @@
 
 # next.js
 /.next/
-/out/  # 注释掉，不忽略 out 目录
+/out/
 
 # production
 /build
