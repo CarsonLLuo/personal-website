@@ -56,6 +56,9 @@ export default function Academic() {
                     Download CV
                   </a>
                 </div>
+                <p className="mt-4 text-gray-600">
+                  <strong>Email:</strong> carsonluo2233@outlook.com
+                </p>
               </motion.div>
             </div>
           </div>
