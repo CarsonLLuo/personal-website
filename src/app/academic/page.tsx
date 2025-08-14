@@ -78,6 +78,7 @@ export default function Academic() {
               My academic interests focus on artificial intelligence, machine learning, and their applications in solving real-world problems.
               I'm passionate about technology that makes the world a better place and enjoy exploring the intersection of AI and human creativity.
               In my free time, I listen to rock music, particularly post-rock and shoegaze, and enjoy following Formula 1 racing.
+              Currently based in Chengdu, China.
             </p>
             <div className="mt-4 text-center">
               <p className="text-gray-600 italic font-serif">
