@@ -317,6 +317,33 @@ export default function About() {
             </div>
           </motion.section>
 
+          {/* 我的音乐作品 */}
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
+          >
+            <h2 className="text-2xl font-semibold mb-4">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+                来点木柜子乐队Cover?
+              </span>
+            </h2>
+            <div className="text-gray-300 mb-4">
+              <p>就是喜欢听春日影！</p>
+            </div>
+            <div className="aspect-video w-full overflow-hidden rounded-lg">
+              <iframe 
+                src="//player.bilibili.com/player.html?isOutside=true&aid=113651830818685&bvid=BV1CvB7Y4E8b&cid=27342933254&p=1" 
+                scrolling="no" 
+                frameBorder="no" 
+                style={{border: 0}}
+                allowFullScreen={true}
+                className="w-full h-full"
+              ></iframe>
+            </div>
+          </motion.section>
+
           {/* 未来计划部分 */}
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
