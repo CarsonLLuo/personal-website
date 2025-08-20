@@ -2,16 +2,50 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Navbar from '@/components/layout/Navbar'
-import { FaDownload } from 'react-icons/fa'
+import { FaDownload, FaMoon, FaSun } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
 
 export default function Academic() {
+  const [darkMode, setDarkMode] = useState(false)
+  
+  useEffect(() => {
+    // 检查本地存储中的主题设置
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      setDarkMode(true)
+      document.documentElement.classList.add('dark')
+    }
+  }, [])
+  
+  const toggleDarkMode = () => {
+    if (darkMode) {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    } else {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    }
+    setDarkMode(!darkMode)
+  }
+
   return (
     <>
       <Navbar />
       
-      <div className="min-h-screen bg-white text-gray-800">
+      <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'} transition-colors duration-300`}>
+        {/* Theme toggle button */}
+        <div className="fixed top-20 right-6 z-50">
+          <button 
+            onClick={toggleDarkMode}
+            className={`p-2 rounded-full ${darkMode ? 'bg-gray-700 text-yellow-300' : 'bg-gray-200 text-gray-700'} transition-colors duration-300`}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? <FaSun size={18} /> : <FaMoon size={18} />}
+          </button>
+        </div>
+      
         {/* Header section */}
-        <header className="bg-gray-100 border-b border-gray-200">
+        <header className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'} border-b transition-colors duration-300`}>
           <div className="max-w-4xl mx-auto py-16 px-6">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
               {/* Profile image */}
@@ -19,7 +53,7 @@ export default function Academic() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-lg"
+                className={`w-40 h-40 rounded-full overflow-hidden border-4 ${darkMode ? 'border-gray-700' : 'border-white'} shadow-lg transition-colors duration-300`}
               >
                 <img 
                   src="/images/avatar.jpg" 
@@ -35,9 +69,9 @@ export default function Academic() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-center md:text-left"
               >
-                <h1 className="text-4xl font-bold text-gray-900">Carson Luo</h1>
-                <p className="text-xl text-gray-600 mt-2">BSc (Hons) Software Engineering</p>
-                <p className="text-gray-500 mt-1">Oxford Brookes University & Chengdu University of Technology</p>
+                <h1 className={`text-4xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Carson Luo</h1>
+                <p className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-600'} mt-2 transition-colors duration-300`}>BSc (Hons) Software Engineering</p>
+                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} mt-1 transition-colors duration-300`}>Oxford Brookes University & Chengdu University of Technology</p>
                 <div className="mt-4 flex flex-wrap gap-2 justify-center md:justify-start">
                   <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">AI Research</span>
                   <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">Software Engineering</span>
@@ -56,7 +90,7 @@ export default function Academic() {
                     Download CV
                   </a>
                 </div>
-                <p className="mt-4 text-gray-600">
+                <p className={`mt-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>
                   <strong>Email:</strong> carsonluo2233@outlook.com
                 </p>
               </motion.div>
@@ -72,8 +106,8 @@ export default function Academic() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">About Me</h2>
-            <p className="text-gray-700 leading-relaxed">
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>About Me</h2>
+            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300`}>
               Hello, I'm Carson. I'm currently on a gap year after completing my undergraduate studies in Software Engineering.
               My academic interests focus on artificial intelligence, machine learning, and their applications in solving real-world problems.
               I'm passionate about technology that makes the world a better place and enjoy exploring the intersection of AI and human creativity.
@@ -81,10 +115,10 @@ export default function Academic() {
               Currently based in Chengdu, China.
             </p>
             <div className="mt-4 text-center">
-              <p className="text-gray-600 italic font-serif">
+              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} italic font-serif transition-colors duration-300`}>
                 "Cogito, ergo sum."
               </p>
-              <p className="text-gray-500 text-sm mt-1">
+              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1 transition-colors duration-300`}>
                 I think, therefore I am
               </p>
             </div>
@@ -97,21 +131,21 @@ export default function Academic() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Education</h2>
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Education</h2>
             
             <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+              <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-6 rounded-lg border transition-colors duration-300`}>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">BSc (Hons) Software Engineering</h3>
-                    <p className="text-gray-600">Oxford Brookes University & Chengdu University of Technology</p>
+                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>BSc (Hons) Software Engineering</h3>
+                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>Oxford Brookes University & Chengdu University of Technology</p>
                   </div>
-                  <p className="text-gray-500 font-medium md:text-right mt-2 md:mt-0">2021 - 2025</p>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} font-medium md:text-right mt-2 md:mt-0 transition-colors duration-300`}>2021 - 2025</p>
                 </div>
                 <div className="mt-4">
-                  <p className="text-gray-700 font-medium">Overall Grade: 72.125/100 - First Class Honours (1:1)</p>
-                  <p className="text-gray-700 mt-2">Key Courses:</p>
-                  <ul className="list-disc list-inside text-gray-600 mt-1 space-y-1">
+                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} font-medium transition-colors duration-300`}>Overall Grade: 72.125/100 - First Class Honours (1:1)</p>
+                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} mt-2 transition-colors duration-300`}>Key Courses:</p>
+                  <ul className={`list-disc list-inside ${darkMode ? 'text-gray-300' : 'text-gray-600'} mt-1 space-y-1 transition-colors duration-300`}>
                     <li>The Human Computer Interaction (71)</li>
                     <li>Machine Learning (75)</li>
                     <li>Mathematics for Computing (81)</li>
@@ -121,16 +155,16 @@ export default function Academic() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 opacity-75">
+              <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-6 rounded-lg border opacity-75 transition-colors duration-300`}>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900">Graduate Studies</h3>
-                    <p className="text-gray-600">Overseas Study</p>
+                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Graduate Studies</h3>
+                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>Overseas Study</p>
                   </div>
-                  <p className="text-gray-500 font-medium md:text-right mt-2 md:mt-0">2026</p>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} font-medium md:text-right mt-2 md:mt-0 transition-colors duration-300`}>2026</p>
                 </div>
                 <div className="mt-4">
-                  <p className="text-gray-700 italic">
+                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} italic transition-colors duration-300`}>
                     Planning to continue advanced studies and explore more possibilities...
                   </p>
                 </div>
@@ -145,66 +179,66 @@ export default function Academic() {
             transition={{ duration: 0.5, delay: 0.5 }}
             className="mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Technical Skills</h2>
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Technical Skills</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Programming Languages */}
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Programming Languages</h3>
+                <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>Programming Languages</h3>
                 <div className="space-y-3">
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Python</div>
-                    <div className="text-gray-600 text-sm">Data science stack (Pandas, NumPy, Matplotlib) and DL frameworks</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Python</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Data science stack (Pandas, NumPy, Matplotlib) and DL frameworks</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">JavaScript / TypeScript</div>
-                    <div className="text-gray-600 text-sm">React ecosystem</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>JavaScript / TypeScript</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>React ecosystem</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Java</div>
-                    <div className="text-gray-600 text-sm">Basic syntax and object-oriented programming</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Java</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Basic syntax and object-oriented programming</div>
                   </div>
                 </div>
               </div>
 
               {/* Frameworks & Tools */}
               <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Frameworks & Tools</h3>
+                <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>Frameworks & Tools</h3>
                 <div className="space-y-3">
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">React / Next.js</div>
-                    <div className="text-gray-600 text-sm">Modern frontend development</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>React / Next.js</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Modern frontend development</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">TensorFlow / PyTorch</div>
-                    <div className="text-gray-600 text-sm">Deep learning model building</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>TensorFlow / PyTorch</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Deep learning model building</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Git & DevOps</div>
-                    <div className="text-gray-600 text-sm">Version control and collaborative development</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Git & DevOps</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Version control and collaborative development</div>
                   </div>
                 </div>
               </div>
 
               {/* AI Skills */}
               <div className="md:col-span-2">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Expertise</h3>
+                <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>AI Expertise</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Machine Learning Algorithms</div>
-                    <div className="text-gray-600 text-sm">Linear regression, SVM, XGBoost, etc.</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Machine Learning Algorithms</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Linear regression, SVM, XGBoost, etc.</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Deep Learning Models</div>
-                    <div className="text-gray-600 text-sm">CNN, RNN, GNN, Transformer architectures</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Deep Learning Models</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>CNN, RNN, GNN, Transformer architectures</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Feature Engineering & Explainability</div>
-                    <div className="text-gray-600 text-sm">EDA, LDA, LASSO, PCA, SHAP, Grad-CAM, LIME</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Feature Engineering & Explainability</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>EDA, LDA, LASSO, PCA, SHAP, Grad-CAM, LIME</div>
                   </div>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <div className="font-medium text-gray-900">Prompt Engineering</div>
-                    <div className="text-gray-600 text-sm">Zero-shot, Few-shot, Chain of Thought techniques</div>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                    <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Prompt Engineering</div>
+                    <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Zero-shot, Few-shot, Chain of Thought techniques</div>
                   </div>
                 </div>
               </div>
@@ -218,24 +252,24 @@ export default function Academic() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Research Interests</h2>
-            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Research Interests</h2>
+            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-6 rounded-lg border transition-colors duration-300`}>
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className="text-gray-700"><strong>Artificial Intelligence</strong>: Exploring applications of AI in solving real-world problems</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Artificial Intelligence</strong>: Exploring applications of AI in solving real-world problems</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className="text-gray-700"><strong>Machine Learning</strong>: Developing interpretable and explainable ML models</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Machine Learning</strong>: Developing interpretable and explainable ML models</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className="text-gray-700"><strong>Human-Computer Interaction</strong>: Designing intuitive interfaces for complex AI systems</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Human-Computer Interaction</strong>: Designing intuitive interfaces for complex AI systems</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className="text-gray-700"><strong>AI Ethics</strong>: Investigating the ethical implications of AI deployment in society</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>AI Ethics</strong>: Investigating the ethical implications of AI deployment in society</span>
                 </li>
               </ul>
             </div>
@@ -247,9 +281,9 @@ export default function Academic() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.7 }}
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 pb-2 border-b border-gray-200">Future Plans</h2>
-            <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-              <p className="text-gray-700 leading-relaxed">
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Future Plans</h2>
+            <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-6 rounded-lg border transition-colors duration-300`}>
+              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300`}>
                 I'm planning to take a gap year after graduation to focus on personal skill development
                 and explore various opportunities. My goal is to find my direction in the AI field and
                 contribute to technological advancement that makes a positive impact on society.
@@ -261,24 +295,24 @@ export default function Academic() {
         </main>
 
         {/* Footer */}
-        <footer className="bg-gray-100 border-t border-gray-200 py-8">
+        <footer className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-100 border-gray-200'} border-t py-8 transition-colors duration-300`}>
           <div className="max-w-4xl mx-auto px-6 text-center">
             <div className="flex justify-center space-x-6 mb-4">
-              <a href="https://github.com/CarsonLLuo" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-800">
+              <a href="https://github.com/CarsonLLuo" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-800'} transition-colors duration-300`}>
                 GitHub
               </a>
-              <a href="https://twitter.com/carsonluo2003" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-800">
+              <a href="https://twitter.com/carsonluo2003" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-800'} transition-colors duration-300`}>
                 Twitter
               </a>
-              <a href="mailto:carsonluo2233@outlook.com" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-800">
+              <a href="mailto:carsonluo2233@outlook.com" target="_blank" rel="noopener noreferrer" className={`${darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-500 hover:text-gray-800'} transition-colors duration-300`}>
                 Email
               </a>
             </div>
-            <p className="text-gray-600 text-sm">
+            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm transition-colors duration-300`}>
               © {new Date().getFullYear()} Carson Luo. All rights reserved.
             </p>
             <div className="mt-2">
-              <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">
+              <Link href="/" className={`${darkMode ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-800'} text-sm transition-colors duration-300`}>
                 Back to Chinese Version
               </Link>
             </div>

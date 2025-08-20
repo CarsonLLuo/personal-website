@@ -25,6 +25,7 @@ export default function About() {
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="text-4xl font-bold text-center mb-12 pt-20"
         >
           <span className="bg-gradient-to-r from-blue-400 to-orange-500 text-transparent bg-clip-text">
@@ -54,6 +55,7 @@ export default function About() {
                   src="/images/avatar.jpg" 
                   alt="Carson的头像" 
                   className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
                 />
               </motion.div>
 
@@ -340,6 +342,7 @@ export default function About() {
                 style={{border: 0}}
                 allowFullScreen={true}
                 className="w-full h-full"
+                title="木柜子乐队Cover - 春日影"
               ></iframe>
             </div>
           </motion.section>
@@ -349,9 +352,13 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10"
+            className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
           >
-            <h2 className="text-2xl font-semibold mb-4 text-blue-400">未来计划</h2>
+            <h2 className="text-2xl font-semibold mb-4">
+              <span className="bg-gradient-to-r from-purple-400 to-blue-500 text-transparent bg-clip-text">
+                未来计划
+              </span>
+            </h2>
             <p className="text-gray-300 leading-relaxed">
               计划在毕业后进行一段时间的 Gap，期间会专注于个人技能的提升，
               同时探索更多可能性。希望能在 AI 领域找到自己的方向，
