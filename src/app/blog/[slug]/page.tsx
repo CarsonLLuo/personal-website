@@ -15,8 +15,9 @@ export default async function PostPage({
 }: {
   params: { slug: string }
 }) {
+  
   // 使用解构赋值直接获取 slug
-  const { slug } = params
+  const { slug } = await params
   
   // 获取文章内容
   const { meta, content } = await getPostBySlug(slug)
