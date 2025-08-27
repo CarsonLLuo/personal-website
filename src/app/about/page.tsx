@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
+import { TypeAnimation } from 'react-type-animation'
 
 export default function About() {
   return (
@@ -67,18 +68,22 @@ export default function About() {
                   </span>
                 </h2>
                 <div className="bg-white/5 rounded-lg p-4 backdrop-blur-sm border border-white/10">
-                  <p className="text-gray-300 leading-relaxed">
-                    你好，我是Carson，你也可以叫我小罗。<br />
-                    我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。<br />
-                    之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。<br />
-                    F1车迷，喜欢Papaya。<br />
-                    是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。<br />
-                    平时会听很多很多摇滚乐，同时也乐意创造自己的声音。<br />
-                    目前正在享受Vibe Coding带来的眩晕感。<br />
-                    永远把自己困在过去和未来。<br />
-                    目前生活在成都。<br />
-                    希望你在这里能找到一些有趣的东西。
-                  </p>
+                  <div className="text-gray-300 leading-relaxed">
+                    <TypeAnimation
+                      sequence={[
+                        '你好，我是Carson，你也可以叫我小罗。\n我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。\n之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。\nF1车迷，喜欢Papaya。\n是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。\n平时会听很多很多摇滚乐，同时也乐意创造自己的声音。\n目前正在享受Vibe Coding带来的眩晕感。\n永远把自己困在过去和未来。\n目前生活在成都。\n希望你在这里能找到一些有趣的东西。'
+                      ]}
+                      wrapper="p"
+                      cursor={true}
+                      repeat={0}
+                      speed={30} // 较快的打字速度
+                      style={{ 
+                        whiteSpace: 'pre-line',
+                        textShadow: '0 0 5px rgba(255,255,255,0.1)' // 为文字添加轻微发光效果
+                      }}
+                      className="text-gray-300 leading-relaxed"
+                    />
+                  </div>
                 </div>
                 <div className="mt-4 text-center border-t border-white/10 pt-4">
                   <p className="text-gray-400 italic text-sm font-serif">
