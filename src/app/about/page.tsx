@@ -71,12 +71,12 @@ export default function About() {
                   <div className="text-gray-300 leading-relaxed">
                     <TypeAnimation
                       sequence={[
-                        '你好，我是Carson，你也可以叫我小罗。\n我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。\n之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。\nF1车迷，喜欢Papaya。\n是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。\n平时会听很多很多摇滚乐，同时也乐意创造自己的声音。\n目前正在享受Vibe Coding带来的眩晕感。\n永远把自己困在过去和未来。\n目前生活在成都。\n希望你在这里能找到一些有趣的东西。'
+                        '你好，我是Carson，你也可以叫我小罗。\n我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。\n之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。\nF1车迷，喜欢Papaya。\n是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。\n平时会听很多很多摇滚乐，同时也乐意创造自己的声音。\n目前正在享受Vibe Coding带来的眩晕感。\n永远把自己困在过去和未来。\n目前在深圳实习。\n希望你在这里能找到一些有趣的东西。'
                       ]}
                       wrapper="p"
                       cursor={true}
                       repeat={0}
-                      speed={30} // 较快的打字速度
+                      speed={50} // 较快的打字速度
                       style={{ 
                         whiteSpace: 'pre-line',
                         textShadow: '0 0 5px rgba(255,255,255,0.1)' // 为文字添加轻微发光效果
