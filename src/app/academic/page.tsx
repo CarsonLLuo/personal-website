@@ -32,7 +32,7 @@ export default function Academic() {
     <>
       <Navbar />
       
-      <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'} transition-colors duration-300`}>
+      <div className={`min-h-screen ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'} transition-colors duration-300 font-['Times_New_Roman',serif]`}>
         {/* Theme toggle button */}
         <div className="fixed top-20 right-6 z-50">
           <button 
@@ -112,7 +112,7 @@ export default function Academic() {
               My academic interests focus on artificial intelligence, machine learning, and their applications in solving real-world problems.
               I'm passionate about technology that makes the world a better place and enjoy exploring the intersection of AI and human creativity.
               In my free time, I listen to rock music, particularly post-rock and shoegaze, and enjoy following Formula 1 racing.
-              Currently based in Chengdu, China.
+              Currently based in ShengZhen, China.
             </p>
             <div className="mt-4 text-center">
               <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} italic font-serif transition-colors duration-300`}>
@@ -172,11 +172,98 @@ export default function Academic() {
             </div>
           </motion.section>
 
-          {/* Skills section */}
+          {/* Projects section - New Design */}
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
+            className="mb-12"
+          >
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Projects</h2>
+            
+            <div className="space-y-6">
+              {/* Project Card */}
+              <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-xl overflow-hidden border shadow-sm transition-colors duration-300`}>
+                <div className="grid grid-cols-1 md:grid-cols-2">
+                  {/* Project Description - Now on the left */}
+                  <div className="p-6">
+                    <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>
+                      Multimodal Framework for Predictive Modeling of Chest Diseases
+                    </h3>
+                    
+                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-4 transition-colors duration-300 text-sm`}>
+                      An innovative framework that enhances medical diagnostic accuracy by fusing four distinct patient data types, significantly outperforming traditional X-ray-only models.
+                    </p>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <h4 className={`font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'} transition-colors duration-300`}>
+                          Key Features
+                        </h4>
+                        <ul className="space-y-2 mt-2">
+                          <li className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm transition-colors duration-300`}>
+                            <span className="font-medium">Multimodal Fusion:</span> Integrates images, text notes, time series, and chart data.
+                          </li>
+                          <li className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm transition-colors duration-300`}>
+                            <span className="font-medium">Ensemble Learning:</span> Employs 7 classifiers (XGBoost, etc.) with a weighted bagging strategy to boost predictive power.
+                          </li>
+                        </ul>
+                      </div>
+                      
+                      <div className="mt-4">
+                        <div className="flex flex-wrap gap-2">
+                          <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-gray-700 text-blue-300' : 'bg-blue-100 text-blue-800'}`}>Python</span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-gray-700 text-green-300' : 'bg-green-100 text-green-800'}`}>TensorFlow</span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-gray-700 text-amber-300' : 'bg-amber-100 text-amber-800'}`}>BioBERT</span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-gray-700 text-purple-300' : 'bg-purple-100 text-purple-800'}`}>XGBoost</span>
+                          <span className={`px-2 py-1 text-xs rounded-full ${darkMode ? 'bg-gray-700 text-pink-300' : 'bg-pink-100 text-pink-800'}`}>Ensemble Methods</span>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-3">
+                        <h4 className={`font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'} transition-colors duration-300`}>
+                          Impact & Results
+                        </h4>
+                        <ul className="space-y-1 mt-2">
+                          <li className="flex items-start">
+                            <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${darkMode ? 'bg-green-400' : 'bg-green-500'}`}></span>
+                            <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} text-sm`}>
+                              3%–20% AUC improvement for 11 chest diseases
+                            </span>
+                          </li>
+                          <li className="flex items-start">
+                            <span className={`inline-block w-2 h-2 mt-1.5 mr-2 rounded-full ${darkMode ? 'bg-green-400' : 'bg-green-500'}`}></span>
+                            <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} text-sm`}>
+                              Predicts 48-hour mortality (AUC 86.7%) and hospital stay duration (AUC 89.6%)
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Project Image - Now on the right */}
+                  <div className="md:min-h-[400px] flex items-center justify-center p-4 bg-opacity-80">
+                    <img 
+                      src="/images/projects/multimodal-framework.jpg" 
+                      alt="Multimodal Framework Project" 
+                      className="w-full h-auto object-contain max-h-[380px]"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/800x600?text=Multimodal+Framework';
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* Skills section */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
             className="mb-12"
           >
             <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Technical Skills</h2>
@@ -186,15 +273,15 @@ export default function Academic() {
               <div>
                 <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>Programming Languages</h3>
                 <div className="space-y-3">
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Python</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Data science stack (Pandas, NumPy, Matplotlib) and DL frameworks</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>JavaScript / TypeScript</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>React ecosystem</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Java</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Basic syntax and object-oriented programming</div>
                   </div>
@@ -205,15 +292,15 @@ export default function Academic() {
               <div>
                 <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>Frameworks & Tools</h3>
                 <div className="space-y-3">
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>React / Next.js</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Modern frontend development</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>TensorFlow / PyTorch</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Deep learning model building</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Git & DevOps</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Version control and collaborative development</div>
                   </div>
@@ -224,19 +311,19 @@ export default function Academic() {
               <div className="md:col-span-2">
                 <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-3 transition-colors duration-300`}>AI Expertise</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Machine Learning Algorithms</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Linear regression, SVM, XGBoost, etc.</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Deep Learning Models</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>CNN, RNN, GNN, Transformer architectures</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Feature Engineering & Explainability</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>EDA, LDA, LASSO, PCA, SHAP, Grad-CAM, LIME</div>
                   </div>
-                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border transition-colors duration-300`}>
+                  <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-4 rounded-lg border h-[100px] flex flex-col justify-center transition-colors duration-300`}>
                     <div className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Prompt Engineering</div>
                     <div className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} text-sm transition-colors duration-300`}>Zero-shot, Few-shot, Chain of Thought techniques</div>
                   </div>
@@ -257,19 +344,15 @@ export default function Academic() {
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Artificial Intelligence</strong>: Exploring applications of AI in solving real-world problems</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Artificial Intelligence</strong>: Applying deep learning to critical challenges in biomedical science, with a focus on medical image recognition and multimodal data fusion (AI for Science).</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Machine Learning</strong>: Developing interpretable and explainable ML models</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Machine Learning</strong>: Developing interpretable and explainable ML models (XAI) to ensure transparency and trust in clinical decision-making systems.</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-blue-600 mr-2">•</span>
-                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Human-Computer Interaction</strong>: Designing intuitive interfaces for complex AI systems</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-blue-600 mr-2">•</span>
-                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>AI Ethics</strong>: Investigating the ethical implications of AI deployment in society</span>
+                  <span className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}><strong>Large Language Models</strong>: Building and fine-tuning LLMs and autonomous AI Agents for scientific discovery and automation in the medical domain.</span>
                 </li>
               </ul>
             </div>
