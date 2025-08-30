@@ -108,20 +108,14 @@ export default function Academic() {
           >
             <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>About Me</h2>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300`}>
-              Hello, I'm Carson. I'm currently on a gap year after completing my undergraduate studies in Software Engineering.
-              My academic interests focus on artificial intelligence, machine learning, and their applications in solving real-world problems.
-              I'm passionate about technology that makes the world a better place and enjoy exploring the intersection of AI and human creativity.
-              In my free time, I listen to rock music, particularly post-rock and shoegaze, and enjoy following Formula 1 racing.
-              Currently based in ShengZhen, China.
+              My academic interests are centered on applying artificial intelligence to critical challenges in biomedical science. I am particularly drawn to developing multimodal systems for medical image recognition (as part of the broader AI for Science initiative) and ensuring these systems are transparent through Explainable AI (XAI).
             </p>
-            <div className="mt-4 text-center">
-              <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} italic font-serif transition-colors duration-300`}>
-                "Cogito, ergo sum."
-              </p>
-              <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} text-sm mt-1 transition-colors duration-300`}>
-                I think, therefore I am
-              </p>
-            </div>
+            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
+              This passion for building robust AI has recently guided me toward the frontier of Large Language Models. I am currently honing my practical skills in this area through a Python development internship in Shenzhen, where my work involves architecting and implementing applications using Retrieval-Augmented Generation (RAG) and LLMs. I am excited to bridge this hands-on experience with my goal of building autonomous agents for future scientific discovery in medicine.
+            </p>
+            <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
+              When I'm not coding, you can find me immersed in the world of post-rock and shoegaze music, or keeping up with the latest Formula 1 race.
+            </p>
           </motion.section>
 
           {/* Education section */}
