@@ -71,7 +71,7 @@ export default function About() {
                   <div className="text-gray-300 leading-relaxed">
                     <TypeAnimation
                       sequence={[
-                        '你好，我是Carson，你也可以叫我小罗。\n我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。\n之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。\nF1车迷，喜欢Papaya。\n是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。\n平时会听很多很多摇滚乐，同时也乐意创造自己的声音。\n目前正在享受Vibe Coding带来的眩晕感。\n永远把自己困在过去和未来。\n目前在深圳实习。\n希望你在这里能找到一些有趣的东西。'
+                        '你好，我是Carson，你也可以叫我小罗。\n我花了一点时间来想这里的简介该写什么，但好像都有些词不达意。\n之前很喜欢酒精和咖啡因带来的快感，可惜被医生Ban掉了。\nF1车迷，喜欢Papaya。\n是拜仁慕尼黑和成都蓉城这两支红色队伍的拥趸。\n平时会听很多很多摇滚乐，同时也乐意创造自己的声音。\n目前正在享受Vibe Coding带来的眩晕感。\n永远把自己困在过去和未来。\n目前在北京实习。\n希望你在这里能找到一些有趣的东西。'
                       ]}
                       wrapper="p"
                       cursor={true}
@@ -144,6 +144,41 @@ export default function About() {
                   <span className="text-blue-300/70 font-medium">2026</span>
                   <h3 className="text-xl text-gray-200 ">海外留学</h3>
                   <p className="text-gray-300/70 italic ">继续深造，探索更多可能...</p>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* 实习经验部分 */}
+          <motion.section 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="bg-white/5 backdrop-blur-sm rounded-lg p-6 border border-white/10 hover:bg-white/10 transition-all duration-300"
+          >
+            <h2 className="text-2xl font-semibold mb-6">
+              <span className="bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+                实习经验
+              </span>
+            </h2>
+            <div className="space-y-0">
+              {/* 清华大学实习 */}
+              <div className="relative pl-8 pb-8 border-l-2 border-green-400/50">
+                <div className="absolute w-4 h-4 bg-green-400 rounded-full -left-[9px] mt-1.5">
+                  <div className="w-2 h-2 bg-white rounded-full m-1"></div>
+                </div>
+                <div className="space-y-2">
+                  <span className="text-green-300 font-medium">2025 - 现在</span>
+                  <h3 className="text-xl text-gray-200">清华大学教育学院·未来教育与学习课题组</h3>
+                  <p className="text-gray-300">MAIC团队（Massive AI-empowered Course）实习生</p>
+                  <div className="bg-white/5 rounded p-4 space-y-2 mt-2">
+                    <p className="text-gray-300">主要职责：</p>
+                    <ul className="list-disc list-inside text-gray-300 pl-4 space-y-1">
+                      <li>与学校进行项目对接与协调</li>
+                      <li>负责问卷设计与数据收集</li>
+                      <li>进行教育数据的定量分析</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

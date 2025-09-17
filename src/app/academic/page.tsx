@@ -108,10 +108,10 @@ export default function Academic() {
           >
             <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>About Me</h2>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300`}>
-              My academic interests are centered on applying artificial intelligence to critical challenges in biomedical science. I am particularly drawn to developing multimodal systems for medical image recognition (as part of the broader AI for Science initiative) and ensuring these systems are transparent through Explainable AI (XAI).
+              My academic interests are centered on applying artificial intelligence to interdisciplinary challenges. I am particularly drawn to combining AI with cross-disciplinary subjects such as medical image recognition and humanities & social sciences, while ensuring these systems are transparent through Explainable AI (XAI).
             </p>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
-              This passion for building robust AI has recently guided me toward the frontier of Large Language Models. I am currently honing my practical skills in this area through a Python development internship in Shenzhen, where my work involves architecting and implementing applications using Retrieval-Augmented Generation (RAG) and LLMs. I am excited to bridge this hands-on experience with my goal of building autonomous agents for future scientific discovery in medicine.
+              This passion for building robust AI has recently guided me toward the frontier of Large Language Models. I am currently working as a research intern at Tsinghua University's Future Education and Learning Research Group, where I can explore the intersection of AI and education. I am excited to continue exploring how AI can contribute to various fields and make a positive impact.
             </p>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
               When I'm not coding, you can find me immersed in the world of post-rock and shoegaze music, or keeping up with the latest Formula 1 race.
@@ -161,6 +161,37 @@ export default function Academic() {
                   <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} italic transition-colors duration-300`}>
                     Planning to continue advanced studies and explore more possibilities...
                   </p>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* Experience section */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mb-12"
+          >
+            <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>Experience</h2>
+            
+            <div className="space-y-6">
+              <div className={`${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'} p-6 rounded-lg border transition-colors duration-300`}>
+                <div className="flex flex-col md:flex-row md:justify-between md:items-center">
+                  <div>
+                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Research Intern</h3>
+                    <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>Tsinghua University - Future Education and Learning Research Group</p>
+                    <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>MAIC Team (Massive AI-empowered Course)</p>
+                  </div>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} font-medium md:text-right mt-2 md:mt-0 transition-colors duration-300`}>2025.09 - Present</p>
+                </div>
+                <div className="mt-4">
+                  <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>Key Responsibilities:</p>
+                  <ul className={`list-disc list-inside ${darkMode ? 'text-gray-300' : 'text-gray-600'} mt-1 space-y-1 transition-colors duration-300`}>
+                    <li>School liaison and project coordination</li>
+                    <li>Survey design and data collection</li>
+                    <li>Quantitative analysis of educational data</li>
+                  </ul>
                 </div>
               </div>
             </div>
