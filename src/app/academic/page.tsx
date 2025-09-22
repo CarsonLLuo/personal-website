@@ -181,16 +181,16 @@ export default function Academic() {
                   <div>
                     <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} transition-colors duration-300`}>Research Intern</h3>
                     <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} transition-colors duration-300`}>Tsinghua University - Future Education and Learning Research Group</p>
-                    <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>MAIC Team (Massive AI-empowered Course)</p>
+                    <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} transition-colors duration-300`}>MAIC(Massive AI-empowered Course) Team </p>
                   </div>
                   <p className={`${darkMode ? 'text-gray-400' : 'text-gray-500'} font-medium md:text-right mt-2 md:mt-0 transition-colors duration-300`}>2025.09 - Present</p>
                 </div>
                 <div className="mt-4">
                   <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} transition-colors duration-300`}>Key Responsibilities:</p>
                   <ul className={`list-disc list-inside ${darkMode ? 'text-gray-300' : 'text-gray-600'} mt-1 space-y-1 transition-colors duration-300`}>
-                    <li>School liaison and project coordination</li>
-                    <li>Survey design and data collection</li>
-                    <li>Quantitative analysis of educational data</li>
+                    <li>Managed the research and implementation of an AI learning platform across 5+ K-12 schools, serving as the primary liaison between the research team and faculty.</li>
+                    <li>Designed and executed a mixed-methods data collection strategy (pre/post-tests, surveys, interviews) to measure the platform's educational impact and user adoption.</li>
+                    <li>Analyzed quantitative and qualitative data to evaluate student learning outcomes, translating findings into actionable recommendations for product and pedagogical improvements.</li>
                   </ul>
                 </div>
               </div>
