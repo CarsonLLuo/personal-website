@@ -117,7 +117,7 @@ export default function About() {
                 </div>
                 <div className="space-y-2">
                   <span className="text-blue-300 font-medium">2021 - 2025</span>
-                  <h3 className="text-xl text-gray-200 ">牛津布鲁克斯大学 & 成都理工大学</h3>
+                  <h3 className="text-xl text-gray-200 ">牛津布鲁克斯大学 & 二仙桥恐龙大学</h3>
                   <p className="text-gray-300 ">BSc (Hons) Software Engineering</p>
                   <div className="bg-white/5 rounded p-4 space-y-2 mt-2">
                     <p className="text-gray-300 ">
@@ -174,9 +174,10 @@ export default function About() {
                   <div className="bg-white/5 rounded p-4 space-y-2 mt-2">
                     <p className="text-gray-300">主要职责：</p>
                     <ul className="list-disc list-inside text-gray-300 pl-4 space-y-1">
-                      <li>与学校进行项目对接与协调</li>
-                      <li>负责问卷设计与数据收集</li>
-                      <li>进行教育数据的定量分析</li>
+                      <li>一线用户研究: 深入实验学校的教学一线，通过与超过6位教师的深度交流和课堂观察，总结出AI功能在实际教学中遇到的核心问题与使用障碍。</li>
+                      <li>产品效果评估: 针对信息技术课的非量化考核特点，将评估重点从"学习成绩"创造性地转向"教学效率"与"课堂参与度"，探索出一套更真实地衡量产品价值的方法。</li>
+                      <li>产品优化建议: 基于一线观察，提炼并向产品团队反馈了3项关于AI讲稿及资料上传等功能的优化建议，均被采纳并用于后续的产品改进。</li>
+                      <li>核心用户支持: 协助多位教师上手使用产品并完成课程设计，将AI功能落地为可执行的教学方案，总结的最佳实践被用于新用户的教学材料中。</li>
                     </ul>
                   </div>
                 </div>
@@ -353,9 +354,9 @@ export default function About() {
               </span>
             </h2>
             <div className="text-gray-300 space-y-4">
-              <p>🎵 音乐：热爱听各种类型的音乐，尤其是独立摇滚，比如后摇和盯鞋</p>
-              <p>📚 阅读：喜欢探索不同领域的知识，最近在看看了很多遍的《万水千山走遍》</p>
-              <p>🤖 AI：对人工智能技术充满好奇（其实只是喜欢让这个技术让世界变得更好样子），但是最近在研究烂大街的CV</p>
+              <p>音乐：热爱听各种类型的音乐，尤其是独立摇滚，比如后摇和盯鞋</p>
+              <p>阅读：喜欢探索不同领域的知识，最近在看看了很多遍的《万水千山走遍》</p>
+              <p>CS：对人工智能技术充满好奇（其实只是喜欢让这个技术让世界变得更好样子），最近在AI4Edu的领域和老师打交道~</p>
             </div>
           </motion.section>
 
@@ -376,7 +377,7 @@ export default function About() {
             </div>
             <div className="aspect-video w-full overflow-hidden rounded-lg">
               <iframe 
-                src="//player.bilibili.com/player.html?isOutside=true&aid=113651830818685&bvid=BV1CvB7Y4E8b&cid=27342933254&p=1" 
+                src="//player.bilibili.com/player.html?isOutside=true&aid=113651830818685&bvid=BV1CvB7Y4E8b&cid=27342933254&p=1&autoplay=0" 
                 scrolling="no" 
                 frameBorder="no" 
                 style={{border: 0}}
@@ -400,7 +401,7 @@ export default function About() {
               </span>
             </h2>
             <p className="text-gray-300 leading-relaxed">
-              计划在毕业后进行一段时间的 Gap，期间会专注于个人技能的提升，
+              目前是处于本科毕业后的Gap Year，期间会专注于个人技能的提升，
               同时探索更多可能性。希望能在 AI 领域找到自己的方向，
               为技术的发展贡献自己的一份力量。
             </p>
