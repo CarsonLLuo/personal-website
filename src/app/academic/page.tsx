@@ -108,10 +108,10 @@ export default function Academic() {
           >
             <h2 className={`text-2xl font-bold ${darkMode ? 'text-white border-gray-700' : 'text-gray-900 border-gray-200'} mb-4 pb-2 border-b transition-colors duration-300`}>About Me</h2>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300`}>
-              My academic focus is on developing trustworthy, human-centered AI to address challenges in critical societal domains. My journey in this area began with applying multimodal AI to medical image recognition, where I realized the profound importance of system transparency through Explainable AI (XAI) for building tools that clinicians can trust.
+              My academic focus lies at the intersection of Human-Computer Interaction (HCI) and AI, with a particular emphasis on user-centered software design and human-centered LLM applications. I am passionate about understanding how people interact with intelligent systems and leveraging this insight to build LLM-powered agents and applications that are truly intuitive, transparent, and beneficial.
             </p>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
-              This core interest in creating transparent and beneficial AI has now led me to the frontier of Large Language Models and their application in education. As a research intern at Tsinghua University's Future Education and Learning Research Group, I am exploring how LLMs can personalize learning experiences and empower both students and educators. I am excited to continue building AI that makes a tangible, positive impact on people's lives.
+              This core interest has led me to actively explore the development of LLM-based agents and applications, from prompt engineering and RAG systems to agentic workflows. As a research intern at Tsinghua University's Future Education and Learning Research Group, I investigated how LLMs can personalize learning experiences and empower both students and educators. I am excited to continue bridging HCI research with cutting-edge AI engineering to create tools that make a tangible, positive impact on people's lives.
             </p>
             <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed transition-colors duration-300 mt-4`}>
               When I'm not coding, you can find me immersed in the world of post-rock and shoegaze music, or keeping up with the latest Formula 1 race.
