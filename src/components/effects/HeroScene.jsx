@@ -1,0 +1,270 @@
+import { useEffect, useRef } from 'react';
+import { heroFragments } from '../../data/siteContent.js';
+
+const MOBILE_BREAKPOINT = 768;
+const MOBILE_FRAGMENT_COUNT = 20;
+const DESKTOP_FRAGMENT_COUNT = 45;
+const MOBILE_LIGHT_SIZE = 980;
+const DESKTOP_LIGHT_SIZE = 1560;
+const MOBILE_LIGHT_BLUR = 132;
+const DESKTOP_LIGHT_BLUR = 180;
+const MOBILE_CORE_SIZE = 420;
+const DESKTOP_CORE_SIZE = 560;
+const MOBILE_CORE_BLUR = 54;
+const DESKTOP_CORE_BLUR = 72;
+const GLOW_FOLLOW_EASING = 0.05;
+const CORE_FOLLOW_EASING = 0.1;
+const LIGHT_SCALE_EASING = 0.08;
+
+function createParticles(count, width, height) {
+  return Array.from({ length: count }, () => ({
+    text: heroFragments[Math.floor(Math.random() * heroFragments.length)],
+    x: Math.random() * width,
+    y: Math.random() * height,
+    baseVx: (Math.random() - 0.5) * 0.15,
+    baseVy: (Math.random() - 0.5) * 0.15,
+    vx: 0,
+    vy: 0,
+    opacityFactor: Math.random(),
+    currentOpacity: 0,
+    fontSize: Math.floor(Math.random() * 8) + 14,
+  }));
+}
+
+function getPointerCoordinates(event) {
+  if ('touches' in event && event.touches.length > 0) {
+    const [touch] = event.touches;
+    return { x: touch.clientX, y: touch.clientY };
+  }
+
+  return { x: event.clientX, y: event.clientY };
+}
+
+export default function HeroScene({ isDark, loadStage }) {
+  const canvasRef = useRef(null);
+  const glowRef = useRef(null);
+  const coreRef = useRef(null);
+  const isDarkRef = useRef(isDark);
+  const loadStageRef = useRef(loadStage);
+
+  useEffect(() => {
+    isDarkRef.current = isDark;
+  }, [isDark]);
+
+  useEffect(() => {
+    loadStageRef.current = loadStage;
+  }, [loadStage]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext('2d');
+    const glow = glowRef.current;
+    const core = coreRef.current;
+
+    if (!canvas || !context) {
+      return undefined;
+    }
+
+    let animationFrameId = 0;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let particles = [];
+    let glowSize = DESKTOP_LIGHT_SIZE;
+    let coreSize = DESKTOP_CORE_SIZE;
+
+    const pointer = { x: width / 2, y: height / 2 };
+    const previousPointer = { ...pointer };
+    const glowPointer = { ...pointer };
+    const corePointer = { ...pointer };
+    const lightState = {
+      glowScale: 1,
+      coreScale: 1,
+      glowOpacity: 0,
+      coreOpacity: 0,
+    };
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const syncLightSize = () => {
+      if (!glow || !core) {
+        return;
+      }
+
+      const isMobile = width < MOBILE_BREAKPOINT;
+      glowSize = isMobile ? MOBILE_LIGHT_SIZE : DESKTOP_LIGHT_SIZE;
+      coreSize = isMobile ? MOBILE_CORE_SIZE : DESKTOP_CORE_SIZE;
+      const glowBlur = isMobile ? MOBILE_LIGHT_BLUR : DESKTOP_LIGHT_BLUR;
+      const coreBlur = isMobile ? MOBILE_CORE_BLUR : DESKTOP_CORE_BLUR;
+
+      glow.style.width = `${glowSize}px`;
+      glow.style.height = `${glowSize}px`;
+      glow.style.filter = `blur(${glowBlur}px)`;
+
+      core.style.width = `${coreSize}px`;
+      core.style.height = `${coreSize}px`;
+      core.style.filter = `blur(${coreBlur}px)`;
+    };
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      syncLightSize();
+
+      const particleCount = width < MOBILE_BREAKPOINT ? MOBILE_FRAGMENT_COUNT : DESKTOP_FRAGMENT_COUNT;
+      particles = createParticles(particleCount, width, height);
+    };
+
+    const handlePointerMove = (event) => {
+      const { x, y } = getPointerCoordinates(event);
+      pointer.x = x;
+      pointer.y = y;
+    };
+
+    const render = () => {
+      context.clearRect(0, 0, width, height);
+
+      const currentIsDark = isDarkRef.current;
+      const currentLoadStage = loadStageRef.current;
+      const pointerDeltaX = pointer.x - previousPointer.x;
+      const pointerDeltaY = pointer.y - previousPointer.y;
+      const pointerSpeed = Math.sqrt(pointerDeltaX * pointerDeltaX + pointerDeltaY * pointerDeltaY);
+      const glowFollowEasing = prefersReducedMotion ? 1 : GLOW_FOLLOW_EASING;
+      const coreFollowEasing = prefersReducedMotion ? 1 : CORE_FOLLOW_EASING;
+      const motionAmount = prefersReducedMotion ? 0 : Math.min(pointerSpeed / 28, 1);
+
+      glowPointer.x += (pointer.x - glowPointer.x) * glowFollowEasing;
+      glowPointer.y += (pointer.y - glowPointer.y) * glowFollowEasing;
+      corePointer.x += (pointer.x - corePointer.x) * coreFollowEasing;
+      corePointer.y += (pointer.y - corePointer.y) * coreFollowEasing;
+
+      const targetGlowScale = 1 + motionAmount * (currentIsDark ? 0.07 : 0.05);
+      const targetCoreScale = 1 + motionAmount * (currentIsDark ? 0.045 : 0.035);
+      const targetGlowOpacity = currentLoadStage >= 1 ? (currentIsDark ? 0.94 : 0.9) : 0;
+      const targetCoreOpacity = currentLoadStage >= 1 ? (currentIsDark ? 0.92 : 0.88) : 0;
+
+      lightState.glowScale += (targetGlowScale - lightState.glowScale) * LIGHT_SCALE_EASING;
+      lightState.coreScale += (targetCoreScale - lightState.coreScale) * LIGHT_SCALE_EASING;
+      lightState.glowOpacity += (targetGlowOpacity - lightState.glowOpacity) * 0.14;
+      lightState.coreOpacity += (targetCoreOpacity - lightState.coreOpacity) * 0.16;
+
+      if (glow) {
+        const glowRadius = glowSize / 2;
+        glow.style.transform = `translate(${glowPointer.x - glowRadius}px, ${glowPointer.y - glowRadius}px) scale(${lightState.glowScale})`;
+        glow.style.opacity = String(lightState.glowOpacity);
+      }
+
+      if (core) {
+        const coreRadius = coreSize / 2;
+        core.style.transform = `translate(${corePointer.x - coreRadius}px, ${corePointer.y - coreRadius}px) scale(${lightState.coreScale})`;
+        core.style.opacity = String(lightState.coreOpacity);
+      }
+
+      const isMobile = width < MOBILE_BREAKPOINT;
+      const repulsionRadius = isMobile ? 80 : 120;
+      const glowRadius = isMobile ? 140 : 210;
+      const textColor = currentIsDark ? '244, 244, 245' : '39, 39, 42';
+
+      particles.forEach((particle) => {
+        particle.x += particle.baseVx;
+        particle.y += particle.baseVy;
+
+        const dx = particle.x - pointer.x;
+        const dy = particle.y - pointer.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const safeDistance = distance || 0.0001;
+
+        if (distance < repulsionRadius && pointerSpeed > 0.5) {
+          const force = Math.pow((repulsionRadius - distance) / repulsionRadius, 2);
+          particle.vx += (dx / safeDistance) * force * Math.min(pointerSpeed * 0.05, 3);
+          particle.vy += (dy / safeDistance) * force * Math.min(pointerSpeed * 0.05, 3);
+        }
+
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vx *= 0.96;
+        particle.vy *= 0.96;
+
+        if (particle.x < -100) particle.x = width + 100;
+        if (particle.x > width + 100) particle.x = -100;
+        if (particle.y < -50) particle.y = height + 50;
+        if (particle.y > height + 50) particle.y = -50;
+
+        const baseOpacity = currentIsDark
+          ? particle.opacityFactor * 0.05 + 0.03
+          : particle.opacityFactor * 0.15 + 0.08;
+
+        let targetOpacity = 0;
+        if (currentLoadStage >= 2) {
+          const glowMultiplier = distance < glowRadius ? (currentIsDark ? 1.85 : 1.55) : 1;
+          targetOpacity = Math.min(baseOpacity * glowMultiplier, currentIsDark ? 0.19 : 0.29);
+        }
+
+        particle.currentOpacity += (targetOpacity - particle.currentOpacity) * 0.05;
+
+        if (particle.currentOpacity > 0.005) {
+          context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
+          context.fillStyle = `rgba(${textColor}, ${particle.currentOpacity})`;
+          context.fillText(particle.text, particle.x, particle.y);
+        }
+      });
+
+      previousPointer.x = pointer.x;
+      previousPointer.y = pointer.y;
+      animationFrameId = window.requestAnimationFrame(render);
+    };
+
+    resize();
+    render();
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', handlePointerMove);
+    window.addEventListener('touchmove', handlePointerMove, { passive: true });
+    window.addEventListener('touchstart', handlePointerMove, { passive: true });
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('touchmove', handlePointerMove);
+      window.removeEventListener('touchstart', handlePointerMove);
+      window.cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className="absolute inset-0 transition-opacity duration-1000"
+        style={{
+          background: isDark
+            ? 'linear-gradient(180deg, rgba(255,255,255,0.024) 0%, rgba(255,255,255,0.016) 52%, rgba(255,255,255,0.024) 100%)'
+            : 'linear-gradient(180deg, rgba(0,0,0,0.024) 0%, rgba(0,0,0,0.014) 52%, rgba(0,0,0,0.024) 100%)',
+          opacity: loadStage >= 1 ? 1 : 0,
+        }}
+      />
+      <div
+        ref={glowRef}
+        className="absolute top-0 left-0 rounded-full will-change-transform"
+        style={{
+          background: isDark
+            ? 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.085) 24%, rgba(255,255,255,0.04) 52%, rgba(255,255,255,0.012) 70%, rgba(255,255,255,0) 84%)'
+            : 'radial-gradient(circle, rgba(38,32,28,0.1) 0%, rgba(38,32,28,0.065) 26%, rgba(38,32,28,0.028) 54%, rgba(38,32,28,0.01) 72%, rgba(38,32,28,0) 86%)',
+          mixBlendMode: isDark ? 'screen' : 'multiply',
+          opacity: 0,
+        }}
+      />
+      <div
+        ref={coreRef}
+        className="absolute top-0 left-0 rounded-full will-change-transform"
+        style={{
+          background: isDark
+            ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.14) 22%, rgba(255,255,255,0.05) 48%, rgba(255,255,255,0) 76%)'
+            : 'radial-gradient(circle, rgba(42,36,32,0.12) 0%, rgba(42,36,32,0.082) 24%, rgba(42,36,32,0.03) 50%, rgba(42,36,32,0) 78%)',
+          mixBlendMode: isDark ? 'screen' : 'multiply',
+          opacity: 0,
+        }}
+      />
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+    </div>
+  );
+}
