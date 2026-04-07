@@ -1,7 +1,7 @@
 import FadeIn from '../common/FadeIn.jsx';
 import NoteListItem from '../common/NoteListItem.jsx';
 import PageHeader from '../common/PageHeader.jsx';
-import { notes } from '../../data/siteContent.js';
+import notes from '../../data/notes.json';
 
 export default function NotesView({ isDark }) {
   return (

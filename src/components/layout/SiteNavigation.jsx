@@ -22,7 +22,7 @@ export default function SiteNavigation({
         >
           <button
             onClick={() => onViewChange(SITE_VIEWS.HOME)}
-            className={`font-display transition-colors ${theme('text-zinc-400 hover:text-zinc-300', 'text-zinc-500 hover:text-zinc-700')}`}
+            className={`motion-nav-link font-display transition-colors ${theme('text-zinc-400 hover:text-zinc-300', 'text-zinc-500 hover:text-zinc-700')}`}
           >
             Carson
           </button>
@@ -32,13 +32,21 @@ export default function SiteNavigation({
               <button
                 key={item.view}
                 onClick={() => onViewChange(item.view)}
-                className={`transition-colors ${
+                className={`motion-nav-link relative pb-2 transition-colors ${
                   currentView === item.view
                     ? theme('text-zinc-100', 'text-zinc-900')
                     : theme('hover:text-zinc-100', 'hover:text-zinc-900')
                 }`}
               >
-                {item.label}
+                <span>{item.label}</span>
+                <span
+                  aria-hidden="true"
+                  className={`motion-nav-line absolute right-0 bottom-0 left-0 h-px ${
+                    currentView === item.view
+                      ? 'scale-x-100 opacity-100'
+                      : 'scale-x-0 opacity-0'
+                  } ${theme('bg-zinc-300/80', 'bg-zinc-700/65')}`}
+                />
               </button>
             ))}
           </div>
@@ -46,12 +54,14 @@ export default function SiteNavigation({
 
         <button
           onClick={onToggleTheme}
-          className={`pointer-events-auto ml-6 cursor-pointer transition-all duration-1000 ease-out sm:ml-8 ${
+          className={`motion-theme-button pointer-events-auto ml-6 cursor-pointer sm:ml-8 ${
             theme('text-zinc-500 hover:text-zinc-300', 'text-zinc-400 hover:text-zinc-600')
           } ${loadStage >= 3 ? 'opacity-100' : 'opacity-0'}`}
           aria-label="Toggle dark mode"
         >
-          {isDark ? '☀' : '☾'}
+          <span className={`motion-theme-icon inline-block ${isDark ? 'rotate-0 scale-100' : '-rotate-12 scale-[1.06]'}`}>
+            {isDark ? '☀' : '☾'}
+          </span>
         </button>
       </div>
     </nav>

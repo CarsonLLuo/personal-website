@@ -10,6 +10,9 @@
 @layer base {
   :root {
     color-scheme: dark;
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   html {
@@ -50,6 +53,49 @@
 
   .scroll-indicator {
     animation: scroll-breathe 3s ease-in-out infinite;
+  }
+
+  .motion-page-enter {
+    animation: page-enter 720ms var(--ease-out-quint) both;
+  }
+
+  .motion-nav-link {
+    transition:
+      color 260ms var(--ease-out-quart),
+      transform 260ms var(--ease-out-quart),
+      letter-spacing 260ms var(--ease-out-quart);
+  }
+
+  .motion-nav-link:hover {
+    transform: translateY(-1px);
+    letter-spacing: 0.02em;
+  }
+
+  .motion-nav-line {
+    transform-origin: center;
+    transition:
+      transform 280ms var(--ease-out-quart),
+      opacity 280ms var(--ease-out-quart);
+  }
+
+  .motion-theme-button {
+    transition:
+      color 240ms var(--ease-out-quart),
+      transform 240ms var(--ease-out-quart);
+  }
+
+  .motion-theme-button:hover {
+    transform: translateY(-1px) scale(1.04);
+  }
+
+  .motion-theme-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .motion-theme-icon {
+    transition:
+      transform 600ms var(--ease-out-quint),
+      opacity 320ms var(--ease-out-quart);
   }
 }
 
@@ -99,5 +145,43 @@
   50% {
     opacity: 0.5;
     transform: translateX(-50%) translateY(3px);
+  }
+}
+
+@keyframes page-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .motion-page-enter {
+    animation: none !important;
+  }
+
+  .motion-nav-link:hover,
+  .motion-theme-button:hover,
+  .motion-theme-button:active {
+    transform: none !important;
+    letter-spacing: inherit !important;
   }
 }

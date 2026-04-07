@@ -2,7 +2,9 @@ import FadeIn from '../common/FadeIn.jsx';
 import NoteListItem from '../common/NoteListItem.jsx';
 import ProjectCard from '../common/ProjectCard.jsx';
 import { HOME_PREVIEW_LIMITS, SITE_VIEWS } from '../../constants/site.js';
-import { homeContent, notes, projectCollections } from '../../data/siteContent.js';
+import { homeContent } from '../../data/siteContent.js';
+import projectCollections from '../../data/projects.json';
+import notes from '../../data/notes.json';
 import { pickTheme } from '../../lib/theme.js';
 
 export default function HomeContent({ isDark, onViewChange }) {

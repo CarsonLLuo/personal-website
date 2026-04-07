@@ -1,7 +1,7 @@
 import FadeIn from '../common/FadeIn.jsx';
 import PageHeader from '../common/PageHeader.jsx';
 import ProjectCard from '../common/ProjectCard.jsx';
-import { projectCollections } from '../../data/siteContent.js';
+import projectCollections from '../../data/projects.json';
 import { pickTheme } from '../../lib/theme.js';
 
 export default function ProjectsView({ isDark }) {

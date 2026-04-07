@@ -54,18 +54,20 @@ export default function App() {
           onViewChange={setCurrentView}
         />
 
-        {currentView === SITE_VIEWS.HOME ? (
-          <HomeView
-            isDark={isDark}
-            loadStage={loadStage}
-            showNav={showNav}
-            onViewChange={setCurrentView}
-          />
-        ) : (
-          <main className="relative z-10 mx-auto max-w-2xl px-6 pb-32">
-            {renderSubPage(currentView, isDark)}
-          </main>
-        )}
+        <div key={currentView} className="motion-page-enter">
+          {currentView === SITE_VIEWS.HOME ? (
+            <HomeView
+              isDark={isDark}
+              loadStage={loadStage}
+              showNav={showNav}
+              onViewChange={setCurrentView}
+            />
+          ) : (
+            <main className="relative z-10 mx-auto max-w-2xl px-6 pb-32">
+              {renderSubPage(currentView, isDark)}
+            </main>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "research",
+    "label": "Research",
+    "items": [
+      {
+        "name": "Latent Behaviors",
+        "desc": "Studying emergent hesitations in LLM interactions",
+        "link": "#"
+      },
+      {
+        "name": "Cognitive Scaffolds",
+        "desc": "Dynamic UI structures for complex learning",
+        "link": "#"
+      },
+      {
+        "name": "Semantic Decay",
+        "desc": "How meaning shifts in long-context windows over time",
+        "link": "#"
+      }
+    ]
+  },
+  {
+    "id": "product",
+    "label": "Product",
+    "items": [
+      {
+        "name": "Quiet Reader",
+        "desc": "A typography-first environment for deep reading",
+        "link": "#"
+      },
+      {
+        "name": "Trace",
+        "desc": "Personal knowledge graph that decays over time",
+        "link": "#"
+      },
+      {
+        "name": "Oasis",
+        "desc": "A blank canvas for thought without formatting",
+        "link": "#"
+      }
+    ]
+  }
+]
