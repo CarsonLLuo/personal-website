@@ -1,26 +1,41 @@
 export const heroFragments = [
-  '2023.09',
-  '2024.03.17',
-  '2025.??',
+  // 时间与锚点
+  '2023.09', 
+  '2024.03.17', 
+  '2025.??', 
   '二〇二三年秋',
-  'async function()',
-  'return null',
-  'import',
-  '.then(resolve =>',
+  '4:00 AM',
+
+  // 带有隐喻的代码/系统词汇
+  'async function()', 
+  'memory.clear()', 
+  'temperature: 0.8', 
+  '.then(resolve =>', 
   '// TODO',
-  '记得那天下午',
-  '还没想好',
-  '未完成',
-  '为什么',
+  'loss.backward()',
+  'attention_mask',
+
+  // 中文呓语
+  '记得那天下午', 
+  '还没想好', 
+  '未完成', 
+  '为什么', 
   '那时候以为',
-  'what if the model',
-  'not yet',
-  'unresolved',
-  'somewhere between',
-  'why does it',
-  'is this enough',
-  'what comes after',
+  '我不行',
+  '我做不到',
+  '我好笨',
+
+  // 英文思绪
+  'what if the model', 
+  'not yet', 
+  'unresolved', 
+  'somewhere between', 
+  'why does it', 
+  'is this enough', 
+  'what comes after', 
   'trace',
+  'ghost in the telemetry',
+  '...'
 ];
 
 export const heroContent = {

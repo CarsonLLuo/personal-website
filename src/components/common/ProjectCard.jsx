@@ -1,11 +1,19 @@
 import { pickTheme } from '../../lib/theme.js';
 
-export default function ProjectCard({ project, isDark, variant = 'full' }) {
+export default function ProjectCard({ project, isDark, variant = 'full', onViewChange }) {
   const theme = pickTheme(isDark);
   const isCompact = variant === 'compact';
+  const hasDetail = !!project.slug;
+
+  const handleClick = (e) => {
+    if (hasDetail && onViewChange) {
+      e.preventDefault();
+      onViewChange(`project:${project.slug}`);
+    }
+  };
 
   return (
-    <a href={project.link} className="group block">
+    <a href={hasDetail ? '#' : project.link} onClick={handleClick} className="group block">
       <div
         className={`flex items-center gap-1 font-display text-base transition-colors duration-200 ${
           theme('text-zinc-200 group-hover:text-white', 'text-zinc-800 group-hover:text-black')

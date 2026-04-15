@@ -4,6 +4,12 @@
     "label": "Research",
     "items": [
       {
+        "name": "Test Research Project",
+        "slug": "test-research-project",
+        "desc": "Test Description",
+        "link": "#"
+      },
+      {
         "name": "Latent Behaviors",
         "desc": "Studying emergent hesitations in LLM interactions",
         "link": "#"

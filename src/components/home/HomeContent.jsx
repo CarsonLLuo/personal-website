@@ -112,7 +112,7 @@ export default function HomeContent({ isDark, onViewChange }) {
                   {collection.items
                     .slice(0, HOME_PREVIEW_LIMITS.PROJECTS_PER_GROUP)
                     .map((project) => (
-                      <ProjectCard key={project.name} project={project} isDark={isDark} variant="compact" />
+                      <ProjectCard key={project.name} project={project} isDark={isDark} variant="compact" onViewChange={onViewChange} />
                     ))}
                 </div>
               </div>

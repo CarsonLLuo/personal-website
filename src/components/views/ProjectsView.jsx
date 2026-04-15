@@ -4,7 +4,7 @@ import ProjectCard from '../common/ProjectCard.jsx';
 import projectCollections from '../../data/projects.json';
 import { pickTheme } from '../../lib/theme.js';
 
-export default function ProjectsView({ isDark }) {
+export default function ProjectsView({ isDark, onViewChange }) {
   const theme = pickTheme(isDark);
 
   return (
@@ -26,7 +26,7 @@ export default function ProjectsView({ isDark }) {
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
                 {collection.items.map((project) => (
-                  <ProjectCard key={project.name} project={project} isDark={isDark} />
+                  <ProjectCard key={project.name} project={project} isDark={isDark} onViewChange={onViewChange} />
                 ))}
               </div>
             </div>

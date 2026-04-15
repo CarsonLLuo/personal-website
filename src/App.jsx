@@ -5,16 +5,22 @@ import HomeView from './components/views/HomeView.jsx';
 import ProjectsView from './components/views/ProjectsView.jsx';
 import NotesView from './components/views/NotesView.jsx';
 import AboutView from './components/views/AboutView.jsx';
-import { SITE_VIEWS } from './constants/site.js';
+import { SITE_VIEWS, parseProjectView } from './constants/site.js';
+import ProjectDetailView from './components/views/ProjectDetailView.jsx';
 import { useHeroLoadStage } from './hooks/useHeroLoadStage.js';
 import { useNavVisibility } from './hooks/useNavVisibility.js';
 import { useThemeMode } from './hooks/useThemeMode.js';
 import { pickTheme } from './lib/theme.js';
 
-function renderSubPage(currentView, isDark) {
+function renderSubPage(currentView, isDark, onViewChange) {
+  const projectSlug = parseProjectView(currentView);
+  if (projectSlug) {
+    return <ProjectDetailView slug={projectSlug} isDark={isDark} onBack={() => onViewChange(SITE_VIEWS.PROJECTS)} />;
+  }
+
   switch (currentView) {
     case SITE_VIEWS.PROJECTS:
-      return <ProjectsView isDark={isDark} />;
+      return <ProjectsView isDark={isDark} onViewChange={onViewChange} />;
     case SITE_VIEWS.NOTES:
       return <NotesView isDark={isDark} />;
     case SITE_VIEWS.ABOUT:
@@ -64,7 +70,7 @@ export default function App() {
             />
           ) : (
             <main className="relative z-10 mx-auto max-w-2xl px-6 pb-32">
-              {renderSubPage(currentView, isDark)}
+              {renderSubPage(currentView, isDark, setCurrentView)}
             </main>
           )}
         </div>
