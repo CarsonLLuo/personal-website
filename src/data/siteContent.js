@@ -61,8 +61,9 @@ export const homeContent = {
 
 export const aboutContent = {
   intro: [
-    'I am a researcher and developer currently based somewhere between academic inquiry and product engineering. My work focuses on how large language models alter human cognitive patterns, and how we can design interfaces that respect human agency and attention.',
-    'Prior to this, I spent time studying the intersection of technology, humanities, and systemic design. I build tools that act as extensions of thought rather than mere utilities.',
+    '你好，我是 Carson，也可以叫我小罗。这个页面写的是一些更慢、更个人的事实：我做什么、我为什么做、我现在站在什么时间点。',
+    '我曾经很依赖酒精和咖啡因带来的速度感，后来被医生按下暂停键。现在我更在意长期的清醒、稳定的专注，以及那些能在深夜里留下痕迹的工作。',
+    '很多时候，我会把自己放在过去和未来之间。写代码、做研究、记录生活，本质上都在回答同一个问题：人如何在系统里保持自己。',
   ],
   leftColumnSections: [
     {
@@ -70,50 +71,73 @@ export const aboutContent = {
       type: 'timeline',
       items: [
         {
-          title: 'University of [Placeholder]',
-          meta: 'B.S. Cognitive Science & CS',
-          period: '2020-2024',
+          title: 'Oxford Brookes University & 二仙桥恐龙大学',
+          meta: 'BSc (Hons) Software Engineering · First Class Honours',
+          period: '2021-2025 · 总成绩 72.125/100',
+        },
+        {
+          title: 'KTH Royal Institute of Technology',
+          meta: 'Interactive Media Technology',
+          period: '2026-2028',
         },
       ],
     },
     {
-      title: 'Experience',
+      title: 'Internship',
       type: 'timeline',
       items: [
         {
-          title: 'Stealth Startup',
-          meta: 'Product Engineer',
-          period: '2024-Present',
-        },
-        {
-          title: 'Research Lab',
-          meta: 'HCI Researcher',
-          period: '2022-2024',
+          title: 'ModelBest × 清华大学教育学院 MAIC 团队',
+          meta: 'Massive AI-empowered Course · 实习生',
+          period: '聚焦教师一线研究、课堂参与度评估与 AI 功能落地',
         },
       ],
+    },
+    {
+      title: 'Right Now',
+      type: 'paragraph',
+      content:
+        '在北京实习中。继续学习、记录，也继续享受 Vibe Coding 带来的眩晕感。',
     },
   ],
   rightColumnSections: [
     {
-      title: 'Stack',
-      type: 'paragraph',
-      content:
-        'Python, TypeScript, React, Next.js, PyTorch. Mostly just trying to find the right medium for the thought.',
+      title: 'Skills & Tools',
+      type: 'group-list',
+      groups: [
+        {
+          label: 'Programming',
+          items: ['Python', 'JavaScript / TypeScript', 'Java', 'C++', 'Dart', 'SQL / Redis'],
+        },
+        {
+          label: 'AI / ML',
+          items: ['PyTorch / TensorFlow', 'XGBoost / SVM', 'Transformer', 'SHAP / LIME', 'Prompt Engineering'],
+        },
+        {
+          label: 'Product & Design',
+          items: ['React / Next.js', 'Tailwind CSS', 'Flutter', 'Figma / Axure', 'KANO / SWOT'],
+        },
+      ],
     },
     {
-      title: 'Now Reading',
-      type: 'reading-list',
+      title: 'Interests',
+      type: 'bullet-list',
       items: [
-        { author: 'Byung-Chul Han', title: 'The Burnout Society' },
-        { author: 'Ted Chiang', title: 'Exhalation' },
-        { author: 'Jorge Luis Borges', title: 'Labyrinths' },
+        'F1 车迷，偏爱 Papaya。',
+        '拜仁慕尼黑与成都蓉城的长期支持者。',
+        '独立摇滚 / 后摇 / shoegaze，也在尝试创造自己的声音。',
       ],
+    },
+    {
+      title: 'Motto',
+      type: 'paragraph',
+      content: 'Cogito, ergo sum. / 我思故我在。',
     },
   ],
   links: [
     { label: 'Email', link: '#', icon: '↗' },
     { label: 'GitHub', link: '#', icon: '↗' },
-    { label: 'Twitter', link: '#', icon: '↗' },
+    { label: 'X / Twitter', link: '#', icon: '↗' },
     { label: 'Resume', link: '#', icon: '↓' },
   ],
 };
