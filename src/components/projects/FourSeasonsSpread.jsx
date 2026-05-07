@@ -132,13 +132,13 @@ export default function FourSeasonsSpread({ isDark }) {
 
         <Section id="reflection" title="Reflection" isDark={isDark}>
           <p>
-            这个项目让我重新体验了一次「没有框架、没有依赖、只有浏览器」的开发感。它比想象中干净，也比想象中自由。
+            这个项目用了Frontend-Design的Skill，只用了一句提示词就生成了一版初稿，之后的工作主要是调整细节、优化交互、丰富内容。它证明了 Vibe Coding 的一个核心理念：先有感觉，再用代码实现它。
           </p>
           <p>
-            Vibe Coding 的本质是跟着感受走——先有一个画面，再想怎么实现。这种方式有时候会绕远路，但它会让你在写代码的过程中一直知道自己在做什么，以及为什么。
+            Vibe Coding 的本质是先有一种很confused的感觉，然后用LLM来把这种confusion不断具体化，最后变成一个可以触碰的东西。这个过程可能会很乱，但它的结果往往是意想不到的。
           </p>
           <p>
-            塔罗本身是关于解读与投射的。一个把这件事做得安静的工具，是这个项目最想成为的东西。
+            嗯我想，塔罗本身是关于解读与投射的。一个把这件事做得安静的工具，是这个项目最想成为的东西。
           </p>
         </Section>
 

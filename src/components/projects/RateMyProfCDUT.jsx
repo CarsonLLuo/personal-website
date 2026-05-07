@@ -61,7 +61,7 @@ export default function RateMyProfCDUT({ isDark }) {
               Rate My Prof 4 CDUTZY
             </h1>
             <p className={`mt-3 text-[1rem] leading-relaxed transition-colors duration-700 ${theme('text-zinc-400', 'text-zinc-500')}`}>
-              成都工业大学OBU中英特供版教师匿名评分平台。
+              成都理工大学OBU中英特供版教师匿名评分平台。
             </p>
           </div>
 
