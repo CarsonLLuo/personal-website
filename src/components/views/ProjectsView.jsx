@@ -8,7 +8,8 @@ export default function ProjectsView({ isDark, onViewChange }) {
   const theme = pickTheme(isDark);
 
   return (
-    <div className="min-h-screen space-y-16 pt-40">
+    <div className="mx-auto max-w-2xl px-6">
+      <div className="min-h-screen space-y-16 pt-40">
       <FadeIn>
         <PageHeader title="Projects Index" description="A complete log of research and builds." isDark={isDark} />
 
@@ -33,6 +34,7 @@ export default function ProjectsView({ isDark, onViewChange }) {
           ))}
         </div>
       </FadeIn>
+    </div>
     </div>
   );
 }

@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
 
-export function useNavVisibility(thresholdMultiplier = 0.6) {
-  const [isVisible, setIsVisible] = useState(false);
+export function useNavVisibility(isHome) {
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const threshold = isHome ? window.innerHeight * 0.08 : 120;
     const handleScroll = () => {
-      setIsVisible(window.scrollY > window.innerHeight * thresholdMultiplier);
+      setIsScrolled(window.scrollY > threshold);
     };
 
-    handleScroll();
+    setIsScrolled(false);
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [thresholdMultiplier]);
+  }, [isHome]);
 
-  return isVisible;
+  return isScrolled;
 }

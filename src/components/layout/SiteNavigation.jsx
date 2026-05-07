@@ -10,14 +10,19 @@ export default function SiteNavigation({
   onViewChange,
 }) {
   const theme = pickTheme(isDark);
-  const isNavVisible = showNav || currentView !== SITE_VIEWS.HOME;
+  const isNavVisible = !showNav;
 
   return (
     <nav className="pointer-events-none fixed top-0 right-0 left-0 z-50">
-      <div className="relative mx-auto flex max-w-2xl items-center justify-between px-6 py-6 text-xs tracking-wide sm:text-sm">
+      <div className="relative mx-auto flex max-w-4xl items-center justify-between px-6 pt-5 text-xs tracking-wide sm:text-sm">
         <div
-          className={`flex flex-1 items-center justify-between transition-opacity duration-700 ${
-            isNavVisible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+          className={`flex flex-1 items-center justify-between rounded-full px-6 py-3 backdrop-blur-md transition-opacity duration-700 ${
+            theme(
+              'border border-white/8 bg-zinc-900/70',
+              'border border-black/8 bg-white/75'
+            )
+          } ${
+            isNavVisible && loadStage >= 3 ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
           }`}
         >
           <button
@@ -32,7 +37,7 @@ export default function SiteNavigation({
               <button
                 key={item.view}
                 onClick={() => onViewChange(item.view)}
-                className={`motion-nav-link relative pb-2 transition-colors ${
+                className={`motion-nav-link relative py-2 transition-colors ${
                   currentView === item.view
                     ? theme('text-zinc-100', 'text-zinc-900')
                     : theme('hover:text-zinc-100', 'hover:text-zinc-900')
@@ -49,20 +54,18 @@ export default function SiteNavigation({
                 />
               </button>
             ))}
+
+            <button
+              onClick={onToggleTheme}
+              className={`motion-theme-button relative cursor-pointer py-2 transition-colors ${theme('text-zinc-400 hover:text-zinc-200', 'text-zinc-500 hover:text-zinc-700')}`}
+              aria-label="Toggle dark mode"
+            >
+              <span className={`motion-theme-icon inline-block ${isDark ? 'rotate-0 scale-100' : '-rotate-12 scale-[1.06]'}`}>
+                {isDark ? '☀' : '☾'}
+              </span>
+            </button>
           </div>
         </div>
-
-        <button
-          onClick={onToggleTheme}
-          className={`motion-theme-button pointer-events-auto ml-6 cursor-pointer sm:ml-8 ${
-            theme('text-zinc-500 hover:text-zinc-300', 'text-zinc-400 hover:text-zinc-600')
-          } ${loadStage >= 3 ? 'opacity-100' : 'opacity-0'}`}
-          aria-label="Toggle dark mode"
-        >
-          <span className={`motion-theme-icon inline-block ${isDark ? 'rotate-0 scale-100' : '-rotate-12 scale-[1.06]'}`}>
-            {isDark ? '☀' : '☾'}
-          </span>
-        </button>
       </div>
     </nav>
   );

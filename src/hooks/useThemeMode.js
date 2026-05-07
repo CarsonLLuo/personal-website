@@ -28,7 +28,7 @@ export function useThemeMode(defaultIsDark = true) {
   useEffect(() => {
     window.localStorage.setItem(THEME_STORAGE_KEY, isDark ? 'dark' : 'light');
     document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
-    document.body.style.backgroundColor = isDark ? '#0a0a0a' : '#faf8f5';
+    document.body.style.backgroundColor = isDark ? '#0d1117' : '#faf8f5';
   }, [isDark]);
 
   return {

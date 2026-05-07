@@ -4,23 +4,26 @@
     "label": "Research",
     "items": [
       {
-        "name": "Test Research Project",
+        "name": "「心安之隅」与「屏中之偶」",
         "slug": "test-research-project",
-        "desc": "Test Description",
+        "desc": "生成式人工智能的教学效能与实践边界研究",
         "link": "#"
       },
       {
         "name": "Latent Behaviors",
+        "slug": "latent-behaviors",
         "desc": "Studying emergent hesitations in LLM interactions",
         "link": "#"
       },
       {
         "name": "Cognitive Scaffolds",
+        "slug": "cognitive-scaffolds",
         "desc": "Dynamic UI structures for complex learning",
         "link": "#"
       },
       {
         "name": "Semantic Decay",
+        "slug": "semantic-decay",
         "desc": "How meaning shifts in long-context windows over time",
         "link": "#"
       }
@@ -31,19 +34,22 @@
     "label": "Product",
     "items": [
       {
-        "name": "Quiet Reader",
-        "desc": "A typography-first environment for deep reading",
-        "link": "#"
+        "name": "四季牌阵 Tarot",
+        "slug": "four-seasons-spread",
+        "desc": "日常与四季牌阵的塔罗抽取，Vibe Coding 项目",
+        "link": "https://github.com/CarsonLLuo/FourSeasonsSpread"
       },
       {
-        "name": "Trace",
-        "desc": "Personal knowledge graph that decays over time",
-        "link": "#"
+        "name": "McDonald's Ordering Agent",
+        "slug": "mcd-agent",
+        "desc": "基于麦当劳中国 MCP 开发的 AI 点餐 Agent",
+        "link": "https://github.com/CarsonLLuo/mcd-agent"
       },
       {
-        "name": "Oasis",
-        "desc": "A blank canvas for thought without formatting",
-        "link": "#"
+        "name": "Rate My Prof 4 CDUTZY",
+        "slug": "rate-my-prof-cdut",
+        "desc": "成都工业大学OBU中英特供版教师评分平台",
+        "link": "https://github.com/CarsonLLuo/RateMyProf4CDUT-OBU"
       }
     ]
   }

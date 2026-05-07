@@ -1,32 +1,80 @@
 [
   {
+    "title": "2025 年终",
+    "desc": "所以是什么时候把自己抛向世界的？",
+    "date": "2025.12",
+    "slug": "2025.12.31"
+  },
+  {
+    "title": "人，你为什么闻起来苦苦的",
+    "desc": "一只猫的自述",
+    "date": "2025.07",
+    "slug": "2025-bitter"
+  },
+  {
+    "title": "直到弃门而去",
+    "desc": "消失的光影，藏在手套里，继续",
+    "date": "2026.03",
+    "slug": "until-i-leave-the-goal"
+  },
+  {
+    "title": "Take Me Back to the Start",
+    "desc": "深圳、香港、Coldplay，和晚上的中环",
+    "date": "2025.04",
+    "slug": "2025-coldplay"
+  },
+  {
+    "title": "这一年留在杯子里",
+    "desc": "和Brewing有关的一切，还有那些在这一年里发生的事",
+    "date": "2026.03",
+    "slug": "2025-offer"
+  },
+  {
+    "title": "while True: keep_going()",
+    "desc": "代码洁癖，圣诞树。",
+    "date": "2024.12",
+    "slug": "2024.12.11"
+  },
+  {
+    "title": "我的冬天，就要来了",
+    "desc": "《躺着你的衣柜》——陈绮贞",
+    "date": "2024.12",
+    "slug": "2024.12.06"
+  },
+  {
     "title": "On the aesthetics of silence in UI",
     "desc": "A reflection on whitespace and withholding.",
     "date": "2024.01",
-    "link": "#"
+    "slug": "on-silence-in-ui"
   },
   {
-    "title": "Memory and the machine",
-    "desc": "Why we need systems that know how to forget.",
-    "date": "2024.11",
-    "link": "#"
+    "title": "2023 年终",
+    "desc": "颓废、压抑、幸运而满意？",
+    "date": "2023.12",
+    "slug": "2023.12.31-Year-Review"
   },
   {
-    "title": "The architecture of late-night thoughts",
-    "desc": "Spatial computing and human solitude.",
-    "date": "2024.09",
-    "link": "#"
+    "title": "oh Dear, what have I done",
+    "desc": "写给那把借来的利刃。",
+    "date": "2023.12",
+    "slug": "2023.12.25"
   },
   {
-    "title": "Fragments of an obsolete protocol",
-    "desc": "Reading old RFCs as poetry.",
-    "date": "2024.06",
-    "link": "#"
+    "title": "落日与梦的边界",
+    "desc": "落日、夜晚的 deca joins",
+    "date": "2023.12",
+    "slug": "2023.12.17"
   },
   {
-    "title": "Tools for conviviality",
-    "desc": "Revisiting Illich in the age of AI.",
-    "date": "2024.03",
-    "link": "#"
+    "title": "赛博坟头哈哈哈哈",
+    "desc": "关于存在、艺术与证明自己来过这个世界的漫想",
+    "date": "2022.12",
+    "slug": "2021.12.08"
+  },
+  {
+    "title": "Let Down",
+    "desc": "Let down and be let down",
+    "date": "2021.12",
+    "slug": "Let_Down"
   }
 ]

@@ -13,6 +13,14 @@ export function parseProjectView(view) {
   return null;
 }
 
+/** 解析 "note:slug" 格式的视图字符串 */
+export function parseNoteView(view) {
+  if (typeof view === 'string' && view.startsWith('note:')) {
+    return view.slice('note:'.length);
+  }
+  return null;
+}
+
 export const NAV_ITEMS = [
   { label: 'Projects', view: SITE_VIEWS.PROJECTS },
   { label: 'Notes', view: SITE_VIEWS.NOTES },

@@ -1,9 +1,23 @@
 import FadeIn from '../common/FadeIn.jsx';
 import { pickTheme } from '../../lib/theme.js';
 import TestResearchProject from '../projects/TestResearchProject.jsx';
+import LatentBehaviors from '../projects/LatentBehaviors.jsx';
+import CognitiveScaffolds from '../projects/CognitiveScaffolds.jsx';
+import SemanticDecay from '../projects/SemanticDecay.jsx';
+import TestProductProject from '../projects/TestProductProject.jsx';
+import FourSeasonsSpread from '../projects/FourSeasonsSpread.jsx';
+import McdAgent from '../projects/McdAgent.jsx';
+import RateMyProfCDUT from '../projects/RateMyProfCDUT.jsx';
 
 const PROJECT_COMPONENTS = {
   'test-research-project': TestResearchProject,
+  'latent-behaviors': LatentBehaviors,
+  'cognitive-scaffolds': CognitiveScaffolds,
+  'semantic-decay': SemanticDecay,
+  'test-product-project': TestProductProject,
+  'four-seasons-spread': FourSeasonsSpread,
+  'mcd-agent': McdAgent,
+  'rate-my-prof-cdut': RateMyProfCDUT,
 };
 
 export default function ProjectDetailView({ slug, isDark, onBack }) {
@@ -24,7 +38,8 @@ export default function ProjectDetailView({ slug, isDark, onBack }) {
   }
 
   return (
-    <div className="min-h-screen pt-40">
+    <div className="mx-auto max-w-5xl px-6">
+      <div className="min-h-screen pt-40">
       <FadeIn>
         <button
           onClick={onBack}
@@ -37,6 +52,7 @@ export default function ProjectDetailView({ slug, isDark, onBack }) {
         </button>
         <ProjectContent isDark={isDark} />
       </FadeIn>
+    </div>
     </div>
   );
 }

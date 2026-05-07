@@ -5,7 +5,10 @@ import { HOME_PREVIEW_LIMITS, SITE_VIEWS } from '../../constants/site.js';
 import { homeContent } from '../../data/siteContent.js';
 import projectCollections from '../../data/projects.json';
 import notes from '../../data/notes.json';
+import { sortNotesByDateDesc } from '../../lib/noteSorting.js';
 import { pickTheme } from '../../lib/theme.js';
+
+const sortedNotes = sortNotesByDateDesc(notes);
 
 export default function HomeContent({ isDark, onViewChange }) {
   const theme = pickTheme(isDark);
@@ -17,18 +20,20 @@ export default function HomeContent({ isDark, onViewChange }) {
         <section className="grid grid-cols-12 gap-y-6 sm:gap-x-6">
           <div className="col-span-12 sm:col-span-3">
             <div
-              className={`font-display text-[10px] uppercase tracking-[0.28em] transition-colors duration-700 ${theme(
+              className={`font-display text-[10px] uppercase tracking-[0.28em] leading-[1.9] transition-colors duration-700 ${theme(
                 'text-zinc-500/80',
                 'text-zinc-500/85'
               )}`}
             >
-              {homeContent.fragmentLabel}
+              {homeContent.fragmentLabel.split(' / ').map((part, i) => (
+                <div key={i}>{i > 0 ? '/ ' : ''}{part}</div>
+              ))}
             </div>
           </div>
 
           <div className="col-span-12 sm:col-span-9 sm:pt-1">
             <p
-              className={`max-w-[42rem] font-serif text-[1.18rem] leading-[1.85] italic transition-colors duration-700 sm:text-[1.45rem] ${theme(
+              className={`max-w-[42rem] font-serif text-[1.28rem] leading-[1.9] italic transition-colors duration-700 sm:text-[1.6rem] ${theme(
                 'text-zinc-300/88',
                 'text-zinc-700/88'
               )}`}
@@ -44,8 +49,8 @@ export default function HomeContent({ isDark, onViewChange }) {
           <div
             aria-hidden="true"
             className={`pointer-events-none absolute -top-10 left-0 hidden font-serif text-[7rem] leading-none tracking-[-0.06em] sm:block ${theme(
-              'text-zinc-700/18',
-              'text-zinc-300/55'
+              'text-zinc-600/35',
+              'text-zinc-400/60'
             )}`}
           >
             “
@@ -133,9 +138,11 @@ export default function HomeContent({ isDark, onViewChange }) {
             </button>
           </div>
 
-          <div className="flex flex-col gap-6">
-            {notes.slice(0, HOME_PREVIEW_LIMITS.NOTES).map((note) => (
-              <NoteListItem key={note.title} note={note} isDark={isDark} variant="preview" />
+          <div className="flex flex-col">
+            {sortedNotes.slice(0, HOME_PREVIEW_LIMITS.NOTES).map((note) => (
+              <NoteListItem key={note.slug ?? note.title} note={note} isDark={isDark} variant="full"
+                onNavigate={note.slug ? () => onViewChange(`note:${note.slug}`) : undefined}
+              />
             ))}
           </div>
         </section>
