@@ -13,14 +13,19 @@ const sortedNotes = sortNotesByDateDesc(notes);
 export default function HomeContent({ isDark, onViewChange }) {
   const theme = pickTheme(isDark);
   const [leadStatement, supportingStatement, closingStatement] = homeContent.statementLines;
+  const statementItems = [
+    { index: '01', label: 'Code', text: leadStatement, variant: 'lead' },
+    { index: '02', label: 'Research', text: supportingStatement },
+    { index: '03', label: 'Between', text: closingStatement, variant: 'serif' },
+  ];
 
   return (
-    <main className="relative z-10 mx-auto max-w-2xl space-y-32 px-6 pt-32 pb-32">
+    <main className="relative z-10 mx-auto max-w-[900px] space-y-32 px-6 pt-32 pb-32">
       <FadeIn>
-        <section className="grid grid-cols-12 gap-y-6 sm:gap-x-6">
-          <div className="col-span-12 sm:col-span-3">
+        <section className="grid gap-y-8 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-16">
+          <div>
             <div
-              className={`font-display text-[10px] uppercase tracking-[0.28em] leading-[1.9] transition-colors duration-700 ${theme(
+              className={`font-display text-[10px] uppercase leading-[1.9] tracking-[0.28em] transition-colors duration-700 ${theme(
                 'text-zinc-500/80',
                 'text-zinc-500/85'
               )}`}
@@ -31,9 +36,9 @@ export default function HomeContent({ isDark, onViewChange }) {
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-9 sm:pt-1">
+          <div className="md:pt-1">
             <p
-              className={`max-w-[42rem] font-serif text-[1.28rem] leading-[1.9] italic transition-colors duration-700 sm:text-[1.6rem] ${theme(
+              className={`max-w-[40rem] font-serif text-[1.18rem] leading-[1.95] italic transition-colors duration-700 md:text-[1.42rem] ${theme(
                 'text-zinc-300/88',
                 'text-zinc-700/88'
               )}`}
@@ -45,51 +50,46 @@ export default function HomeContent({ isDark, onViewChange }) {
       </FadeIn>
 
       <FadeIn delay={120}>
-        <section className="relative">
-          <div
-            aria-hidden="true"
-            className={`pointer-events-none absolute -top-10 left-0 hidden font-serif text-[7rem] leading-none tracking-[-0.06em] sm:block ${theme(
-              'text-zinc-600/35',
-              'text-zinc-400/60'
-            )}`}
-          >
-            “
+        <section className={`grid gap-y-9 border-y py-12 transition-colors duration-700 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-16 md:py-16 ${theme('border-zinc-800/80', 'border-zinc-200')}`}>
+          <div>
+            <p className={`font-display text-[10px] uppercase leading-[1.9] tracking-[0.28em] transition-colors duration-700 ${theme('text-zinc-500/80', 'text-zinc-500/85')}`}>
+              Statement
+              <br />
+              Three Notes
+            </p>
           </div>
 
-          <div className="sm:pl-12">
-            <div className="max-w-[40rem]">
-              <p
-                className={`font-serif text-[1.55rem] leading-[1.58] tracking-[-0.03em] transition-colors duration-700 sm:text-[2.15rem] ${theme(
-                  'text-zinc-100/94',
-                  'text-zinc-900/88'
-                )}`}
-              >
-                {leadStatement}
-              </p>
-            </div>
-
-            <div className="mt-8 grid grid-cols-12 gap-y-5 sm:gap-x-6">
-              <div className="col-span-12 sm:col-span-7">
-                <p
-                  className={`max-w-[29rem] font-sans text-[1.04rem] leading-[1.95] font-light transition-colors duration-700 sm:text-[1.15rem] ${theme(
-                    'text-zinc-300/92',
-                    'text-zinc-700/94'
-                  )}`}
+          <div>
+            <div className="space-y-10">
+              {statementItems.map((item) => (
+                <div
+                  key={item.index}
+                  className={`grid gap-y-4 md:grid-cols-[4rem_minmax(0,1fr)] md:gap-x-8 ${
+                    item.index === '01' ? '' : `border-t pt-8 ${theme('border-zinc-800/75', 'border-zinc-200')}`
+                  }`}
                 >
-                  {supportingStatement}
-                </p>
-              </div>
+                  <div className="flex items-baseline gap-3 md:block">
+                    <p className={`font-mono text-[0.68rem] transition-colors duration-700 ${theme('text-zinc-600', 'text-zinc-400')}`}>
+                      {item.index}
+                    </p>
+                    <p className={`font-display text-[0.72rem] uppercase tracking-[0.18em] transition-colors duration-700 md:mt-3 ${theme('text-zinc-500', 'text-zinc-500')}`}>
+                      {item.label}
+                    </p>
+                  </div>
 
-              <div className="col-span-12 sm:col-span-5 sm:pt-10">
-                <p
-                  className={`max-w-[18rem] font-serif text-[1rem] leading-[1.9] italic transition-colors duration-700 sm:ml-auto sm:text-[1.08rem] ${theme(
-                    'text-zinc-400/88',
-                    'text-zinc-600/92'
-                  )}`}
-                >
-                  {closingStatement}
-                </p>
-              </div>
+                  <p
+                    className={`max-w-[44rem] transition-colors duration-700 ${
+                      item.variant === 'lead'
+                        ? `font-serif text-[1.72rem] leading-[1.58] md:text-[2.45rem] ${theme('text-zinc-100/94', 'text-zinc-900/88')}`
+                        : item.variant === 'serif'
+                          ? `font-serif text-[1.1rem] leading-[1.9] italic md:text-[1.2rem] ${theme('text-zinc-400/92', 'text-zinc-600/92')}`
+                          : `font-sans text-[1.02rem] leading-[1.95] font-light md:text-[1.12rem] ${theme('text-zinc-300/92', 'text-zinc-700/94')}`
+                    }`}
+                  >
+                    {item.text}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
