@@ -15,14 +15,21 @@ const DESKTOP_CORE_BLUR = 72;
 const GLOW_FOLLOW_EASING = 0.05;
 const CORE_FOLLOW_EASING = 0.1;
 const LIGHT_SCALE_EASING = 0.08;
+const MOBILE_REPULSION_RADIUS = 96;
+const DESKTOP_REPULSION_RADIUS = 150;
+const POINTER_ACTIVATION_SPEED = 0.35;
+const POINTER_FORCE_MULTIPLIER = 0.072;
+const MAX_POINTER_FORCE = 4.2;
+const PARTICLE_VELOCITY_DECAY = 0.955;
+const BASE_DRIFT_SPEED = 0.22;
 
 function createParticles(count, width, height) {
   return Array.from({ length: count }, () => ({
     text: heroFragments[Math.floor(Math.random() * heroFragments.length)],
     x: Math.random() * width,
     y: Math.random() * height,
-    baseVx: (Math.random() - 0.5) * 0.15,
-    baseVy: (Math.random() - 0.5) * 0.15,
+    baseVx: (Math.random() - 0.5) * BASE_DRIFT_SPEED,
+    baseVy: (Math.random() - 0.5) * BASE_DRIFT_SPEED,
     vx: 0,
     vy: 0,
     opacityFactor: Math.random(),
@@ -161,7 +168,7 @@ export default function HeroScene({ isDark, loadStage }) {
       }
 
       const isMobile = width < MOBILE_BREAKPOINT;
-      const repulsionRadius = isMobile ? 80 : 120;
+      const repulsionRadius = isMobile ? MOBILE_REPULSION_RADIUS : DESKTOP_REPULSION_RADIUS;
       const glowRadius = isMobile ? 140 : 210;
       const textColor = currentIsDark ? '244, 244, 245' : '39, 39, 42';
 
@@ -174,16 +181,16 @@ export default function HeroScene({ isDark, loadStage }) {
         const distance = Math.sqrt(dx * dx + dy * dy);
         const safeDistance = distance || 0.0001;
 
-        if (distance < repulsionRadius && pointerSpeed > 0.5) {
+        if (distance < repulsionRadius && pointerSpeed > POINTER_ACTIVATION_SPEED) {
           const force = Math.pow((repulsionRadius - distance) / repulsionRadius, 2);
-          particle.vx += (dx / safeDistance) * force * Math.min(pointerSpeed * 0.05, 3);
-          particle.vy += (dy / safeDistance) * force * Math.min(pointerSpeed * 0.05, 3);
+          particle.vx += (dx / safeDistance) * force * Math.min(pointerSpeed * POINTER_FORCE_MULTIPLIER, MAX_POINTER_FORCE);
+          particle.vy += (dy / safeDistance) * force * Math.min(pointerSpeed * POINTER_FORCE_MULTIPLIER, MAX_POINTER_FORCE);
         }
 
         particle.x += particle.vx;
         particle.y += particle.vy;
-        particle.vx *= 0.96;
-        particle.vy *= 0.96;
+        particle.vx *= PARTICLE_VELOCITY_DECAY;
+        particle.vy *= PARTICLE_VELOCITY_DECAY;
 
         if (particle.x < -100) particle.x = width + 100;
         if (particle.x > width + 100) particle.x = -100;
