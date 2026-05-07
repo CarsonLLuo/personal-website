@@ -1,17 +1,36 @@
+import { useEffect, useState } from 'react';
 import LiveTime from '../common/LiveTime.jsx';
 import HeroScene from '../effects/HeroScene.jsx';
 import { heroContent } from '../../data/siteContent.js';
 import { pickTheme } from '../../lib/theme.js';
 
+const HERO_SCENE_BREAKPOINT = 768;
+
 export default function HeroSection({ isDark, loadStage, showNav }) {
   const theme = pickTheme(isDark);
+  const [shouldRenderHeroScene, setShouldRenderHeroScene] = useState(() => (
+    typeof window === 'undefined' ? true : window.innerWidth >= HERO_SCENE_BREAKPOINT
+  ));
+
+  useEffect(() => {
+    const updateHeroSceneVisibility = () => {
+      setShouldRenderHeroScene(window.innerWidth >= HERO_SCENE_BREAKPOINT);
+    };
+
+    updateHeroSceneVisibility();
+    window.addEventListener('resize', updateHeroSceneVisibility);
+
+    return () => {
+      window.removeEventListener('resize', updateHeroSceneVisibility);
+    };
+  }, []);
 
   return (
     <section
       id="top"
       className={`relative h-screen w-full overflow-hidden transition-colors duration-700 ${theme('text-zinc-200', 'text-zinc-800')}`}
     >
-      <HeroScene isDark={isDark} loadStage={loadStage} />
+      {shouldRenderHeroScene && <HeroScene isDark={isDark} loadStage={loadStage} />}
 
       <div className="pointer-events-none absolute inset-0">
         {loadStage >= 1 && (
