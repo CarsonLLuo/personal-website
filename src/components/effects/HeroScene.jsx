@@ -22,6 +22,10 @@ const POINTER_FORCE_MULTIPLIER = 0.072;
 const MAX_POINTER_FORCE = 4.2;
 const PARTICLE_VELOCITY_DECAY = 0.955;
 const BASE_DRIFT_SPEED = 0.22;
+const DRAG_HIT_PADDING = 18;
+const DRAG_FOLLOW_EASING = 0.16;
+const DRAG_RELEASE_MULTIPLIER = 0.16;
+const MAX_DRAG_RELEASE_VELOCITY = 4.8;
 
 function createParticles(count, width, height) {
   return Array.from({ length: count }, () => ({
@@ -44,7 +48,16 @@ function getPointerCoordinates(event) {
     return { x: touch.clientX, y: touch.clientY };
   }
 
+  if ('changedTouches' in event && event.changedTouches.length > 0) {
+    const [touch] = event.changedTouches;
+    return { x: touch.clientX, y: touch.clientY };
+  }
+
   return { x: event.clientX, y: event.clientY };
+}
+
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
 }
 
 export default function HeroScene({ isDark, loadStage }) {
@@ -83,6 +96,17 @@ export default function HeroScene({ isDark, loadStage }) {
     const previousPointer = { ...pointer };
     const glowPointer = { ...pointer };
     const corePointer = { ...pointer };
+    const dragState = {
+      particle: null,
+      offsetX: 0,
+      offsetY: 0,
+      targetX: 0,
+      targetY: 0,
+      lastX: pointer.x,
+      lastY: pointer.y,
+      velocityX: 0,
+      velocityY: 0,
+    };
     const lightState = {
       glowScale: 1,
       coreScale: 1,
@@ -122,10 +146,130 @@ export default function HeroScene({ isDark, loadStage }) {
       particles = createParticles(particleCount, width, height);
     };
 
-    const handlePointerMove = (event) => {
+    const getCanvasPointerCoordinates = (event) => {
       const { x, y } = getPointerCoordinates(event);
+      const rect = canvas.getBoundingClientRect();
+
+      return {
+        x: x - rect.left,
+        y: y - rect.top,
+        isInside: x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom,
+      };
+    };
+
+    const findParticleAt = (x, y) => {
+      let selectedParticle = null;
+      let selectedDistance = Infinity;
+
+      particles.forEach((particle) => {
+        if (particle.currentOpacity < 0.01) {
+          return;
+        }
+
+        context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
+        const textWidth = context.measureText(particle.text).width;
+        const left = particle.x - DRAG_HIT_PADDING;
+        const right = particle.x + textWidth + DRAG_HIT_PADDING;
+        const top = particle.y - particle.fontSize - DRAG_HIT_PADDING;
+        const bottom = particle.y + DRAG_HIT_PADDING;
+
+        if (x < left || x > right || y < top || y > bottom) {
+          return;
+        }
+
+        const centerX = particle.x + textWidth / 2;
+        const centerY = particle.y - particle.fontSize / 2;
+        const dx = x - centerX;
+        const dy = y - centerY;
+        const distance = dx * dx + dy * dy;
+
+        if (distance < selectedDistance) {
+          selectedParticle = particle;
+          selectedDistance = distance;
+        }
+      });
+
+      return selectedParticle;
+    };
+
+    const handlePointerMove = (event) => {
+      const { x, y, isInside } = getCanvasPointerCoordinates(event);
+      if (!isInside && !dragState.particle) {
+        return;
+      }
+
       pointer.x = x;
       pointer.y = y;
+
+      if (!dragState.particle) {
+        return;
+      }
+
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+
+      dragState.targetX = x + dragState.offsetX;
+      dragState.targetY = y + dragState.offsetY;
+      dragState.velocityX = x - dragState.lastX;
+      dragState.velocityY = y - dragState.lastY;
+      dragState.lastX = x;
+      dragState.lastY = y;
+    };
+
+    const handlePointerDown = (event) => {
+      if (loadStageRef.current < 2 || prefersReducedMotion) {
+        return;
+      }
+
+      const { x, y, isInside } = getCanvasPointerCoordinates(event);
+      if (!isInside) {
+        return;
+      }
+
+      pointer.x = x;
+      pointer.y = y;
+
+      const particle = findParticleAt(x, y);
+      if (!particle) {
+        return;
+      }
+
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+
+      dragState.particle = particle;
+      dragState.offsetX = particle.x - x;
+      dragState.offsetY = particle.y - y;
+      dragState.targetX = particle.x;
+      dragState.targetY = particle.y;
+      dragState.lastX = x;
+      dragState.lastY = y;
+      dragState.velocityX = 0;
+      dragState.velocityY = 0;
+      particle.vx = 0;
+      particle.vy = 0;
+      document.body.style.cursor = 'grabbing';
+    };
+
+    const handlePointerUp = () => {
+      if (!dragState.particle) {
+        return;
+      }
+
+      dragState.particle.vx = clamp(
+        dragState.velocityX * DRAG_RELEASE_MULTIPLIER,
+        -MAX_DRAG_RELEASE_VELOCITY,
+        MAX_DRAG_RELEASE_VELOCITY
+      );
+      dragState.particle.vy = clamp(
+        dragState.velocityY * DRAG_RELEASE_MULTIPLIER,
+        -MAX_DRAG_RELEASE_VELOCITY,
+        MAX_DRAG_RELEASE_VELOCITY
+      );
+      dragState.particle = null;
+      document.body.style.cursor = '';
     };
 
     const render = () => {
@@ -173,29 +317,42 @@ export default function HeroScene({ isDark, loadStage }) {
       const textColor = currentIsDark ? '244, 244, 245' : '39, 39, 42';
 
       particles.forEach((particle) => {
-        particle.x += particle.baseVx;
-        particle.y += particle.baseVy;
+        const isDraggedParticle = particle === dragState.particle;
+
+        if (isDraggedParticle) {
+          particle.x += (dragState.targetX - particle.x) * DRAG_FOLLOW_EASING;
+          particle.y += (dragState.targetY - particle.y) * DRAG_FOLLOW_EASING;
+          particle.vx = 0;
+          particle.vy = 0;
+        } else {
+          particle.x += particle.baseVx;
+          particle.y += particle.baseVy;
+        }
 
         const dx = particle.x - pointer.x;
         const dy = particle.y - pointer.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         const safeDistance = distance || 0.0001;
 
-        if (distance < repulsionRadius && pointerSpeed > POINTER_ACTIVATION_SPEED) {
+        if (!isDraggedParticle && distance < repulsionRadius && pointerSpeed > POINTER_ACTIVATION_SPEED) {
           const force = Math.pow((repulsionRadius - distance) / repulsionRadius, 2);
           particle.vx += (dx / safeDistance) * force * Math.min(pointerSpeed * POINTER_FORCE_MULTIPLIER, MAX_POINTER_FORCE);
           particle.vy += (dy / safeDistance) * force * Math.min(pointerSpeed * POINTER_FORCE_MULTIPLIER, MAX_POINTER_FORCE);
         }
 
-        particle.x += particle.vx;
-        particle.y += particle.vy;
-        particle.vx *= PARTICLE_VELOCITY_DECAY;
-        particle.vy *= PARTICLE_VELOCITY_DECAY;
+        if (!isDraggedParticle) {
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          particle.vx *= PARTICLE_VELOCITY_DECAY;
+          particle.vy *= PARTICLE_VELOCITY_DECAY;
+        }
 
-        if (particle.x < -100) particle.x = width + 100;
-        if (particle.x > width + 100) particle.x = -100;
-        if (particle.y < -50) particle.y = height + 50;
-        if (particle.y > height + 50) particle.y = -50;
+        if (!isDraggedParticle) {
+          if (particle.x < -100) particle.x = width + 100;
+          if (particle.x > width + 100) particle.x = -100;
+          if (particle.y < -50) particle.y = height + 50;
+          if (particle.y > height + 50) particle.y = -50;
+        }
 
         const baseOpacity = currentIsDark
           ? particle.opacityFactor * 0.05 + 0.03
@@ -205,6 +362,10 @@ export default function HeroScene({ isDark, loadStage }) {
         if (currentLoadStage >= 2) {
           const glowMultiplier = distance < glowRadius ? (currentIsDark ? 1.85 : 1.55) : 1;
           targetOpacity = Math.min(baseOpacity * glowMultiplier, currentIsDark ? 0.19 : 0.29);
+        }
+
+        if (isDraggedParticle) {
+          targetOpacity = Math.max(targetOpacity, currentIsDark ? 0.28 : 0.38);
         }
 
         particle.currentOpacity += (targetOpacity - particle.currentOpacity) * 0.05;
@@ -226,14 +387,23 @@ export default function HeroScene({ isDark, loadStage }) {
 
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', handlePointerMove);
-    window.addEventListener('touchmove', handlePointerMove, { passive: true });
-    window.addEventListener('touchstart', handlePointerMove, { passive: true });
+    window.addEventListener('mousedown', handlePointerDown);
+    window.addEventListener('mouseup', handlePointerUp);
+    window.addEventListener('touchmove', handlePointerMove, { passive: false });
+    window.addEventListener('touchstart', handlePointerDown, { passive: false });
+    window.addEventListener('touchend', handlePointerUp);
+    window.addEventListener('touchcancel', handlePointerUp);
 
     return () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handlePointerMove);
+      window.removeEventListener('mousedown', handlePointerDown);
+      window.removeEventListener('mouseup', handlePointerUp);
       window.removeEventListener('touchmove', handlePointerMove);
-      window.removeEventListener('touchstart', handlePointerMove);
+      window.removeEventListener('touchstart', handlePointerDown);
+      window.removeEventListener('touchend', handlePointerUp);
+      window.removeEventListener('touchcancel', handlePointerUp);
+      document.body.style.cursor = '';
       window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
