@@ -31,7 +31,7 @@ export default function NoteDetailView({ slug, isDark, onBack }) {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-6">
+    <div className="mx-auto max-w-[900px] px-6">
       <div className="min-h-screen pt-40 pb-32">
         <FadeIn>
           <button

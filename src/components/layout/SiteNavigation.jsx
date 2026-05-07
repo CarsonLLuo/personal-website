@@ -14,7 +14,7 @@ export default function SiteNavigation({
 
   return (
     <nav className="pointer-events-none fixed top-0 right-0 left-0 z-50">
-      <div className="relative mx-auto flex max-w-4xl items-center justify-between px-6 pt-5 text-xs tracking-wide sm:text-sm">
+      <div className="relative mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-5 text-xs tracking-wide sm:text-sm">
         <div
           className={`flex flex-1 items-center justify-between rounded-full px-6 py-3 backdrop-blur-md transition-opacity duration-700 ${
             theme(

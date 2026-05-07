@@ -111,24 +111,30 @@ function buildChapters(markdown, navItems) {
   });
 }
 
+function getChapterNumber(index) {
+  return String(index + 1).padStart(2, '0');
+}
+
 function ChapterNav({ navItems, activeId, isDark, onNavigate }) {
   const theme = pickTheme(isDark);
 
   return (
-    <nav className={`sticky top-32 space-y-2 rounded-2xl border px-5 py-5 transition-colors duration-700 ${theme('border-zinc-700/60 bg-zinc-800/60', 'border-zinc-200 bg-zinc-100/80')}`}>
-      {navItems.map((item) => {
+    <nav className="sticky top-36 space-y-6">
+      <div className={`h-px w-10 transition-colors duration-700 ${theme('bg-zinc-700', 'bg-zinc-300')}`} />
+      {navItems.map((item, index) => {
         const isActive = item.id === activeId;
         return (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            className={`block w-full text-left text-[0.92rem] transition-all duration-500 ${
+            className={`flex w-full items-baseline gap-3 text-left transition-colors duration-500 ${
               isActive
-                ? `border-l pl-3 ${theme('border-emerald-500/70 text-zinc-200', 'border-emerald-600/70 text-zinc-800')}`
-                : `border-l border-transparent pl-3 ${theme('text-zinc-500 hover:text-zinc-300', 'text-zinc-400 hover:text-zinc-600')}`
+                ? theme('text-zinc-200', 'text-zinc-800')
+                : theme('text-zinc-600 hover:text-zinc-300', 'text-zinc-400 hover:text-zinc-600')
             }`}
           >
-            {item.label}
+            <span className="font-mono text-[0.62rem]">{getChapterNumber(index)}</span>
+            <span className="font-display text-[0.82rem] leading-relaxed">{item.label}</span>
           </button>
         );
       })}
@@ -141,6 +147,8 @@ export default function AboutView({ isDark }) {
   const { navItems, links } = aboutContent;
   const chapters = useMemo(() => buildChapters(aboutMarkdown, navItems), [navItems]);
   const [activeSection, setActiveSection] = useState(navItems[0]?.id);
+  const openingQuote = chapters[0]?.blocks.find((block) => block.type === 'quote')?.content;
+  const openingParagraph = chapters[0]?.blocks.find((block) => block.type === 'paragraph')?.content;
 
   useEffect(() => {
     const sectionEls = chapters
@@ -199,104 +207,152 @@ export default function AboutView({ isDark }) {
   };
 
   return (
-    <div className="min-h-screen px-6 pt-32 md:pt-60">
+    <div className="min-h-screen px-6 pt-[8.5rem] md:pt-48">
       <FadeIn>
-        <div className="flex justify-center gap-10 lg:gap-16">
+        <div className="mx-auto max-w-[1080px]">
+          <header className="mb-24 grid gap-y-10 md:mb-[7.5rem] md:grid-cols-[9rem_minmax(0,1fr)] md:gap-x-12">
+            <div className="md:pt-4">
+              <p className="font-display text-[0.72rem] leading-loose text-zinc-500 transition-colors duration-700">
+                ABOUT
+                <br />
+                PRESENT TENSE
+              </p>
+            </div>
 
-          <div className="w-full max-w-[1200px] min-w-0">
-            {chapters.map((chapter) => (
-              <section key={chapter.id} id={chapter.id} className="mb-20 scroll-mt-32 md:mb-24 md:scroll-mt-40">
-                <h2
-                  className={`mb-8 font-display text-[1.35rem] transition-colors duration-700 md:mb-10 md:text-[2rem] ${theme('text-zinc-100', 'text-zinc-900')}`}
-                >
-                  {chapter.title}
-                </h2>
+            <div className="max-w-[760px]">
+              <p className={`font-serif text-[2.45rem] leading-tight transition-colors duration-700 md:text-[4.4rem] ${theme('text-zinc-100', 'text-zinc-900')}`}>
+                {openingQuote || 'Carson永远沉溺于过去和未来。'}
+              </p>
 
-                <div className="space-y-6">
-                  {chapter.blocks.map((block, idx) => {
-                    if (block.type === 'paragraph') {
-                      return (
-                        <p
-                          key={`${chapter.id}-p-${idx}`}
-                          className={`text-[1.15rem] leading-[1.9] transition-colors duration-700 ${theme(
-                            'text-zinc-300',
-                            'text-zinc-700'
-                          )}`}
-                        >
-                          <BoldText text={block.content} isDark={isDark} />
-                        </p>
-                      );
-                    }
+              <div className={`mt-10 grid gap-y-6 border-t pt-7 transition-colors duration-700 md:grid-cols-[minmax(0,1fr)_12rem] md:gap-x-12 ${theme('border-zinc-800', 'border-zinc-200')}`}>
+                <p className={`font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 ${theme('text-zinc-400', 'text-zinc-600')}`}>
+                  {openingParagraph}
+                </p>
+                <p className="font-display text-[0.72rem] leading-loose text-zinc-500 transition-colors duration-700">
+                  Software Engineering
+                  <br />
+                  Interactive Media
+                  <br />
+                  Human Experience
+                </p>
+              </div>
+            </div>
+          </header>
 
-                    if (block.type === 'traits') {
-                      return (
-                        <ul key={`${chapter.id}-t-${idx}`} className="space-y-2.5 py-2">
-                          {block.items.map((item, itemIndex) => (
-                            <li
-                              key={`${chapter.id}-trait-${itemIndex}`}
-                              className={`flex items-start gap-2.5 text-base leading-relaxed transition-colors duration-700 ${theme(
-                                'text-zinc-300',
-                                'text-zinc-700'
+          <div className="lg:grid lg:grid-cols-[minmax(0,760px)_180px] lg:justify-center lg:gap-x-24">
+            <article className="mx-auto max-w-[760px] space-y-24 md:space-y-[7.5rem] lg:mx-0">
+              {chapters.map((chapter, chapterIndex) => (
+                <section key={chapter.id} id={chapter.id} className="scroll-mt-32 md:scroll-mt-40">
+                  <div className="grid gap-y-7 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:gap-x-10">
+                    <header>
+                      <p className={`font-mono text-[0.68rem] transition-colors duration-700 ${theme('text-zinc-600', 'text-zinc-400')}`}>
+                        {getChapterNumber(chapterIndex)}
+                      </p>
+                      <h2
+                        className={`mt-3 font-display text-[0.86rem] leading-relaxed transition-colors duration-700 ${theme('text-zinc-300', 'text-zinc-700')}`}
+                      >
+                        {chapter.title}
+                      </h2>
+                    </header>
+
+                    <div className="space-y-6">
+                      {chapter.blocks.map((block, idx) => {
+                        const isOpeningQuote = chapterIndex === 0 && idx === 0 && block.type === 'quote';
+                        const isOpeningParagraph = chapterIndex === 0 && idx === 1 && block.content === openingParagraph;
+
+                        if (isOpeningQuote || isOpeningParagraph) {
+                          return null;
+                        }
+
+                        if (block.type === 'paragraph') {
+                          return (
+                            <p
+                              key={`${chapter.id}-p-${idx}`}
+                              className={`font-serif text-[1.08rem] leading-[2.05] transition-colors duration-700 md:text-[1.13rem] ${theme(
+                                'text-zinc-300/92',
+                                'text-zinc-700/94'
                               )}`}
                             >
-                              <span className="mt-0.5 text-[0.9rem]">{item.emoji}</span>
-                              <span>
-                                <BoldText text={item.text} isDark={isDark} />
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      );
-                    }
+                              <BoldText text={block.content} isDark={isDark} />
+                            </p>
+                          );
+                        }
 
-                    if (block.type === 'quote') {
-                      return (
-                        <blockquote
-                          key={`${chapter.id}-q-${idx}`}
-                          className={`my-8 border-l-2 py-1 pl-5 italic transition-colors duration-700 md:my-10 ${theme(
-                            'border-emerald-500/60 text-zinc-200',
-                            'border-emerald-600/60 text-zinc-800'
-                          )}`}
-                        >
-                          <span className="text-base leading-[1.85]">{block.content}</span>
-                        </blockquote>
-                      );
-                    }
+                        if (block.type === 'traits') {
+                          return (
+                            <ul key={`${chapter.id}-t-${idx}`} className="grid gap-3 py-2 sm:grid-cols-2">
+                              {block.items.map((item, itemIndex) => (
+                                <li
+                                  key={`${chapter.id}-trait-${itemIndex}`}
+                                  className={`flex items-start gap-3 border-t pt-3 text-base leading-relaxed transition-colors duration-700 ${theme(
+                                    'border-zinc-800 text-zinc-300',
+                                    'border-zinc-200 text-zinc-700'
+                                  )}`}
+                                >
+                                  <span className="mt-0.5 text-[0.9rem]">{item.emoji}</span>
+                                  <span>
+                                    <BoldText text={item.text} isDark={isDark} />
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          );
+                        }
 
-                    return null;
-                  })}
-                </div>
-              </section>
-            ))}
+                        if (block.type === 'quote') {
+                          return (
+                            <blockquote
+                              key={`${chapter.id}-q-${idx}`}
+                              className={`my-10 border-y py-6 font-serif italic transition-colors duration-700 ${theme(
+                                'border-zinc-800 text-zinc-200',
+                                'border-zinc-200 text-zinc-800'
+                              )}`}
+                            >
+                              <span className="text-[1.08rem] leading-[1.95]">{block.content}</span>
+                            </blockquote>
+                          );
+                        }
 
-            <div className="flex flex-wrap gap-x-8 gap-y-3 pt-8 font-display text-sm transition-colors duration-700">
-              {links.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.link}
-                  target={link.link.startsWith('http') ? '_blank' : undefined}
-                  rel={link.link.startsWith('http') ? 'noreferrer' : undefined}
-                  className={`group flex items-center gap-1 transition-colors ${theme(
-                    'text-zinc-400 hover:text-white',
-                    'text-zinc-600 hover:text-black'
-                  )}`}
-                >
-                  {link.label}
-                  <span className="opacity-0 transition-opacity group-hover:opacity-100">{link.icon}</span>
-                </a>
+                        return null;
+                      })}
+                    </div>
+                  </div>
+                </section>
               ))}
-            </div>
+
+              <footer className={`ml-auto max-w-[620px] border-t pt-8 transition-colors duration-700 ${theme('border-zinc-800', 'border-zinc-200')}`}>
+                <p className={`mb-5 font-display text-sm transition-colors duration-700 ${theme('text-zinc-300', 'text-zinc-700')}`}>
+                  Elsewhere
+                </p>
+                <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-sm transition-colors duration-700">
+                  {links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.link.includes('@') ? `mailto:${link.link}` : link.link}
+                      target={link.link.startsWith('http') ? '_blank' : undefined}
+                      rel={link.link.startsWith('http') ? 'noreferrer' : undefined}
+                      className={`group flex items-center gap-1 transition-colors ${theme(
+                        'text-zinc-400 hover:text-white',
+                        'text-zinc-600 hover:text-black'
+                      )}`}
+                    >
+                      {link.label}
+                      <span className="opacity-0 transition-opacity group-hover:opacity-100">{link.icon}</span>
+                    </a>
+                  ))}
+                </div>
+              </footer>
+            </article>
+
+            <aside className="hidden lg:block">
+              <ChapterNav
+                navItems={navItems}
+                activeId={activeSection}
+                isDark={isDark}
+                onNavigate={handleNavigate}
+              />
+            </aside>
           </div>
-
-          <aside className="hidden w-72 shrink-0 md:block">
-            <ChapterNav
-              navItems={navItems}
-              activeId={activeSection}
-              isDark={isDark}
-              onNavigate={handleNavigate}
-            />
-          </aside>
-
         </div>
       </FadeIn>
     </div>

@@ -38,7 +38,7 @@ export default function ProjectDetailView({ slug, isDark, onBack }) {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-6">
+    <div className="mx-auto max-w-[1120px] px-6">
       <div className="min-h-screen pt-40">
       <FadeIn>
         <button

@@ -71,7 +71,7 @@ export default function NoteLayout({ markdown, meta, isDark }) {
   const blocks = useMemo(() => parseBlocks(markdown), [markdown]);
 
   return (
-    <div className="mx-auto max-w-[680px]">
+    <div className="mx-auto max-w-[900px]">
 
       {/* Header */}
       <header className="mb-16">

@@ -73,11 +73,11 @@ export default function ProjectLayout({ sections, isDark, children }) {
   };
 
   return (
-    <div className="flex justify-between gap-12 lg:gap-16">
+    <div className="lg:grid lg:grid-cols-[minmax(0,760px)_160px] lg:gap-x-24">
       <div className="min-w-0 flex-1">
         {children}
       </div>
-      <aside className="hidden w-40 shrink-0 md:block">
+      <aside className="hidden lg:block">
         <TocNav
           sections={sections}
           activeId={activeId}
