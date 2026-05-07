@@ -389,10 +389,8 @@ export default function HeroScene({ isDark, loadStage }) {
     window.addEventListener('mousemove', handlePointerMove);
     window.addEventListener('mousedown', handlePointerDown);
     window.addEventListener('mouseup', handlePointerUp);
-    window.addEventListener('touchmove', handlePointerMove, { passive: false });
-    window.addEventListener('touchstart', handlePointerDown, { passive: false });
-    window.addEventListener('touchend', handlePointerUp);
-    window.addEventListener('touchcancel', handlePointerUp);
+    window.addEventListener('touchmove', handlePointerMove, { passive: true });
+    window.addEventListener('touchstart', handlePointerMove, { passive: true });
 
     return () => {
       window.removeEventListener('resize', resize);
@@ -400,9 +398,7 @@ export default function HeroScene({ isDark, loadStage }) {
       window.removeEventListener('mousedown', handlePointerDown);
       window.removeEventListener('mouseup', handlePointerUp);
       window.removeEventListener('touchmove', handlePointerMove);
-      window.removeEventListener('touchstart', handlePointerDown);
-      window.removeEventListener('touchend', handlePointerUp);
-      window.removeEventListener('touchcancel', handlePointerUp);
+      window.removeEventListener('touchstart', handlePointerMove);
       document.body.style.cursor = '';
       window.cancelAnimationFrame(animationFrameId);
     };
