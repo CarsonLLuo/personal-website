@@ -46,6 +46,12 @@ export const heroContent = {
   identityTagline: ['Somewhere between systems', '& human experience.'],
 };
 
+export const heroInteractionNotes = [
+  'some fragments answer to touch',
+  'weight is a temporary weather',
+  'release lets them drift again',
+];
+
 export const homeContent = {
   fragmentLabel: 'Fragment / present tense',
   intro:

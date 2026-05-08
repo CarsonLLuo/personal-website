@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import LiveTime from '../common/LiveTime.jsx';
 import HeroScene from '../effects/HeroScene.jsx';
-import { heroContent } from '../../data/siteContent.js';
+import { heroContent, heroInteractionNotes } from '../../data/siteContent.js';
 import { pickTheme } from '../../lib/theme.js';
 
 const HERO_SCENE_BREAKPOINT = 768;
@@ -35,7 +35,7 @@ export default function HeroSection({ isDark, loadStage, showNav }) {
 
       <div className="pointer-events-none absolute inset-0">
         {loadStage >= 1 && (
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl px-6">
+          <div className="absolute top-1/2 left-1/2 w-full max-w-4xl -translate-x-1/2 -translate-y-1/2 px-6">
             <div className="flex items-center gap-5 mb-8">
               <img
                 src="/avatar.jpeg"
@@ -56,6 +56,27 @@ export default function HeroSection({ isDark, loadStage, showNav }) {
                 {heroContent.identityTagline[0]}<br />{heroContent.identityTagline[1]}
               </p>
             </div>
+            {shouldRenderHeroScene && (
+              <div
+                className={`absolute top-4 right-[-20rem] hidden max-w-[13rem] flex-col gap-3 transition-all duration-1000 ease-out 2xl:flex ${
+                  loadStage >= 3 ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
+                }`}
+              >
+                <span className={`absolute -top-6 left-0 h-px w-9 transition-colors duration-700 ${theme('bg-zinc-700/70', 'bg-zinc-300/80')}`} />
+                <div className="space-y-2.5">
+                  {heroInteractionNotes.map((note, index) => (
+                    <p
+                      key={note}
+                      className={`font-display text-[10px] leading-relaxed tracking-[0.18em] uppercase transition-colors duration-700 ${
+                        index === 1 ? 'pl-2' : ''
+                      } ${theme('text-zinc-500/80', 'text-zinc-500/90')}`}
+                    >
+                      {note}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
