@@ -22,6 +22,8 @@ const POINTER_FORCE_MULTIPLIER = 0.072;
 const MAX_POINTER_FORCE = 4.2;
 const PARTICLE_VELOCITY_DECAY = 0.955;
 const BASE_DRIFT_SPEED = 0.22;
+const PARTICLE_BOUNDARY_PADDING = 28;
+const PARTICLE_BOUNDARY_DAMPING = 0.58;
 const DRAG_HIT_PADDING = 18;
 const DRAG_RELEASE_MULTIPLIER = 0.16;
 const MAX_DRAG_RELEASE_VELOCITY = 4.8;
@@ -174,6 +176,93 @@ export default function HeroScene({ isDark, loadStage }) {
       context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
     };
 
+    const getParticleTextWidth = (particle) => {
+      setParticleFont(particle);
+      return context.measureText(particle.text).width;
+    };
+
+    const getParticleBounds = (particle) => {
+      const textWidth = getParticleTextWidth(particle);
+      const minX = PARTICLE_BOUNDARY_PADDING;
+      const maxX = Math.max(minX, width - textWidth - PARTICLE_BOUNDARY_PADDING);
+      const minY = PARTICLE_BOUNDARY_PADDING + particle.fontSize;
+      const maxY = Math.max(minY, height - PARTICLE_BOUNDARY_PADDING);
+
+      return { minX, maxX, minY, maxY };
+    };
+
+    const containParticle = (particle) => {
+      const bounds = getParticleBounds(particle);
+
+      if (particle.x < bounds.minX) {
+        particle.x = bounds.minX;
+        particle.baseVx = Math.abs(particle.baseVx);
+        particle.vx = Math.abs(particle.vx) * PARTICLE_BOUNDARY_DAMPING;
+      } else if (particle.x > bounds.maxX) {
+        particle.x = bounds.maxX;
+        particle.baseVx = -Math.abs(particle.baseVx);
+        particle.vx = -Math.abs(particle.vx) * PARTICLE_BOUNDARY_DAMPING;
+      }
+
+      if (particle.y < bounds.minY) {
+        particle.y = bounds.minY;
+        particle.baseVy = Math.abs(particle.baseVy);
+        particle.vy = Math.abs(particle.vy) * PARTICLE_BOUNDARY_DAMPING;
+      } else if (particle.y > bounds.maxY) {
+        particle.y = bounds.maxY;
+        particle.baseVy = -Math.abs(particle.baseVy);
+        particle.vy = -Math.abs(particle.vy) * PARTICLE_BOUNDARY_DAMPING;
+      }
+    };
+
+    const clampDragTarget = (particle, targetX, targetY, grabbedGlyph) => {
+      const bounds = getParticleBounds(particle);
+      const grabOffsetX = grabbedGlyph?.restOffsetX || 0;
+
+      return {
+        x: clamp(targetX, bounds.minX + grabOffsetX, bounds.maxX + grabOffsetX),
+        y: clamp(targetY, bounds.minY, bounds.maxY),
+      };
+    };
+
+    const containGlyphChain = (particle, glyphs) => {
+      if (!glyphs.length) {
+        return;
+      }
+
+      const minX = Math.min(...glyphs.map((glyph) => glyph.x));
+      const maxX = Math.max(...glyphs.map((glyph) => glyph.x + glyph.width));
+      const minBaseline = Math.min(...glyphs.map((glyph) => glyph.y));
+      const maxBaseline = Math.max(...glyphs.map((glyph) => glyph.y));
+      const minY = PARTICLE_BOUNDARY_PADDING + particle.fontSize;
+      const maxY = Math.max(minY, height - PARTICLE_BOUNDARY_PADDING);
+      let shiftX = 0;
+      let shiftY = 0;
+
+      if (minX < PARTICLE_BOUNDARY_PADDING) {
+        shiftX = PARTICLE_BOUNDARY_PADDING - minX;
+      } else if (maxX > width - PARTICLE_BOUNDARY_PADDING) {
+        shiftX = width - PARTICLE_BOUNDARY_PADDING - maxX;
+      }
+
+      if (minBaseline < minY) {
+        shiftY = minY - minBaseline;
+      } else if (maxBaseline > maxY) {
+        shiftY = maxY - maxBaseline;
+      }
+
+      if (shiftX === 0 && shiftY === 0) {
+        return;
+      }
+
+      glyphs.forEach((glyph) => {
+        glyph.x += shiftX;
+        glyph.y += shiftY;
+        glyph.vx *= PARTICLE_BOUNDARY_DAMPING;
+        glyph.vy *= PARTICLE_BOUNDARY_DAMPING;
+      });
+    };
+
     const createClothGlyphs = (particle, grabX) => {
       setParticleFont(particle);
 
@@ -244,6 +333,7 @@ export default function HeroScene({ isDark, loadStage }) {
 
       applyClothLinkForces(glyphs);
       stepClothGlyphs(glyphs);
+      containGlyphChain(dragState.particle, glyphs);
 
       const firstGlyph = glyphs[0];
       const averageY = glyphs.reduce((sum, glyph) => sum + glyph.y, 0) / glyphs.length;
@@ -268,6 +358,7 @@ export default function HeroScene({ isDark, loadStage }) {
 
       applyClothLinkForces(cloth.glyphs);
       stepClothGlyphs(cloth.glyphs);
+      containGlyphChain(particle, cloth.glyphs);
 
       const maxMotion = cloth.glyphs.reduce((max, glyph) => {
         const targetX = particle.x + glyph.restOffsetX;
@@ -323,7 +414,7 @@ export default function HeroScene({ isDark, loadStage }) {
         }
 
         setParticleFont(particle);
-        const textWidth = context.measureText(particle.text).width;
+        const textWidth = getParticleTextWidth(particle);
         const left = particle.x - DRAG_HIT_PADDING;
         const right = particle.x + textWidth + DRAG_HIT_PADDING;
         const top = particle.y - particle.fontSize - DRAG_HIT_PADDING;
@@ -365,8 +456,15 @@ export default function HeroScene({ isDark, loadStage }) {
         event.preventDefault();
       }
 
-      dragState.targetX = x + dragState.offsetX;
-      dragState.targetY = y + dragState.offsetY;
+      const grabbedGlyph = dragState.glyphs[dragState.grabIndex];
+      const target = clampDragTarget(
+        dragState.particle,
+        x + dragState.offsetX,
+        y + dragState.offsetY,
+        grabbedGlyph
+      );
+      dragState.targetX = target.x;
+      dragState.targetY = target.y;
       dragState.velocityX = x - dragState.lastX;
       dragState.velocityY = y - dragState.lastY;
       dragState.lastX = x;
@@ -395,16 +493,18 @@ export default function HeroScene({ isDark, loadStage }) {
         event.preventDefault();
       }
 
+      containParticle(particle);
       const { glyphs, grabIndex } = createClothGlyphs(particle, x);
       const grabbedGlyph = glyphs[grabIndex];
+      const target = clampDragTarget(particle, grabbedGlyph.x, grabbedGlyph.y, grabbedGlyph);
 
       dragState.particle = particle;
       dragState.glyphs = glyphs;
       dragState.grabIndex = grabIndex;
       dragState.offsetX = grabbedGlyph.x - x;
       dragState.offsetY = grabbedGlyph.y - y;
-      dragState.targetX = grabbedGlyph.x;
-      dragState.targetY = grabbedGlyph.y;
+      dragState.targetX = target.x;
+      dragState.targetY = target.y;
       dragState.lastX = x;
       dragState.lastY = y;
       dragState.velocityX = 0;
@@ -511,17 +611,11 @@ export default function HeroScene({ isDark, loadStage }) {
           particle.y += particle.vy;
           particle.vx *= PARTICLE_VELOCITY_DECAY;
           particle.vy *= PARTICLE_VELOCITY_DECAY;
+          containParticle(particle);
         }
 
         if (!isDraggedParticle) {
           hasReleasedCloth = settleReleasedCloth(particle);
-        }
-
-        if (!isDraggedParticle && !hasReleasedCloth) {
-          if (particle.x < -100) particle.x = width + 100;
-          if (particle.x > width + 100) particle.x = -100;
-          if (particle.y < -50) particle.y = height + 50;
-          if (particle.y > height + 50) particle.y = -50;
         }
 
         const baseOpacity = currentIsDark
