@@ -23,9 +23,17 @@ const MAX_POINTER_FORCE = 4.2;
 const PARTICLE_VELOCITY_DECAY = 0.955;
 const BASE_DRIFT_SPEED = 0.22;
 const DRAG_HIT_PADDING = 18;
-const DRAG_FOLLOW_EASING = 0.16;
 const DRAG_RELEASE_MULTIPLIER = 0.16;
 const MAX_DRAG_RELEASE_VELOCITY = 4.8;
+const CLOTH_GRAB_STRENGTH = 0.2;
+const CLOTH_LINK_STRENGTH = 0.08;
+const CLOTH_DAMPING = 0.72;
+const CLOTH_ITERATIONS = 2;
+const CLOTH_ROTATION_LIMIT = 0.42;
+const CLOTH_SETTLE_STRENGTH = 0.055;
+const CLOTH_SETTLE_THRESHOLD = 0.85;
+const CLOTH_RELEASE_MIN_FRAMES = 34;
+const CLOTH_RELEASE_MAX_FRAMES = 110;
 
 function createParticles(count, width, height) {
   return Array.from({ length: count }, () => ({
@@ -39,6 +47,7 @@ function createParticles(count, width, height) {
     opacityFactor: Math.random(),
     currentOpacity: 0,
     fontSize: Math.floor(Math.random() * 8) + 14,
+    cloth: null,
   }));
 }
 
@@ -106,6 +115,8 @@ export default function HeroScene({ isDark, loadStage }) {
       lastY: pointer.y,
       velocityX: 0,
       velocityY: 0,
+      glyphs: [],
+      grabIndex: 0,
     };
     const lightState = {
       glowScale: 1,
@@ -144,6 +155,8 @@ export default function HeroScene({ isDark, loadStage }) {
 
       const particleCount = width < MOBILE_BREAKPOINT ? MOBILE_FRAGMENT_COUNT : DESKTOP_FRAGMENT_COUNT;
       particles = createParticles(particleCount, width, height);
+      dragState.particle = null;
+      dragState.glyphs = [];
     };
 
     const getCanvasPointerCoordinates = (event) => {
@@ -157,6 +170,149 @@ export default function HeroScene({ isDark, loadStage }) {
       };
     };
 
+    const setParticleFont = (particle) => {
+      context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
+    };
+
+    const createClothGlyphs = (particle, grabX) => {
+      setParticleFont(particle);
+
+      let cursorX = particle.x;
+      let grabIndex = 0;
+      let closestDistance = Infinity;
+      const glyphs = Array.from(particle.text).map((char, index) => {
+        const width = context.measureText(char).width || particle.fontSize * 0.55;
+        const centerX = cursorX + width / 2;
+        const distance = Math.abs(centerX - grabX);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          grabIndex = index;
+        }
+
+        const glyph = {
+          char,
+          x: cursorX,
+          y: particle.y,
+          vx: 0,
+          vy: 0,
+          width,
+          restOffsetX: cursorX - particle.x,
+        };
+
+        cursorX += width;
+        return glyph;
+      });
+
+      return { glyphs, grabIndex };
+    };
+
+    const applyClothLinkForces = (glyphs) => {
+      for (let iteration = 0; iteration < CLOTH_ITERATIONS; iteration += 1) {
+        for (let i = 1; i < glyphs.length; i += 1) {
+          const previousGlyph = glyphs[i - 1];
+          const glyph = glyphs[i];
+          const stretchX = (glyph.x - previousGlyph.x) - previousGlyph.width;
+          const stretchY = glyph.y - previousGlyph.y;
+
+          previousGlyph.vx += stretchX * CLOTH_LINK_STRENGTH;
+          previousGlyph.vy += stretchY * CLOTH_LINK_STRENGTH;
+          glyph.vx -= stretchX * CLOTH_LINK_STRENGTH;
+          glyph.vy -= stretchY * CLOTH_LINK_STRENGTH;
+        }
+      }
+    };
+
+    const stepClothGlyphs = (glyphs) => {
+      glyphs.forEach((glyph) => {
+        glyph.vx *= CLOTH_DAMPING;
+        glyph.vy *= CLOTH_DAMPING;
+        glyph.x += glyph.vx;
+        glyph.y += glyph.vy;
+      });
+    };
+
+    const updateClothGlyphs = () => {
+      const { glyphs, grabIndex } = dragState;
+      if (!glyphs.length) {
+        return;
+      }
+
+      const grabbedGlyph = glyphs[grabIndex];
+      grabbedGlyph.vx += (dragState.targetX - grabbedGlyph.x) * CLOTH_GRAB_STRENGTH;
+      grabbedGlyph.vy += (dragState.targetY - grabbedGlyph.y) * CLOTH_GRAB_STRENGTH;
+
+      applyClothLinkForces(glyphs);
+      stepClothGlyphs(glyphs);
+
+      const firstGlyph = glyphs[0];
+      const averageY = glyphs.reduce((sum, glyph) => sum + glyph.y, 0) / glyphs.length;
+      dragState.particle.x = firstGlyph.x;
+      dragState.particle.y = averageY;
+    };
+
+    const settleReleasedCloth = (particle) => {
+      const cloth = particle.cloth;
+      if (!cloth?.glyphs?.length) {
+        return false;
+      }
+
+      cloth.frames += 1;
+
+      cloth.glyphs.forEach((glyph) => {
+        const targetX = particle.x + glyph.restOffsetX;
+        const targetY = particle.y;
+        glyph.vx += (targetX - glyph.x) * CLOTH_SETTLE_STRENGTH;
+        glyph.vy += (targetY - glyph.y) * CLOTH_SETTLE_STRENGTH;
+      });
+
+      applyClothLinkForces(cloth.glyphs);
+      stepClothGlyphs(cloth.glyphs);
+
+      const maxMotion = cloth.glyphs.reduce((max, glyph) => {
+        const targetX = particle.x + glyph.restOffsetX;
+        const targetY = particle.y;
+        const distance = Math.abs(targetX - glyph.x) + Math.abs(targetY - glyph.y);
+        const velocity = Math.abs(glyph.vx) + Math.abs(glyph.vy);
+        return Math.max(max, distance + velocity);
+      }, 0);
+
+      if (
+        (cloth.frames >= CLOTH_RELEASE_MIN_FRAMES && maxMotion < CLOTH_SETTLE_THRESHOLD) ||
+        cloth.frames >= CLOTH_RELEASE_MAX_FRAMES
+      ) {
+        particle.cloth = null;
+        return false;
+      }
+
+      return true;
+    };
+
+    const drawClothGlyphs = (particle, glyphs) => {
+      if (!glyphs.length) {
+        return false;
+      }
+
+      setParticleFont(particle);
+      glyphs.forEach((glyph, index) => {
+        const nextGlyph = glyphs[index + 1] || glyph;
+        const previousGlyph = glyphs[index - 1] || glyph;
+        const angle = clamp(
+          Math.atan2(nextGlyph.y - previousGlyph.y, nextGlyph.x - previousGlyph.x),
+          -CLOTH_ROTATION_LIMIT,
+          CLOTH_ROTATION_LIMIT
+        );
+
+        context.save();
+        context.translate(glyph.x, glyph.y);
+        context.rotate(angle * 0.45);
+        context.fillText(glyph.char, 0, 0);
+        context.restore();
+      });
+
+      return true;
+    };
+
     const findParticleAt = (x, y) => {
       let selectedParticle = null;
       let selectedDistance = Infinity;
@@ -166,7 +322,7 @@ export default function HeroScene({ isDark, loadStage }) {
           return;
         }
 
-        context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
+        setParticleFont(particle);
         const textWidth = context.measureText(particle.text).width;
         const left = particle.x - DRAG_HIT_PADDING;
         const right = particle.x + textWidth + DRAG_HIT_PADDING;
@@ -239,11 +395,16 @@ export default function HeroScene({ isDark, loadStage }) {
         event.preventDefault();
       }
 
+      const { glyphs, grabIndex } = createClothGlyphs(particle, x);
+      const grabbedGlyph = glyphs[grabIndex];
+
       dragState.particle = particle;
-      dragState.offsetX = particle.x - x;
-      dragState.offsetY = particle.y - y;
-      dragState.targetX = particle.x;
-      dragState.targetY = particle.y;
+      dragState.glyphs = glyphs;
+      dragState.grabIndex = grabIndex;
+      dragState.offsetX = grabbedGlyph.x - x;
+      dragState.offsetY = grabbedGlyph.y - y;
+      dragState.targetX = grabbedGlyph.x;
+      dragState.targetY = grabbedGlyph.y;
       dragState.lastX = x;
       dragState.lastY = y;
       dragState.velocityX = 0;
@@ -268,6 +429,11 @@ export default function HeroScene({ isDark, loadStage }) {
         -MAX_DRAG_RELEASE_VELOCITY,
         MAX_DRAG_RELEASE_VELOCITY
       );
+      dragState.particle.cloth = {
+        glyphs: dragState.glyphs,
+        frames: 0,
+      };
+      dragState.glyphs = [];
       dragState.particle = null;
       document.body.style.cursor = '';
     };
@@ -318,10 +484,10 @@ export default function HeroScene({ isDark, loadStage }) {
 
       particles.forEach((particle) => {
         const isDraggedParticle = particle === dragState.particle;
+        let hasReleasedCloth = false;
 
         if (isDraggedParticle) {
-          particle.x += (dragState.targetX - particle.x) * DRAG_FOLLOW_EASING;
-          particle.y += (dragState.targetY - particle.y) * DRAG_FOLLOW_EASING;
+          updateClothGlyphs();
           particle.vx = 0;
           particle.vy = 0;
         } else {
@@ -348,6 +514,10 @@ export default function HeroScene({ isDark, loadStage }) {
         }
 
         if (!isDraggedParticle) {
+          hasReleasedCloth = settleReleasedCloth(particle);
+        }
+
+        if (!isDraggedParticle && !hasReleasedCloth) {
           if (particle.x < -100) particle.x = width + 100;
           if (particle.x > width + 100) particle.x = -100;
           if (particle.y < -50) particle.y = height + 50;
@@ -367,13 +537,19 @@ export default function HeroScene({ isDark, loadStage }) {
         if (isDraggedParticle) {
           targetOpacity = Math.max(targetOpacity, currentIsDark ? 0.28 : 0.38);
         }
+        if (hasReleasedCloth) {
+          targetOpacity = Math.max(targetOpacity, currentIsDark ? 0.22 : 0.32);
+        }
 
         particle.currentOpacity += (targetOpacity - particle.currentOpacity) * 0.05;
 
         if (particle.currentOpacity > 0.005) {
-          context.font = `300 ${particle.fontSize}px "JetBrains Mono", "PingFang SC", sans-serif`;
+          setParticleFont(particle);
           context.fillStyle = `rgba(${textColor}, ${particle.currentOpacity})`;
-          context.fillText(particle.text, particle.x, particle.y);
+          const clothGlyphs = isDraggedParticle ? dragState.glyphs : particle.cloth?.glyphs;
+          if (!clothGlyphs || !drawClothGlyphs(particle, clothGlyphs)) {
+            context.fillText(particle.text, particle.x, particle.y);
+          }
         }
       });
 
