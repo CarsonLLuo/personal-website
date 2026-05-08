@@ -8,6 +8,7 @@ const HERO_SCENE_BREAKPOINT = 768;
 
 export default function HeroSection({ isDark, loadStage, showNav }) {
   const theme = pickTheme(isDark);
+  const [gravityEnabled, setGravityEnabled] = useState(false);
   const [shouldRenderHeroScene, setShouldRenderHeroScene] = useState(() => (
     typeof window === 'undefined' ? true : window.innerWidth >= HERO_SCENE_BREAKPOINT
   ));
@@ -30,7 +31,7 @@ export default function HeroSection({ isDark, loadStage, showNav }) {
       id="top"
       className={`relative h-screen w-full overflow-hidden transition-colors duration-700 ${theme('text-zinc-200', 'text-zinc-800')}`}
     >
-      {shouldRenderHeroScene && <HeroScene isDark={isDark} loadStage={loadStage} />}
+      {shouldRenderHeroScene && <HeroScene isDark={isDark} loadStage={loadStage} gravityEnabled={gravityEnabled} />}
 
       <div className="pointer-events-none absolute inset-0">
         {loadStage >= 1 && (
@@ -64,7 +65,30 @@ export default function HeroSection({ isDark, loadStage, showNav }) {
           }`}
         >
           <LiveTime className={theme('text-zinc-500/70', 'text-zinc-500')} />
-          <span className={`font-display text-xs transition-opacity duration-1000 ${loadStage >= 3 && !showNav ? 'opacity-100' : 'opacity-0'} ${theme('text-zinc-600', 'text-zinc-400')}`}>↓</span>
+          <div className="flex items-center gap-4">
+            {shouldRenderHeroScene && (
+              <button
+                type="button"
+                data-hero-control="true"
+                aria-pressed={gravityEnabled}
+                onMouseDown={(event) => event.stopPropagation()}
+                onClick={() => setGravityEnabled((isEnabled) => !isEnabled)}
+                className={`pointer-events-auto hidden cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 font-display text-[11px] uppercase tracking-[0.16em] transition-all duration-300 md:inline-flex ${
+                  gravityEnabled
+                    ? theme('border-zinc-500/40 bg-zinc-100/10 text-zinc-200', 'border-zinc-500/30 bg-zinc-900/[0.08] text-zinc-700')
+                    : theme('border-zinc-700/50 text-zinc-500 hover:border-zinc-500/60 hover:text-zinc-300', 'border-zinc-300/70 text-zinc-500 hover:border-zinc-500/50 hover:text-zinc-700')
+                }`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full transition-colors duration-300 ${
+                    gravityEnabled ? theme('bg-zinc-200', 'bg-zinc-700') : theme('bg-zinc-600', 'bg-zinc-400')
+                  }`}
+                />
+                {gravityEnabled ? 'Float' : 'Gravity'}
+              </button>
+            )}
+            <span className={`font-display text-xs transition-opacity duration-1000 ${loadStage >= 3 && !showNav ? 'opacity-100' : 'opacity-0'} ${theme('text-zinc-600', 'text-zinc-400')}`}>↓</span>
+          </div>
         </div>
       </div>
     </section>

@@ -24,6 +24,18 @@ const PARTICLE_VELOCITY_DECAY = 0.955;
 const BASE_DRIFT_SPEED = 0.22;
 const PARTICLE_BOUNDARY_PADDING = 28;
 const PARTICLE_BOUNDARY_DAMPING = 0.58;
+const GRAVITY_ACCELERATION = 0.24;
+const GRAVITY_TERMINAL_VELOCITY = 11;
+const GRAVITY_VELOCITY_DECAY = 0.992;
+const GRAVITY_FLOOR_BOUNCE = 0.26;
+const GRAVITY_FLOOR_FRICTION = 0.82;
+const GRAVITY_SETTLE_VELOCITY = 0.58;
+const FLOAT_RELEASE_VERTICAL_IMPULSE = 6.2;
+const FLOAT_RELEASE_HORIZONTAL_IMPULSE = 0.7;
+const FLOAT_RELEASE_LIFT_ACCELERATION = 0.025;
+const FLOAT_RELEASE_TARGET_STRENGTH = 0.006;
+const FLOAT_RELEASE_MIN_LIFT_FRAMES = 75;
+const FLOAT_RELEASE_MAX_LIFT_FRAMES = 125;
 const DRAG_HIT_PADDING = 18;
 const DRAG_RELEASE_MULTIPLIER = 0.16;
 const MAX_DRAG_RELEASE_VELOCITY = 4.8;
@@ -49,6 +61,8 @@ function createParticles(count, width, height) {
     opacityFactor: Math.random(),
     currentOpacity: 0,
     fontSize: Math.floor(Math.random() * 8) + 14,
+    floatLiftFrames: 0,
+    floatLiftTargetY: null,
     cloth: null,
   }));
 }
@@ -71,12 +85,13 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
-export default function HeroScene({ isDark, loadStage }) {
+export default function HeroScene({ isDark, loadStage, gravityEnabled = false }) {
   const canvasRef = useRef(null);
   const glowRef = useRef(null);
   const coreRef = useRef(null);
   const isDarkRef = useRef(isDark);
   const loadStageRef = useRef(loadStage);
+  const gravityEnabledRef = useRef(gravityEnabled);
 
   useEffect(() => {
     isDarkRef.current = isDark;
@@ -85,6 +100,10 @@ export default function HeroScene({ isDark, loadStage }) {
   useEffect(() => {
     loadStageRef.current = loadStage;
   }, [loadStage]);
+
+  useEffect(() => {
+    gravityEnabledRef.current = gravityEnabled;
+  }, [gravityEnabled]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -127,6 +146,7 @@ export default function HeroScene({ isDark, loadStage }) {
       coreOpacity: 0,
     };
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let previousGravityActive = gravityEnabledRef.current && width >= MOBILE_BREAKPOINT && !prefersReducedMotion;
 
     const syncLightSize = () => {
       if (!glow || !core) {
@@ -157,6 +177,7 @@ export default function HeroScene({ isDark, loadStage }) {
 
       const particleCount = width < MOBILE_BREAKPOINT ? MOBILE_FRAGMENT_COUNT : DESKTOP_FRAGMENT_COUNT;
       particles = createParticles(particleCount, width, height);
+      previousGravityActive = gravityEnabledRef.current && width >= MOBILE_BREAKPOINT && !prefersReducedMotion;
       dragState.particle = null;
       dragState.glyphs = [];
     };
@@ -191,7 +212,7 @@ export default function HeroScene({ isDark, loadStage }) {
       return { minX, maxX, minY, maxY };
     };
 
-    const containParticle = (particle) => {
+    const containParticle = (particle, gravityActive = false) => {
       const bounds = getParticleBounds(particle);
 
       if (particle.x < bounds.minX) {
@@ -210,9 +231,43 @@ export default function HeroScene({ isDark, loadStage }) {
         particle.vy = Math.abs(particle.vy) * PARTICLE_BOUNDARY_DAMPING;
       } else if (particle.y > bounds.maxY) {
         particle.y = bounds.maxY;
-        particle.baseVy = -Math.abs(particle.baseVy);
-        particle.vy = -Math.abs(particle.vy) * PARTICLE_BOUNDARY_DAMPING;
+        if (gravityActive) {
+          particle.baseVy = 0;
+          if (particle.vy > GRAVITY_SETTLE_VELOCITY) {
+            particle.vy = -particle.vy * GRAVITY_FLOOR_BOUNCE;
+          } else if (particle.vy > 0) {
+            particle.vy = 0;
+          }
+          particle.vx *= GRAVITY_FLOOR_FRICTION;
+        } else {
+          particle.baseVy = -Math.abs(particle.baseVy);
+          particle.vy = -Math.abs(particle.vy) * PARTICLE_BOUNDARY_DAMPING;
+        }
       }
+    };
+
+    const randomDriftVelocity = () => (Math.random() - 0.5) * BASE_DRIFT_SPEED * 1.5;
+
+    const releaseParticlesToFloat = () => {
+      const targetTop = height * 0.18;
+      const targetBottom = height * 0.68;
+
+      particles.forEach((particle) => {
+        if (particle === dragState.particle) {
+          return;
+        }
+
+        particle.baseVx = randomDriftVelocity();
+        particle.baseVy = -Math.abs(randomDriftVelocity());
+        particle.vx += (Math.random() - 0.5) * FLOAT_RELEASE_HORIZONTAL_IMPULSE;
+        particle.vy = Math.min(particle.vy, 0) - FLOAT_RELEASE_VERTICAL_IMPULSE * (0.85 + Math.random() * 0.8);
+        particle.floatLiftFrames = Math.floor(
+          FLOAT_RELEASE_MIN_LIFT_FRAMES + Math.random() * (FLOAT_RELEASE_MAX_LIFT_FRAMES - FLOAT_RELEASE_MIN_LIFT_FRAMES)
+        );
+        particle.floatLiftTargetY = targetTop + Math.random() * (targetBottom - targetTop);
+        particle.y -= Math.random() * 18;
+        containParticle(particle);
+      });
     };
 
     const clampDragTarget = (particle, targetX, targetY, grabbedGlyph) => {
@@ -476,6 +531,10 @@ export default function HeroScene({ isDark, loadStage }) {
         return;
       }
 
+      if (event.target?.closest?.('[data-hero-control="true"]')) {
+        return;
+      }
+
       const { x, y, isInside } = getCanvasPointerCoordinates(event);
       if (!isInside) {
         return;
@@ -493,7 +552,7 @@ export default function HeroScene({ isDark, loadStage }) {
         event.preventDefault();
       }
 
-      containParticle(particle);
+      containParticle(particle, gravityEnabledRef.current && !prefersReducedMotion && width >= MOBILE_BREAKPOINT);
       const { glyphs, grabIndex } = createClothGlyphs(particle, x);
       const grabbedGlyph = glyphs[grabIndex];
       const target = clampDragTarget(particle, grabbedGlyph.x, grabbedGlyph.y, grabbedGlyph);
@@ -578,9 +637,15 @@ export default function HeroScene({ isDark, loadStage }) {
       }
 
       const isMobile = width < MOBILE_BREAKPOINT;
+      const gravityActive = gravityEnabledRef.current && !prefersReducedMotion && !isMobile;
       const repulsionRadius = isMobile ? MOBILE_REPULSION_RADIUS : DESKTOP_REPULSION_RADIUS;
       const glowRadius = isMobile ? 140 : 210;
       const textColor = currentIsDark ? '244, 244, 245' : '39, 39, 42';
+
+      if (previousGravityActive && !gravityActive) {
+        releaseParticlesToFloat();
+      }
+      previousGravityActive = gravityActive;
 
       particles.forEach((particle) => {
         const isDraggedParticle = particle === dragState.particle;
@@ -590,7 +655,19 @@ export default function HeroScene({ isDark, loadStage }) {
           updateClothGlyphs();
           particle.vx = 0;
           particle.vy = 0;
+        } else if (gravityActive) {
+          particle.floatLiftFrames = 0;
+          particle.floatLiftTargetY = null;
+          particle.vy = Math.min(particle.vy + GRAVITY_ACCELERATION, GRAVITY_TERMINAL_VELOCITY);
         } else {
+          if (particle.floatLiftFrames > 0) {
+            particle.vy -= FLOAT_RELEASE_LIFT_ACCELERATION * (particle.floatLiftFrames / FLOAT_RELEASE_MAX_LIFT_FRAMES);
+            particle.vy += (particle.floatLiftTargetY - particle.y) * FLOAT_RELEASE_TARGET_STRENGTH;
+            particle.floatLiftFrames -= 1;
+            if (particle.floatLiftFrames === 0) {
+              particle.floatLiftTargetY = null;
+            }
+          }
           particle.x += particle.baseVx;
           particle.y += particle.baseVy;
         }
@@ -609,9 +686,9 @@ export default function HeroScene({ isDark, loadStage }) {
         if (!isDraggedParticle) {
           particle.x += particle.vx;
           particle.y += particle.vy;
-          particle.vx *= PARTICLE_VELOCITY_DECAY;
-          particle.vy *= PARTICLE_VELOCITY_DECAY;
-          containParticle(particle);
+          particle.vx *= gravityActive ? GRAVITY_VELOCITY_DECAY : PARTICLE_VELOCITY_DECAY;
+          particle.vy *= gravityActive ? GRAVITY_VELOCITY_DECAY : PARTICLE_VELOCITY_DECAY;
+          containParticle(particle, gravityActive);
         }
 
         if (!isDraggedParticle) {
@@ -628,6 +705,9 @@ export default function HeroScene({ isDark, loadStage }) {
           targetOpacity = Math.min(baseOpacity * glowMultiplier, currentIsDark ? 0.19 : 0.29);
         }
 
+        if (gravityActive && currentLoadStage >= 2) {
+          targetOpacity = Math.max(targetOpacity, currentIsDark ? 0.1 : 0.16);
+        }
         if (isDraggedParticle) {
           targetOpacity = Math.max(targetOpacity, currentIsDark ? 0.28 : 0.38);
         }
