@@ -97,6 +97,26 @@
       transform 600ms var(--ease-out-quint),
       opacity 320ms var(--ease-out-quart);
   }
+
+  .hero-gravity-piece {
+    display: inline-block;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform-origin: 50% 70%;
+    will-change: transform;
+  }
+
+  .hero-gravity-piece--fall {
+    animation: hero-piece-fall var(--fall-duration, 1180ms) var(--fall-delay, 0ms) both;
+  }
+
+  .hero-gravity-piece--return {
+    animation: hero-piece-return var(--return-duration, 1200ms) var(--return-delay, 0ms) both;
+  }
+
+  .hero-gravity-piece--float {
+    animation: none;
+    transition: transform 1180ms var(--ease-out-quint);
+  }
 }
 
 @keyframes drift-up-fade {
@@ -157,6 +177,63 @@
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hero-piece-fall {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.2, 0, 0.62, 0.26);
+  }
+
+  8% {
+    transform: translate3d(var(--fall-pre-x), var(--fall-pre-y), 0) rotate(var(--fall-pre-rotate));
+    animation-timing-function: cubic-bezier(0.28, 0, 0.84, 0.52);
+  }
+
+  48% {
+    transform: translate3d(var(--fall-mid-x), var(--fall-mid-y), 0) rotate(var(--fall-mid-rotate));
+    animation-timing-function: cubic-bezier(0.42, 0, 0.96, 0.74);
+  }
+
+  74% {
+    transform: translate3d(var(--fall-impact-x), var(--fall-impact-y), 0) rotate(var(--fall-impact-rotate));
+    animation-timing-function: cubic-bezier(0.16, 0.82, 0.24, 1);
+  }
+
+  84% {
+    transform: translate3d(var(--fall-bounce-x), var(--fall-bounce-y), 0) rotate(var(--fall-bounce-rotate));
+    animation-timing-function: cubic-bezier(0.2, 0, 0.32, 1);
+  }
+
+  94% {
+    transform: translate3d(var(--fall-settle-x), var(--fall-settle-y), 0) rotate(var(--fall-settle-rotate));
+    animation-timing-function: var(--ease-out-quart);
+  }
+
+  100% {
+    transform: translate3d(var(--fall-x), var(--fall-y), 0) rotate(var(--fall-rotate));
+  }
+}
+
+@keyframes hero-piece-return {
+  0% {
+    transform: translate3d(var(--fall-x), var(--fall-y), 0) rotate(var(--fall-rotate));
+    animation-timing-function: cubic-bezier(0.18, 0.62, 0.28, 1);
+  }
+
+  38% {
+    transform: translate3d(var(--return-drift-x), var(--return-lift-y), 0) rotate(var(--return-lift-rotate));
+    animation-timing-function: cubic-bezier(0.2, 0, 0.22, 1);
+  }
+
+  72% {
+    transform: translate3d(var(--return-hover-x), var(--return-hover-y), 0) rotate(var(--return-hover-rotate));
+    animation-timing-function: var(--ease-out-quint);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 }
 
