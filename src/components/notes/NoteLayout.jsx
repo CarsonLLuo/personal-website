@@ -1,6 +1,60 @@
 import { useMemo } from 'react';
 import { pickTheme } from '../../lib/theme.js';
 
+const NOTE_IMAGE_FILES = import.meta.glob(
+  [
+    '../../data/notes/**/*.avif',
+    '../../data/notes/**/*.gif',
+    '../../data/notes/**/*.jpeg',
+    '../../data/notes/**/*.jpg',
+    '../../data/notes/**/*.png',
+    '../../data/notes/**/*.webp',
+  ],
+  { query: '?url', import: 'default', eager: true }
+);
+
+const NOTE_IMAGE_URLS = Object.fromEntries(
+  Object.entries(NOTE_IMAGE_FILES).map(([path, url]) => [path.replace('../../data/notes/', ''), url])
+);
+
+const SPOTIFY_EMBED_HEIGHT = 152;
+
+function parseImageMarkdown(text) {
+  const match = text.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)$/);
+  if (!match) return null;
+  return { alt: match[1], src: match[2] };
+}
+
+function parseHtmlAttributes(text) {
+  const attributes = {};
+  const matches = text.matchAll(/([\w:-]+)(?:=(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g);
+
+  for (const match of matches) {
+    attributes[match[1].toLowerCase()] = match[2] ?? match[3] ?? match[4] ?? '';
+  }
+
+  return attributes;
+}
+
+function parseSpotifyIframe(text) {
+  const match = text.match(/^<iframe\s+([\s\S]*?)><\/iframe>$/i);
+  if (!match) return null;
+
+  const attributes = parseHtmlAttributes(match[1]);
+  if (!attributes.src?.startsWith('https://open.spotify.com/embed/')) return null;
+
+  return {
+    src: attributes.src,
+    height: SPOTIFY_EMBED_HEIGHT,
+    allow: attributes.allow || 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture',
+  };
+}
+
+function resolveImageSrc(src) {
+  if (/^(?:https?:|data:|blob:|\/)/.test(src)) return src;
+  return NOTE_IMAGE_URLS[src.replace(/^\.\//, '')] ?? src;
+}
+
 function parseBlocks(markdown) {
   const blocks = [];
   let paragraphBuffer = [];
@@ -19,6 +73,20 @@ function parseBlocks(markdown) {
 
     if (!trimmed) {
       flushParagraph();
+      continue;
+    }
+
+    const spotify = parseSpotifyIframe(trimmed);
+    if (spotify) {
+      flushParagraph();
+      blocks.push({ type: 'spotify', ...spotify });
+      continue;
+    }
+
+    const image = parseImageMarkdown(trimmed);
+    if (image) {
+      flushParagraph();
+      blocks.push({ type: 'image', ...image });
       continue;
     }
 
@@ -49,10 +117,26 @@ function parseBlocks(markdown) {
 
 function InlineText({ text, isDark }) {
   const theme = pickTheme(isDark);
-  const parts = text.split(/(\*\*.*?\*\*)/g);
+  const parts = text.split(/(!\[[^\]]*\]\([^\s)]+(?:\s+"[^"]*")?\)|\*\*.*?\*\*)/g);
   return (
     <>
       {parts.map((part, i) => {
+        const image = parseImageMarkdown(part);
+        if (image) {
+          return (
+            <img
+              key={i}
+              src={resolveImageSrc(image.src)}
+              alt={image.alt}
+              className={`mx-1 inline-block max-h-40 max-w-full rounded-[4px] border object-contain align-middle transition-colors duration-700 ${theme(
+                'border-zinc-800',
+                'border-zinc-200'
+              )}`}
+              loading="lazy"
+            />
+          );
+        }
+
         if (part.startsWith('**') && part.endsWith('**')) {
           return (
             <strong key={i} className={`font-medium transition-colors duration-700 ${theme('text-zinc-200', 'text-zinc-800')}`}>
@@ -100,6 +184,51 @@ export default function NoteLayout({ markdown, meta, isDark }) {
               >
                 <InlineText text={block.content} isDark={isDark} />
               </p>
+            );
+          }
+
+          if (block.type === 'image') {
+            return (
+              <figure key={idx} className="mx-auto my-10 max-w-[680px]">
+                <img
+                  src={resolveImageSrc(block.src)}
+                  alt={block.alt}
+                  className={`max-h-[58vh] w-full rounded-[6px] border object-contain transition-colors duration-700 ${theme(
+                    'border-zinc-800/80',
+                    'border-zinc-200'
+                  )}`}
+                  loading="lazy"
+                />
+                {block.alt && (
+                  <figcaption className={`mt-3 text-center text-sm transition-colors duration-700 ${theme('text-zinc-500', 'text-zinc-500')}`}>
+                    {block.alt}
+                  </figcaption>
+                )}
+              </figure>
+            );
+          }
+
+          if (block.type === 'spotify') {
+            return (
+              <div
+                key={idx}
+                className={`mx-auto my-8 max-w-[560px] overflow-hidden rounded-[12px] border transition-colors duration-700 ${theme(
+                  'border-zinc-800/80',
+                  'border-zinc-200'
+                )}`}
+              >
+                <iframe
+                  title="Spotify embedded player"
+                  src={block.src}
+                  width="100%"
+                  height={block.height}
+                  frameBorder="0"
+                  allowFullScreen
+                  allow={block.allow}
+                  loading="lazy"
+                  className="block w-full"
+                />
+              </div>
             );
           }
 
