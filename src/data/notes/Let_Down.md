@@ -1,4 +1,6 @@
-代世界重复、循环，五节拍的人类个体逐渐湮没在四节拍的人群洪流中，飞机起飞又降落，地铁停靠又离开。日常通勤者机械循环中无意识的重复，失望的人们对自己的麻木感到麻木。你是一个失望的理想主义少年，你曾对世界充满了好奇心，对成长感到兴奋。但当你长大成人，你感到失望和沮丧，你变得多愁善感，总是对生活怒不可遏，因为知道生活可以比现在更好。一切似乎会以崩溃告终。
+<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/1CeC8kOYxUTCC2wHGtWROD?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+现代世界重复、循环，五节拍的人类个体逐渐湮没在四节拍的人群洪流中，飞机起飞又降落，地铁停靠又离开。日常通勤者机械循环中无意识的重复，失望的人们对自己的麻木感到麻木。你是一个失望的理想主义少年，你曾对世界充满了好奇心，对成长感到兴奋。但当你长大成人，你感到失望和沮丧，你变得多愁善感，总是对生活怒不可遏，因为知道生活可以比现在更好。一切似乎会以崩溃告终。
 
 然而，在这一切歇斯底里的useless中，Thom Yorke却传达出一种富有节奏的心跳，如同动脉中的血液般搏动；它自然而温暖，甚至充满幸福感。Thom的嗓音就好像你随时担心他会崩溃，可事实上他从未崩溃过。这反而给你一种强烈的安心和平静的力量感。歌声带着一丝温暖的怀旧感，仿佛重温了一段你无比珍爱的记忆。
 
