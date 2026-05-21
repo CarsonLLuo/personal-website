@@ -224,26 +224,19 @@ export default function AboutView({ isDark }) {
                 {openingQuote || 'Carson永远沉溺于过去和未来。'}
               </p>
 
-              <div className={`mt-10 grid gap-y-6 border-t pt-7 transition-colors duration-700 md:grid-cols-[minmax(0,1fr)_12rem] md:gap-x-12 ${theme('border-zinc-800', 'border-zinc-200')}`}>
+              <div className={`mt-10 border-t pt-7 transition-colors duration-700 ${theme('border-zinc-800', 'border-zinc-200')}`}>
                 <p className={`font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 ${theme('text-zinc-400', 'text-zinc-600')}`}>
                   {openingParagraph}
-                </p>
-                <p className="font-display text-[0.72rem] leading-loose text-zinc-500 transition-colors duration-700">
-                  Software Engineering
-                  <br />
-                  Interactive Media
-                  <br />
-                  Human Experience
                 </p>
               </div>
             </div>
           </header>
 
-          <div className="lg:grid lg:grid-cols-[minmax(0,760px)_180px] lg:justify-center lg:gap-x-24">
-            <article className="mx-auto max-w-[760px] space-y-24 md:space-y-[7.5rem] lg:mx-0">
+          <div className="lg:grid lg:grid-cols-[minmax(0,840px)_180px] lg:justify-center lg:gap-x-9">
+            <article className="mx-auto max-w-[840px] space-y-24 md:space-y-[7.5rem] lg:mx-0">
               {chapters.map((chapter, chapterIndex) => (
                 <section key={chapter.id} id={chapter.id} className="scroll-mt-32 md:scroll-mt-40">
-                  <div className="grid gap-y-7 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:gap-x-10">
+                  <div className="grid gap-y-7 sm:grid-cols-[8.75rem_minmax(0,1fr)] sm:gap-x-10">
                     <header>
                       <p className={`font-mono text-[0.68rem] transition-colors duration-700 ${theme('text-zinc-600', 'text-zinc-400')}`}>
                         {getChapterNumber(chapterIndex)}
@@ -320,26 +313,28 @@ export default function AboutView({ isDark }) {
                 </section>
               ))}
 
-              <footer className={`ml-auto max-w-[620px] border-t pt-8 transition-colors duration-700 ${theme('border-zinc-800', 'border-zinc-200')}`}>
-                <p className={`mb-5 font-display text-sm transition-colors duration-700 ${theme('text-zinc-300', 'text-zinc-700')}`}>
-                  Elsewhere
-                </p>
-                <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-sm transition-colors duration-700">
-                  {links.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.link.includes('@') ? `mailto:${link.link}` : link.link}
-                      target={link.link.startsWith('http') ? '_blank' : undefined}
-                      rel={link.link.startsWith('http') ? 'noreferrer' : undefined}
-                      className={`group flex items-center gap-1 transition-colors ${theme(
-                        'text-zinc-400 hover:text-white',
-                        'text-zinc-600 hover:text-black'
-                      )}`}
-                    >
-                      {link.label}
-                      <span className="opacity-0 transition-opacity group-hover:opacity-100">{link.icon}</span>
-                    </a>
-                  ))}
+              <footer className="grid gap-y-7 sm:grid-cols-[8.75rem_minmax(0,1fr)] sm:gap-x-10">
+                <div className={`border-t pt-8 transition-colors duration-700 sm:col-start-2 ${theme('border-zinc-800', 'border-zinc-200')}`}>
+                  <p className={`mb-5 font-display text-sm transition-colors duration-700 ${theme('text-zinc-300', 'text-zinc-700')}`}>
+                    Elsewhere
+                  </p>
+                  <div className="flex flex-wrap gap-x-8 gap-y-3 font-display text-sm transition-colors duration-700">
+                    {links.map((link) => (
+                      <a
+                        key={link.label}
+                        href={link.link.includes('@') ? `mailto:${link.link}` : link.link}
+                        target={link.link.startsWith('http') ? '_blank' : undefined}
+                        rel={link.link.startsWith('http') ? 'noreferrer' : undefined}
+                        className={`group flex items-center gap-1 transition-colors ${theme(
+                          'text-zinc-400 hover:text-white',
+                          'text-zinc-600 hover:text-black'
+                        )}`}
+                      >
+                        {link.label}
+                        <span className="opacity-0 transition-opacity group-hover:opacity-100">{link.icon}</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </footer>
             </article>
