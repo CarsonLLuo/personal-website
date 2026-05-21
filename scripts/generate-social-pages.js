@@ -8,7 +8,7 @@ const distIndexPath = path.join(distDir, 'index.html');
 
 const siteName = 'Carson Luo';
 const twitterHandle = '@carsonluo2003';
-const defaultImage = '/avatar.jpeg';
+const defaultImage = '/social-preview.png';
 const defaultDescription =
   'Programmer, researcher, writer. Notes and projects from somewhere between systems and human experience.';
 
@@ -74,7 +74,7 @@ function pageHead(siteUrl, page) {
   const description = page.description || defaultDescription;
   const image = absoluteUrl(siteUrl, page.image || defaultImage);
   const url = absoluteUrl(siteUrl, page.urlPath || '/');
-  const imageAlt = page.imageAlt || `${title} social preview`;
+  const imageAlt = page.imageAlt || `Abstract dark editorial social preview for ${title}`;
   const ogType = page.ogType || 'website';
 
   return [
