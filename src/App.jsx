@@ -13,25 +13,72 @@ import { useNavVisibility } from './hooks/useNavVisibility.js';
 import { useThemeMode } from './hooks/useThemeMode.js';
 import { pickTheme } from './lib/theme.js';
 
+function decodePathSegment(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function viewFromPathname(pathname) {
+  const cleanPath = pathname.replace(/\/+$/, '') || '/';
+  const projectMatch = cleanPath.match(/^\/projects\/([^/]+)$/);
+  const noteMatch = cleanPath.match(/^\/notes\/([^/]+)$/);
+
+  if (projectMatch) return `project:${decodePathSegment(projectMatch[1])}`;
+  if (noteMatch) return `note:${decodePathSegment(noteMatch[1])}`;
+  if (cleanPath === '/projects') return SITE_VIEWS.PROJECTS;
+  if (cleanPath === '/notes') return SITE_VIEWS.NOTES;
+  if (cleanPath === '/about') return SITE_VIEWS.ABOUT;
+
+  return SITE_VIEWS.HOME;
+}
+
 function viewFromHash() {
   if (typeof window === 'undefined') return SITE_VIEWS.HOME;
   const hash = window.location.hash.replace(/^#/, '');
-  return hash || SITE_VIEWS.HOME;
-}
 
-function syncHashForView(view) {
-  if (typeof window === 'undefined') return;
-  const nextHash = view === SITE_VIEWS.HOME ? '' : `#${view}`;
-  const currentHash = window.location.hash;
-
-  if (currentHash === nextHash) return;
-
-  if (!nextHash) {
-    window.history.pushState(null, '', window.location.pathname + window.location.search);
-    return;
+  if (Object.values(SITE_VIEWS).includes(hash) || parseProjectView(hash) || parseNoteView(hash)) {
+    return hash;
   }
 
-  window.history.pushState(null, '', nextHash);
+  return null;
+}
+
+function viewFromLocation() {
+  if (typeof window === 'undefined') return SITE_VIEWS.HOME;
+  return viewFromHash() ?? viewFromPathname(window.location.pathname);
+}
+
+function pathForView(view) {
+  const projectSlug = parseProjectView(view);
+  if (projectSlug) return `/projects/${encodeURIComponent(projectSlug)}/`;
+
+  const noteSlug = parseNoteView(view);
+  if (noteSlug) return `/notes/${encodeURIComponent(noteSlug)}/`;
+
+  switch (view) {
+    case SITE_VIEWS.PROJECTS:
+      return '/projects/';
+    case SITE_VIEWS.NOTES:
+      return '/notes/';
+    case SITE_VIEWS.ABOUT:
+      return '/about/';
+    default:
+      return '/';
+  }
+}
+
+function syncUrlForView(view) {
+  if (typeof window === 'undefined') return;
+  const nextPath = pathForView(view);
+  const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+  const nextComparablePath = nextPath.replace(/\/+$/, '') || '/';
+
+  if (currentPath === nextComparablePath && !window.location.hash) return;
+
+  window.history.pushState(null, '', nextPath);
 }
 
 function renderSubPage(currentView, isDark, onViewChange) {
@@ -58,7 +105,7 @@ function renderSubPage(currentView, isDark, onViewChange) {
 }
 
 export default function App() {
-  const [currentView, setCurrentView] = useState(viewFromHash);
+  const [currentView, setCurrentView] = useState(viewFromLocation);
   const { isDark, toggleTheme } = useThemeMode(true);
   const loadStage = useHeroLoadStage();
   const showNav = useNavVisibility(currentView === SITE_VIEWS.HOME);
@@ -66,19 +113,19 @@ export default function App() {
 
   const handleViewChange = (view) => {
     setCurrentView(view);
-    syncHashForView(view);
+    syncUrlForView(view);
   };
 
   useEffect(() => {
-    const handleHashChange = () => {
-      setCurrentView(viewFromHash());
+    const handleLocationChange = () => {
+      setCurrentView(viewFromLocation());
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    window.addEventListener('popstate', handleHashChange);
+    window.addEventListener('hashchange', handleLocationChange);
+    window.addEventListener('popstate', handleLocationChange);
     return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-      window.removeEventListener('popstate', handleHashChange);
+      window.removeEventListener('hashchange', handleLocationChange);
+      window.removeEventListener('popstate', handleLocationChange);
     };
   }, []);
 

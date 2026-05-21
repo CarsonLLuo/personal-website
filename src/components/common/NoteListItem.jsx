@@ -3,6 +3,7 @@ import { pickTheme } from '../../lib/theme.js';
 export default function NoteListItem({ note, isDark, variant = 'full', onNavigate }) {
   const theme = pickTheme(isDark);
   const isClickable = !!onNavigate;
+  const href = note.slug ? `/notes/${encodeURIComponent(note.slug)}/` : '#';
 
   const handleClick = (e) => {
     if (onNavigate) {
@@ -14,7 +15,7 @@ export default function NoteListItem({ note, isDark, variant = 'full', onNavigat
   if (variant === 'preview') {
     return (
       <a
-        href={note.slug ? `#note:${note.slug}` : '#'}
+        href={href}
         onClick={handleClick}
         className={`group block py-2 ${!isClickable ? 'cursor-default' : ''}`}
       >
@@ -39,7 +40,7 @@ export default function NoteListItem({ note, isDark, variant = 'full', onNavigat
 
   return (
     <a
-      href={note.slug ? `#note:${note.slug}` : '#'}
+      href={href}
       onClick={handleClick}
       className={`group block py-5 ${!isClickable ? 'pointer-events-none' : ''}`}
     >

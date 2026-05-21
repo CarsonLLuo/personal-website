@@ -4,6 +4,7 @@ export default function ProjectCard({ project, isDark, variant = 'full', onViewC
   const theme = pickTheme(isDark);
   const isCompact = variant === 'compact';
   const hasDetail = !!project.slug;
+  const href = hasDetail ? `/projects/${encodeURIComponent(project.slug)}/` : project.link;
 
   const handleClick = (e) => {
     if (hasDetail && onViewChange) {
@@ -13,7 +14,7 @@ export default function ProjectCard({ project, isDark, variant = 'full', onViewC
   };
 
   return (
-    <a href={hasDetail ? '#' : project.link} onClick={handleClick} className="group block">
+    <a href={href} onClick={handleClick} className="group block">
       <div
         className={`flex items-center gap-1 font-display text-base transition-colors duration-200 ${
           theme('text-zinc-200 group-hover:text-white', 'text-zinc-800 group-hover:text-black')
