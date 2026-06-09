@@ -8,6 +8,7 @@ import TestProductProject from '../projects/TestProductProject.jsx';
 import FourSeasonsSpread from '../projects/FourSeasonsSpread.jsx';
 import McdAgent from '../projects/McdAgent.jsx';
 import RateMyProfCDUT from '../projects/RateMyProfCDUT.jsx';
+import ClaudeCodeTouchBarCompanion from '../projects/ClaudeCodeTouchBarCompanion.jsx';
 
 const PROJECT_COMPONENTS = {
   'test-research-project': TestResearchProject,
@@ -18,6 +19,7 @@ const PROJECT_COMPONENTS = {
   'four-seasons-spread': FourSeasonsSpread,
   'mcd-agent': McdAgent,
   'rate-my-prof-cdut': RateMyProfCDUT,
+  'claude-code-touch-bar-companion': ClaudeCodeTouchBarCompanion,
 };
 
 export default function ProjectDetailView({ slug, isDark, onBack }) {

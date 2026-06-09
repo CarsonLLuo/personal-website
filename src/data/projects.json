@@ -34,6 +34,12 @@
     "label": "Product",
     "items": [
       {
+        "name": "Claude Code Touch Bar Companion",
+        "slug": "claude-code-touch-bar-companion",
+        "desc": "把 MacBook Pro Touch Bar 变成 Claude Code 权限请求的低摩擦副屏",
+        "link": "https://github.com/CarsonLLuo/Claude-Code-Touch-Bar-Companion"
+      },
+      {
         "name": "四季牌阵 Tarot",
         "slug": "four-seasons-spread",
         "desc": "日常与四季牌阵的塔罗抽取，Vibe Coding 项目",
