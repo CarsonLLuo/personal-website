@@ -14,9 +14,9 @@ export default function SiteNavigation({
 
   return (
     <nav className="pointer-events-none fixed top-0 right-0 left-0 z-50">
-      <div className="relative mx-auto flex max-w-[1120px] items-center justify-between px-6 pt-5 text-xs tracking-wide sm:text-sm">
+      <div className="relative mx-auto flex max-w-[1120px] items-center justify-between px-4 pt-5 text-xs tracking-wide sm:px-6 sm:text-sm">
         <div
-          className={`flex flex-1 items-center justify-between rounded-full px-6 py-3 backdrop-blur-md transition-opacity duration-700 ${
+          className={`flex flex-1 items-center justify-between rounded-full px-3 py-3 backdrop-blur-md transition-opacity duration-700 sm:px-6 ${
             theme(
               'border border-white/8 bg-zinc-900/70',
               'border border-black/8 bg-white/75'
@@ -32,7 +32,7 @@ export default function SiteNavigation({
             Carson
           </button>
 
-          <div className={`flex items-center gap-6 font-display sm:gap-8 ${theme('text-zinc-400', 'text-zinc-500')}`}>
+          <div className={`flex items-center gap-2 font-display sm:gap-8 ${theme('text-zinc-400', 'text-zinc-500')}`}>
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.view}

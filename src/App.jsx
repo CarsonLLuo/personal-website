@@ -4,6 +4,7 @@ import SiteNavigation from './components/layout/SiteNavigation.jsx';
 import HomeView from './components/views/HomeView.jsx';
 import ProjectsView from './components/views/ProjectsView.jsx';
 import NotesView from './components/views/NotesView.jsx';
+import LinksView from './components/views/LinksView.jsx';
 import AboutView from './components/views/AboutView.jsx';
 import { SITE_VIEWS, parseProjectView, parseNoteView } from './constants/site.js';
 import ProjectDetailView from './components/views/ProjectDetailView.jsx';
@@ -30,6 +31,7 @@ function viewFromPathname(pathname) {
   if (noteMatch) return `note:${decodePathSegment(noteMatch[1])}`;
   if (cleanPath === '/projects') return SITE_VIEWS.PROJECTS;
   if (cleanPath === '/notes') return SITE_VIEWS.NOTES;
+  if (cleanPath === '/links') return SITE_VIEWS.LINKS;
   if (cleanPath === '/about') return SITE_VIEWS.ABOUT;
 
   return SITE_VIEWS.HOME;
@@ -63,6 +65,8 @@ function pathForView(view) {
       return '/projects/';
     case SITE_VIEWS.NOTES:
       return '/notes/';
+    case SITE_VIEWS.LINKS:
+      return '/links/';
     case SITE_VIEWS.ABOUT:
       return '/about/';
     default:
@@ -97,6 +101,8 @@ function renderSubPage(currentView, isDark, onViewChange) {
       return <ProjectsView isDark={isDark} onViewChange={onViewChange} />;
     case SITE_VIEWS.NOTES:
       return <NotesView isDark={isDark} onViewChange={onViewChange} />;
+    case SITE_VIEWS.LINKS:
+      return <LinksView isDark={isDark} />;
     case SITE_VIEWS.ABOUT:
       return <AboutView isDark={isDark} />;
     default:

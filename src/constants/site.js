@@ -2,6 +2,7 @@ export const SITE_VIEWS = Object.freeze({
   HOME: 'home',
   PROJECTS: 'projects',
   NOTES: 'notes',
+  LINKS: 'links',
   ABOUT: 'about',
 });
 
@@ -24,6 +25,7 @@ export function parseNoteView(view) {
 export const NAV_ITEMS = [
   { label: 'Projects', view: SITE_VIEWS.PROJECTS },
   { label: 'Notes', view: SITE_VIEWS.NOTES },
+  { label: 'Links', view: SITE_VIEWS.LINKS },
   { label: 'About', view: SITE_VIEWS.ABOUT },
 ];
 
