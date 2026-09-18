@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import FadeIn from '../common/FadeIn.jsx';
 import { aboutContent } from '../../data/siteContent.js';
+import { SITE_VIEWS } from '../../constants/site.js';
 import { pickTheme } from '../../lib/theme.js';
 import aboutMarkdown from '../../data/aboutContent.md?raw';
+import aboutMarkdownEn from '../../data/aboutContent.en.md?raw';
 
 function BoldText({ text, isDark }) {
   const theme = pickTheme(isDark);
@@ -133,8 +135,8 @@ function ChapterNav({ navItems, activeId, isDark, onNavigate }) {
                 : theme('text-zinc-600 hover:text-zinc-300', 'text-zinc-400 hover:text-zinc-600')
             }`}
           >
-            <span className="font-mono text-[0.62rem]">{getChapterNumber(index)}</span>
-            <span className="font-display text-[0.82rem] leading-relaxed">{item.label}</span>
+            <span className="font-mono text-[0.68rem]">{getChapterNumber(index)}</span>
+            <span className="font-display text-sm leading-relaxed">{item.label}</span>
           </button>
         );
       })}
@@ -142,10 +144,46 @@ function ChapterNav({ navItems, activeId, isDark, onNavigate }) {
   );
 }
 
-export default function AboutView({ isDark }) {
+function LanguageToggle({ isEn, isDark, onViewChange }) {
   const theme = pickTheme(isDark);
-  const { navItems, links } = aboutContent;
-  const chapters = useMemo(() => buildChapters(aboutMarkdown, navItems), [navItems]);
+  const options = [
+    { label: '中文', view: SITE_VIEWS.ABOUT, active: !isEn },
+    { label: 'EN', view: SITE_VIEWS.ABOUT_EN, active: isEn },
+  ];
+
+  return (
+    <div className="mt-7">
+      <div className={`mb-4 h-px w-10 transition-colors duration-700 ${theme('bg-zinc-800', 'bg-zinc-200')}`} />
+      <div className="flex items-center gap-2 font-display text-[0.72rem]">
+        {options.map((option, index) => (
+          <Fragment key={option.view}>
+            {index > 0 && (
+              <span className={`transition-colors duration-700 ${theme('text-zinc-700', 'text-zinc-300')}`}>/</span>
+            )}
+            <button
+              onClick={() => onViewChange?.(option.view)}
+              className={`transition-colors duration-500 ${
+                option.active
+                  ? theme('text-zinc-200', 'text-zinc-800')
+                  : theme('text-zinc-600 hover:text-zinc-400', 'text-zinc-400 hover:text-zinc-600')
+              }`}
+            >
+              {option.label}
+            </button>
+          </Fragment>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function AboutView({ isDark, lang = 'zh', onViewChange }) {
+  const theme = pickTheme(isDark);
+  const isEn = lang === 'en';
+  const { links } = aboutContent;
+  const navItems = isEn ? aboutContent.navItemsEn : aboutContent.navItems;
+  const markdown = isEn ? aboutMarkdownEn : aboutMarkdown;
+  const chapters = useMemo(() => buildChapters(markdown, navItems), [markdown, navItems]);
   const [activeSection, setActiveSection] = useState(navItems[0]?.id);
   const openingQuote = chapters[0]?.blocks.find((block) => block.type === 'quote')?.content;
   const openingParagraph = chapters[0]?.blocks.find((block) => block.type === 'paragraph')?.content;
@@ -217,15 +255,17 @@ export default function AboutView({ isDark }) {
                 <br />
                 PRESENT TENSE
               </p>
+
+              <LanguageToggle isEn={isEn} isDark={isDark} onViewChange={onViewChange} />
             </div>
 
             <div className="max-w-[760px]">
-              <p className={`font-serif text-[2.45rem] leading-tight transition-colors duration-700 md:text-[4.4rem] ${theme('text-zinc-100', 'text-zinc-900')}`}>
+              <p className={`font-serif text-[2.1rem] leading-[1.3] transition-colors duration-700 md:text-[3.2rem] ${theme('text-zinc-200', 'text-zinc-800')}`}>
                 {openingQuote || 'Carson永远沉溺于过去和未来。'}
               </p>
 
               <div className={`mt-10 border-t pt-7 transition-colors duration-700 ${theme('border-zinc-800', 'border-zinc-200')}`}>
-                <p className={`font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 ${theme('text-zinc-400', 'text-zinc-600')}`}>
+                <p className={`font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 md:text-[1.13rem] ${theme('text-zinc-400', 'text-zinc-600')}`}>
                   {openingParagraph}
                 </p>
               </div>
@@ -238,11 +278,12 @@ export default function AboutView({ isDark }) {
                 <section key={chapter.id} id={chapter.id} className="scroll-mt-32 md:scroll-mt-40">
                   <div className="grid gap-y-7 sm:grid-cols-[8.75rem_minmax(0,1fr)] sm:gap-x-10">
                     <header>
-                      <p className={`font-mono text-[0.68rem] transition-colors duration-700 ${theme('text-zinc-600', 'text-zinc-400')}`}>
+                      <div className={`mb-5 h-px w-10 transition-colors duration-700 ${theme('bg-zinc-700', 'bg-zinc-300')}`} />
+                      <p className={`font-mono text-[0.68rem] transition-colors duration-700 ${theme('text-zinc-500', 'text-zinc-400')}`}>
                         {getChapterNumber(chapterIndex)}
                       </p>
                       <h2
-                        className={`mt-3 font-display text-[0.86rem] leading-relaxed transition-colors duration-700 ${theme('text-zinc-300', 'text-zinc-700')}`}
+                        className={`mt-3 font-display text-[0.95rem] leading-relaxed tracking-[0.02em] transition-colors duration-700 ${theme('text-zinc-200', 'text-zinc-800')}`}
                       >
                         {chapter.title}
                       </h2>
@@ -261,7 +302,7 @@ export default function AboutView({ isDark }) {
                           return (
                             <p
                               key={`${chapter.id}-p-${idx}`}
-                              className={`font-serif text-[1.08rem] leading-[2.05] transition-colors duration-700 md:text-[1.13rem] ${theme(
+                              className={`font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 md:text-[1.13rem] ${theme(
                                 'text-zinc-300/92',
                                 'text-zinc-700/94'
                               )}`}
@@ -277,7 +318,7 @@ export default function AboutView({ isDark }) {
                               {block.items.map((item, itemIndex) => (
                                 <li
                                   key={`${chapter.id}-trait-${itemIndex}`}
-                                  className={`flex items-start gap-3 border-t pt-3 text-base leading-relaxed transition-colors duration-700 ${theme(
+                                  className={`flex items-start gap-3 border-t pt-3 font-serif text-[1.08rem] leading-[1.95] transition-colors duration-700 md:text-[1.13rem] ${theme(
                                     'border-zinc-800 text-zinc-300',
                                     'border-zinc-200 text-zinc-700'
                                   )}`}
@@ -301,7 +342,7 @@ export default function AboutView({ isDark }) {
                                 'border-zinc-200 text-zinc-800'
                               )}`}
                             >
-                              <span className="text-[1.08rem] leading-[1.95]">{block.content}</span>
+                              <span className="text-[1.08rem] leading-[1.95] md:text-[1.13rem]">{block.content}</span>
                             </blockquote>
                           );
                         }

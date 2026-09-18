@@ -70,6 +70,11 @@ export const aboutContent = {
     { id: 'programming', label: '关于Coding', title: '关于Coding' },
     { id: 'site', label: '关于本站', title: '关于本站' },
   ],
+  navItemsEn: [
+    { id: 'about', label: 'About', title: 'About' },
+    { id: 'programming', label: 'On Coding', title: 'On Coding' },
+    { id: 'site', label: 'On This Site', title: 'On This Site' },
+  ],
   links: [
     { label: 'Email', link: 'carsonluo2233@outlook.com', icon: '↗' },
     { label: 'GitHub', link: 'https://github.com/CarsonLLuo', icon: '↗' },

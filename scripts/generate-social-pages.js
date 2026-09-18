@@ -178,6 +178,11 @@ async function main() {
       title: 'About | Carson Luo',
       description: 'About Carson, coding, and this personal field.',
     },
+    {
+      urlPath: '/about-en/',
+      title: 'About | Carson Luo',
+      description: 'A short English version of about Carson, coding, and this personal field.',
+    },
   ];
 
   await writeFile(distIndexPath, withSocialMeta(baseHtml, siteUrl, pages[0]), 'utf8');

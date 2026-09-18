@@ -31,6 +31,7 @@ function viewFromPathname(pathname) {
   if (cleanPath === '/projects') return SITE_VIEWS.PROJECTS;
   if (cleanPath === '/notes') return SITE_VIEWS.NOTES;
   if (cleanPath === '/about') return SITE_VIEWS.ABOUT;
+  if (cleanPath === '/about-en') return SITE_VIEWS.ABOUT_EN;
 
   return SITE_VIEWS.HOME;
 }
@@ -65,6 +66,8 @@ function pathForView(view) {
       return '/notes/';
     case SITE_VIEWS.ABOUT:
       return '/about/';
+    case SITE_VIEWS.ABOUT_EN:
+      return '/about-en/';
     default:
       return '/';
   }
@@ -98,7 +101,9 @@ function renderSubPage(currentView, isDark, onViewChange) {
     case SITE_VIEWS.NOTES:
       return <NotesView isDark={isDark} onViewChange={onViewChange} />;
     case SITE_VIEWS.ABOUT:
-      return <AboutView isDark={isDark} />;
+      return <AboutView isDark={isDark} onViewChange={onViewChange} />;
+    case SITE_VIEWS.ABOUT_EN:
+      return <AboutView isDark={isDark} lang="en" onViewChange={onViewChange} />;
     default:
       return null;
   }

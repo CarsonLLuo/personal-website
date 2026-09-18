@@ -3,6 +3,7 @@ export const SITE_VIEWS = Object.freeze({
   PROJECTS: 'projects',
   NOTES: 'notes',
   ABOUT: 'about',
+  ABOUT_EN: 'about-en',
 });
 
 /** 解析 "project:slug" 格式的视图字符串 */

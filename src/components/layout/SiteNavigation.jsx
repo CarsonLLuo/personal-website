@@ -33,27 +33,31 @@ export default function SiteNavigation({
           </button>
 
           <div className={`flex items-center gap-2 font-display sm:gap-8 ${theme('text-zinc-400', 'text-zinc-500')}`}>
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.view}
-                onClick={() => onViewChange(item.view)}
-                className={`motion-nav-link relative py-2 transition-colors ${
-                  currentView === item.view
-                    ? theme('text-zinc-100', 'text-zinc-900')
-                    : theme('hover:text-zinc-100', 'hover:text-zinc-900')
-                }`}
-              >
-                <span>{item.label}</span>
-                <span
-                  aria-hidden="true"
-                  className={`motion-nav-line absolute right-0 bottom-0 left-0 h-px ${
-                    currentView === item.view
-                      ? 'scale-x-100 opacity-100'
-                      : 'scale-x-0 opacity-0'
-                  } ${theme('bg-zinc-300/80', 'bg-zinc-700/65')}`}
-                />
-              </button>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isActive =
+                currentView === item.view ||
+                (item.view === SITE_VIEWS.ABOUT && currentView === SITE_VIEWS.ABOUT_EN);
+
+              return (
+                <button
+                  key={item.view}
+                  onClick={() => onViewChange(item.view)}
+                  className={`motion-nav-link relative py-2 transition-colors ${
+                    isActive
+                      ? theme('text-zinc-100', 'text-zinc-900')
+                      : theme('hover:text-zinc-100', 'hover:text-zinc-900')
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className={`motion-nav-line absolute right-0 bottom-0 left-0 h-px ${
+                      isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
+                    } ${theme('bg-zinc-300/80', 'bg-zinc-700/65')}`}
+                  />
+                </button>
+              );
+            })}
 
             <button
               onClick={onToggleTheme}
