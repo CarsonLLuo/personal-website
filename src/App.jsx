@@ -38,7 +38,7 @@ function viewFromPathname(pathname) {
 
 function viewFromHash() {
   if (typeof window === 'undefined') return SITE_VIEWS.HOME;
-  const hash = window.location.hash.replace(/^#/, '');
+  const hash = decodePathSegment(window.location.hash.replace(/^#/, ''));
 
   if (Object.values(SITE_VIEWS).includes(hash) || parseProjectView(hash) || parseNoteView(hash)) {
     return hash;
