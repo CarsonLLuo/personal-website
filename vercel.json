@@ -9,6 +9,11 @@
       "source": "/projects/test-research-project",
       "destination": "/projects/ai-taught-classroom/",
       "permanent": true
+    },
+    {
+      "source": "/projects/test-research-project/",
+      "destination": "/projects/ai-taught-classroom/",
+      "permanent": true
     }
   ]
 }
