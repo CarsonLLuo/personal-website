@@ -145,6 +145,7 @@ function notePages(notes) {
         description: note.desc,
         image: note.image,
         ogType: 'article',
+        lastmod: note.date,
       })),
   ];
 }
@@ -153,6 +154,29 @@ async function writePage(baseHtml, siteUrl, page) {
   const outputPath = path.join(distDir, page.urlPath, 'index.html');
   await mkdir(path.dirname(outputPath), { recursive: true });
   await writeFile(outputPath, withSocialMeta(baseHtml, siteUrl, page), 'utf8');
+}
+
+function sitemapXml(siteUrl, pages) {
+  const entries = pages.map((page) => {
+    const url = absoluteUrl(siteUrl, page.urlPath || '/');
+    // 笔记的 date 是 "2026.09.16" 或 "2025.12"，W3C 日期格式两者都接受
+    const lastmod = /^\d{4}(\.\d{2}){1,2}$/.test(page.lastmod ?? '')
+      ? `\n    <lastmod>${page.lastmod.replace(/\./g, '-')}</lastmod>`
+      : '';
+    return `  <url>\n    <loc>${escapeHtml(url)}</loc>${lastmod}\n  </url>`;
+  });
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...entries,
+    '</urlset>',
+    '',
+  ].join('\n');
+}
+
+function robotsTxt(siteUrl) {
+  return ['User-agent: *', 'Allow: /', '', `Sitemap: ${siteUrl}/sitemap.xml`, ''].join('\n');
 }
 
 async function main() {
@@ -188,7 +212,10 @@ async function main() {
   await writeFile(distIndexPath, withSocialMeta(baseHtml, siteUrl, pages[0]), 'utf8');
   await Promise.all(pages.slice(1).map((page) => writePage(baseHtml, siteUrl, page)));
 
-  console.log(`[social] Generated ${pages.length} social preview pages.`);
+  await writeFile(path.join(distDir, 'sitemap.xml'), sitemapXml(siteUrl, pages), 'utf8');
+  await writeFile(path.join(distDir, 'robots.txt'), robotsTxt(siteUrl), 'utf8');
+
+  console.log(`[social] Generated ${pages.length} social preview pages, sitemap.xml and robots.txt.`);
 }
 
 main().catch((error) => {
