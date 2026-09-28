@@ -11,7 +11,7 @@ import RateMyProfCDUT from '../projects/RateMyProfCDUT.jsx';
 import ClaudeCodeTouchBarCompanion from '../projects/ClaudeCodeTouchBarCompanion.jsx';
 
 const PROJECT_COMPONENTS = {
-  'test-research-project': TestResearchProject,
+  'ai-taught-classroom': TestResearchProject,
   'latent-behaviors': LatentBehaviors,
   'cognitive-scaffolds': CognitiveScaffolds,
   'semantic-decay': SemanticDecay,
