@@ -198,6 +198,11 @@ async function main() {
     ...projectPages(projectCollections),
     ...notePages(notes),
     {
+      urlPath: '/links/',
+      title: 'Links | Carson Luo',
+      description: 'Where else to find Carson, and an open invitation to friends.',
+    },
+    {
       urlPath: '/about/',
       title: 'About | Carson Luo',
       description: 'About Carson, coding, and this personal field.',
