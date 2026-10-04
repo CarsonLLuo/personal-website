@@ -1,0 +1,67 @@
+{
+  "title": "友链",
+  "descriptionLines": [
+    "全世界的水都会重逢，北冰洋与尼罗河会在湿云中交融。",
+    "这古老美丽的比喻让此刻变得神圣。",
+    "即使漫游，每条路也都会带我们归家。"
+  ],
+  "originalLines": [
+    "Alle Wasser der Welt finden sich wieder, und Eismeer und Nil vermischen sich im feuchten Wolkenflug.",
+    "Das alte schöne Gleichnis heiligt mir die Stunde.",
+    "Auch uns Wanderer führt jeder Weg nach Hause."
+  ],
+  "englishLines": [
+    "But all the waters of the world find one another again, and the Arctic seas and the Nile gather together in the moist flight of clouds.",
+    "The old beautiful image makes my hour holy.",
+    "Every road leads us wanderers too back home."
+  ],
+  "inspiration": "Hermann Hesse, Wanderung · Bergpass, 1920",
+  "invitation": {
+    "label": "01 / OPEN INVITATION",
+    "title": "留一个坐标",
+    "zh": "如果你觉得这个网站有点意思，而我们又恰好是朋友，且也愿意把自己的站点留在这里，dm我就好。",
+    "en": "If this site holds something for you, and we happen to be friends — if you'd like to leave your own site here, just write to me."
+  },
+  "sections": [
+    {
+      "id": "elsewhere",
+      "label": "02 / COORDINATES",
+      "title": "Carson elsewhere",
+      "items": [
+        {
+          "name": "GitHub",
+          "href": "https://github.com/CarsonLLuo",
+          "intro": "一些垃圾。",
+          "tags": [
+            "code",
+            "research",
+            "builds"
+          ],
+          "status": "public archive"
+        },
+        {
+          "name": "X / Twitter",
+          "href": "https://x.com/carsonluo2003",
+          "intro": "碎碎念、日常",
+          "tags": [
+            "fragments",
+            "football",
+            "music"
+          ],
+          "status": "low frequency"
+        },
+        {
+          "name": "Email",
+          "href": "mailto:carsonluo2233@outlook.com",
+          "intro": "适合认真一点的对话、合作、交换站点，或者任何不适合被算法路过的事情。",
+          "tags": [
+            "contact",
+            "friend link",
+            "long mail"
+          ],
+          "status": "open"
+        }
+      ]
+    }
+  ]
+}
